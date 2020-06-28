@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta namae="keywords" content="豪客来牛排，牛排，会员商城，会员中心">
+	<title>会员中心</title>
+	<script src="js/hbs/flexible_css.js,flexible.js"></script>
+	<link rel="stylesheet" href="css/hbs/swiper.min.css">
+	<link rel="stylesheet" href="css/hbs/common.css">
+	<link rel="stylesheet" href="css/hbs/my.css">
+	<script src="js/hbs/vue.min.js"></script>
+	<script src="js/hbs/jquery-1.12.3.min.js"></script>
+	<script src="js/hbs/swiper.min.js"></script>
+	<script src="js/hbs/component/component.js"></script>
+</head>
+<body>
+	<div id="wrap" v-cloak>
+    <imgload :imglist="imgList"></imgload>
+		<navbar :preurl="result" :idx="currentIndex"></navbar>
+		<div class="head">
+			<div class="card">
+				<img :src="grade.img" alt="">
+				<div class="grade">
+					<ul>
+						<li class="icon-star-hollow"></li>
+						<li class="icon-star-hollow"></li>
+						<li class="icon-star-hollow"></li>
+						<li class="icon-star-hollow"></li>
+						<li class="icon-star-hollow"></li>
+					</ul>
+					<strong>VIP</strong>
+				</div>
+				<div class="number">{{number}}</div>
+			</div>
+			<div class="basic">
+				<div class="cow">
+					<img src="images/hbs/cow.png" alt="">
+				</div>
+				<div class="info"><span>积分</span><strong>800</strong></div>
+				<div class="info"><span>豪币</span><strong>99</strong></div>
+				<div class="info"><span>优惠券</span><strong>12</strong></div>
+				<div class="info"><span>豪礼卡</span><strong>12</strong></div>
+			</div>
+		</div>
+		<div class="process">
+			<h2 class="process-h2">
+				<span class="icon-double-line"></span>
+				VIP成长
+				<span class="icon-double-line"></span>
+			</h2>
+			<div v-if="grade.level < 5" class="process-outer">
+				<div class="process-inner">
+					<strong class="curmoney">￥{{grade.money}}</strong>
+				</div>
+				<strong class="nextmoney">￥{{nextmoney}}</strong>
+				<div class="cur">
+					<span class="angle"></span>
+					<em>￥{{curmoney}}</em>
+				</div>
+				<div class="star srar-left">
+					<span v-for="item in nowLevel" class="icon-star-solid"></span>
+				</div>
+				<div class="star star-right">
+					<span v-for="item in nextLevel" class="icon-star-solid"></span>
+				</div>
+				<div class="gift" v-show="gift==false">
+					<a href="#">
+						<img src="images/hbs/gift_get.png" alt="">
+					</a>
+				</div>
+				<div class="gift" v-show="gift==true">
+					<a href="#">
+						<img src="images/hbs/gift_get.gif" alt="">
+					</a>
+				</div>
+			</div>
+			<div v-if="grade.level >= 5" class="process-outer more">
+				<div class="process-inner">
+					<strong class="curmoney">￥{{grade.money}}</strong>
+				</div>
+				<strong class="nextmoney">∞</strong>
+				<div class="star">
+					<span class="icon-star-solid"></span>
+					<span class="icon-star-solid"></span>
+					<span class="icon-star-solid"></span>
+					<span class="icon-star-solid"></span>
+					<span class="icon-star-solid"></span>
+				</div>
+				<div class="cur-pay">
+					当前消费：￥{{curmoney}}
+				</div>
+			</div>
+
+		</div>
+		<button class="pay-btn" @click="open">付款码</button>
+		<div class="pay-code" v-show="show">
+      <div class="mask" @click="close"></div>
+      <div class="pay">
+        <div class="pay-hd">
+          付款码
+        </div>
+        <div class="pay-main">
+          <div class="decorate"></div>
+          <img src="images/hbs/1544087800.png" alt="">
+          <strong>二维码定时更新，请当面扫码结账</strong>
+        </div>
+      </div>
+    </div>
+    <ul class="list" clearfix>
+      <li>
+        <a>
+          <span class="icon-circle"></span>
+          <strong>积分兑换豪币</strong>
+          <button class="btn">兑换</button>
+          <div class="ctrl">
+            <i @click="changeMoney(-1)">-</i>
+            <input type="text" v-model="quality">
+            <i @click="changeMoney(1)">+</i>
+          </div>
+        </a>
+      </li>
+      <li>
+        <a href="order.html">
+          <span class="icon-recode"></span>
+          <strong>商城兑换记录</strong>
+          <i class="icon-arrow"></i>
+        </a>
+      </li>
+      <li>
+        <a href="record-consume.html">
+          <span class="icon-consume"></span>
+          <strong>消费记录</strong>
+          <i class="icon-arrow"></i>
+        </a>
+      </li>
+      <li>
+        <a href="my-edit.html">
+          <span class="icon-edit"></span>
+          <strong>修改个人信息</strong>
+          <i class="icon-arrow"></i>
+        </a>
+      </li>
+      <li>
+        <a href="coupon.html">
+          <span class="icon-coupon"></span>
+          <strong>我的优惠券</strong>
+          <i class="icon-arrow"></i>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="icon-uniE971"></span>
+          <strong>我的豪礼卡</strong>
+          <i class="icon-arrow"></i>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="icon-VIP" style="font-size: 100%;"></span>
+          <strong>会员权益说明</strong>
+          <i class="icon-arrow"></i>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="icon-wechat"></span>
+          <strong>前往微信公众号</strong>
+          <i class="icon-arrow"></i>
+        </a>
+      </li>
+    </ul>
+	</div>
+	<script>
+		var pathName = document.location.pathname;
+		var index = pathName.substr(1).indexOf("/");
+    var result = pathName.substr(0,index+1);
+    
+		new Vue({
+			el: "#wrap",
+			data: {
+				result: result,
+				currentIndex: 2,
+				grade: {
+					level: 4,
+					money: 2000,
+					img: "images/hbs/star_4.png"
+				},
+				number: "292929282849",
+				curmoney: 9999,
+				nextmoney: 9999,
+				nowLevel: [],
+				nextLevel: [],
+				gift: false,//等级满了礼物图片换成.gif
+				show: false,
+        quality: 0,
+        imgList: [
+        "images/hbs/home.png",
+        "images/hbs/home_sel.png",
+        "images/hbs/turntable.png",
+        "images/hbs/turntable_sel.png",
+        "images/hbs/my.png",
+        "images/hbs/my_sel.png"
+        ]
+      },
+			mounted: function() {
+				for(var i = 0; i < this.grade.level; i++) {
+					$(".grade li").eq(i).addClass("icon-star-solid");
+					this.nowLevel.push("");
+				}
+				for(var i = 0; i < this.grade.level+1 && i <=5; i++) {
+					this.nextLevel.push("");
+				}
+				var w = (Number(this.curmoney)-Number(this.grade.money))/(Number(this.nextmoney)-Number(this.grade.money));
+				// w = 1;
+				$(".process-inner").animate({
+					"width": w * 100 + "%"
+				},300);
+				if(w > 0.8) {
+					$(".cur").css("margin-right","0");
+				}
+				if(w >= 1) {
+					this.gift = true;
+				}
+				$(".cur").animate({
+					"left": w * 100 + "%"
+				},300);
+
+			},
+			methods: {
+				open: function() {
+					this.show = true
+				},
+				close: function() {
+					this.show = false
+				},
+				changeMoney: function(way) {
+					if(way > 0) {
+						this.quality++;
+					} else {
+						if(this.quality > 0) {
+							this.quality--;
+						}
+					}
+        },
+       
+			}
+		})
+	</script>
+</body>
+</html>

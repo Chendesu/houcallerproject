@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>门店运营</title>
+	<script src="js/flexible_css.js,flexible.js"></script>
+	<link rel="stylesheet" href="js/mobiscroll/css/mobiscroll.css">
+	<link rel="stylesheet" href="js/mobiscroll/css/mobiscroll_date.css">
+	<link rel="stylesheet" href="css/common.css">
+	<link rel="stylesheet" href="css/store-operation.css">
+	<script src="js/vue.min.js"></script>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/mobiscroll/js/mobiscroll_date.js" charset="gb2312"></script>
+	<script src="js/mobiscroll/js/mobiscroll.js"></script>
+	<script src="js/component.js"></script>
+</head>
+<body>
+	<div id="wrap" v-cloak>
+		<navbar :idx="idx"></navbar>
+		<div id="header">
+			<a class="icon-arrow-down"  href="javascript:history.back(-1)"></a>
+			<div class="page-tit">发生下列可能情况</div>
+		</div>
+		<div class="affairData">
+			<div class="tab-num data-affair-tab clearfix">
+				<span 
+					v-for="(item, index) in affairTab" 
+					:key="index" 
+					:class="{'sel':index==affairTabIndex}" 
+					@click="affairTabClick(index)"
+				>{{item}}</span>
+				<div class="choose-date clearfix" v-show="affairTabIndex == 3">
+					<label>选择日期</label>
+					<input type="text" class="date" >
+					<label>—</label>
+					<input type="text" class="date" >
+					<button>确定</button>
+				</div>
+			</div>
+			<ul class="data-affair-main clearfix">
+				<li class="first">
+					<strong><b>￥</b>{{dataAffair.turnover}}</strong>
+					<span>营业额<i class="icon-help" @click="open"></i></span>
+					<div>
+						比前7日
+						<em v-if="dataAffair.trend.contrast=='up'" class="up">
+							<i class="icon-rise"></i>
+							{{dataAffair.trend.percentage}}
+						</em>
+						<em v-if="dataAffair.trend.contrast=='down'" class="down">
+							<i class="icon-decline"></i>
+							{{dataAffair.trend.percentage}}
+						</em>
+					</div>
+				</li>
+			</ul>
+			<div class="tab-num affairData-tab">
+				<span v-for="(item,index) in affairDataTab"
+					  :key="index"
+					  :class="{'sel':index==affairDataIndex}"
+					  @click="affairDataClick(index)"
+					  v-html="item"
+				></span>
+			</div>
+			<ul class="affairData-main">
+				<li v-for="(item,index) in affairDataList">
+					<em>{{item.title}}</em>
+					<strong>￥{{item.total}}</strong>
+					<span v-if="item.trend.contrast=='up'" class="up">
+						<i class="icon-rise"></i>
+						{{item.trend.percentage}}
+					</span>
+					<span v-if="item.trend.contrast=='down'" class="down">
+						<i class="icon-decline"></i>
+						{{item.trend.percentage}}
+					</span>
+				</li>
+			</ul>
+		</div>
+		<pop-help :popshow="popShow"
+			:tit="tit"
+			:helpcon="helpCon"
+			v-on:closepop="close"
+		></pop-help>
+	</div>
+	<script>
+		new Vue({
+			el: "#wrap",
+			data: {
+				idx:0, //默认选中导航栏第几项
+				affairTab: ["昨日","近7天","近30天","自定义"],
+				affairTabIndex: 0,
+				dataAffair: {
+					turnover: "149888.00",
+					trend: {
+						contrast: "up",
+						percentage: "55.55%"
+					}
+				},
+				affairDataTab: ["时段环比波动","地段环比波动"],
+				affairDataIndex: 0,
+				affairDataList: [
+					{
+						title: "早餐时段",
+						total: "39487.00",
+						trend: {
+							contrast: "up",
+							percentage: "55.55%"
+						}
+					},
+					{
+						title: "午餐时段",
+						total: "39487.00",
+						trend: {
+							contrast: "down",
+							percentage: "55.55%"
+						}
+					},
+					{
+						title: "下午茶时段",
+						total: "39487.00",
+						trend: {
+							contrast: "up",
+							percentage: "55.55%"
+						}
+					},
+					{
+						title: "晚餐时段",
+						total: "39487.00",
+						trend: {
+							contrast: "down",
+							percentage: "55.55%"
+						}
+					},
+					{
+						title: "夜宵时段",
+						total: "39487.00",
+						trend: {
+							contrast: "down",
+							percentage: "55.55%"
+						}
+					}
+				],
+				popShow: false,
+				tit: "",
+				helpCon: "",
+			},
+			mounted: function() {
+				// 日期选择
+				var currYear = (new Date()).getFullYear();	
+				var opt={};
+				opt.date = {preset : 'date'};
+				opt.datetime = {preset : 'datetime'};
+				opt.time = {preset : 'time'};
+				opt.default = {
+					theme: 'android-ics light', //皮肤样式
+					display: 'modal', //显示方式 
+					mode: 'scroller', //日期选择模式
+					dateFormat: 'yyyy-mm-dd',
+					lang: 'zh',
+					showNow: true,
+					nowText: "今天",
+					startYear: currYear - 50, //开始年份
+					endYear: currYear + 10, //结束年份
+				};
+				$(".date").mobiscroll($.extend(opt['date'], opt['default']));
+			},
+			methods: {
+				affairTabClick: function(index) {
+					this.affairTabIndex = index;
+				},
+				affairDataClick: function(index) {
+					this.affairDataIndex = index;
+				},
+				close: function() {
+					this.popShow = false;
+				},
+				open: function(e) {
+					var el = e.srcElement;
+					var txt = $(el).parent().text();
+					this.popShow = true;
+					this.tit = "关于"+txt;
+					this.helpCon ="营业额是指纳税人提供应税劳务、转让无形资产或者销售不动产向对方收取的全部价款和价外费用。价外费用包括向对方收取的手续费、基金、集资费、代收款项、代垫款项及其他各种性质的价外收费。运输物流企业从事联运业务的营业额为其实际取得的营业额"
+				}
+			}
+		})
+	</script>
+</body>
+</html>

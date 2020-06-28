@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>Document</title>
+	<link rel="stylesheet" href="css/index.css">
+	<script src="js/jquery-1.12.3.min.js"></script>
+</head>
+<body>
+	<div class="wrap">
+		<div class="btn">摇一摇</div>
+		<div class="top">
+			<div>
+				<img src="images/yao_1.png" alt="">
+			</div>
+		</div>
+		<div class="center" id="center">
+			<img src="images/lemon-tea.jpg" alt="">
+		</div>
+		<div class="bot">
+			<div>
+				<img src="images/yao_2.png" alt="">
+			</div>
+		</div>
+	</div>
+	<div class="pop">
+		<div class="mask"></div>
+		<div class="pop-con"></div>
+	</div>
+	<div class="num" id="num">
+		<ul>
+			<!-- <li >
+				<img src="images/cart_black_0.png" alt="">
+				<img src="images/cart_black_1.png" alt="">
+				<img src="images/cart_black_2.png" alt="">
+				<img src="images/cart_black_3.png" alt="">
+				<img src="images/cart_black_4.png" alt="">
+				<img src="images/cart_black_5.png" alt="">
+				<img src="images/cart_black_6.png" alt="">
+				<img src="images/cart_black_7.png" alt="">
+				<img src="images/cart_black_8.png" alt="">
+				<img src="images/cart_black_9.png" alt="">
+				<img src="images/cart_black_0.png" alt="">
+			</li> -->
+		</ul>
+	</div>
+	<script src="js/shake.js"></script>
+	<script>
+		scrollNum("4537485957");
+		function scrollNum(num) {
+			var num = num;
+			var arr = num.split("");
+			var numLen = arr.length;
+			var lihtml="";
+			for(var i = 0; i < numLen; i++) {
+				var imghtml = "";
+				for(var j = 0; j < 10; j++) {
+					imghtml += '<img src="images/cart_black_'+j+'.png" />';
+				}
+				imghtml += '<img src="images/cart_black_0.png" />';
+				lihtml+="<li>"+imghtml+"</li>";
+			}
+			$(".num ul").html(lihtml);
+			for(var i = 0; i < arr.length; i++) {
+				var ele = $(".num li").eq(i);
+				var n = arr[i];
+				scroll(ele,n);
+			}
+			function scroll(ele,n) {
+				var liO = ele;
+				var timer = null;
+				var len = liO.find("img").length;
+				var pos = 0;
+				var minPos = -(len-2) * 5;
+				function scrollNum() {
+					if(pos < minPos) {
+						pos = 0;
+					} else {
+						pos--;
+					}
+					liO.css({
+						"transform": "translateY(" + pos + "vh)"
+					});
+				}
+				var speed = Math.round(Math.random()*49+30);
+				if(timer) {
+					clearInterval(timer);
+				}
+				timer = setInterval(scrollNum, speed);
+				setTimeout(function(){
+					
+					switch(n) {
+						case "0": pos = 0; clearInterval(timer); break;
+						case "1": pos = -5; clearInterval(timer); break;
+						case "2": pos = -10; clearInterval(timer); break;
+						case "3": pos = -15; clearInterval(timer); break;
+						case "4": pos = -20; clearInterval(timer); break;
+						case "5": pos = -25; clearInterval(timer); break;
+						case "6": pos = -30; clearInterval(timer); break;
+						case "7": pos = -35; clearInterval(timer); break;
+						case "8": pos = -40; clearInterval(timer); break;
+						case "9": pos = -45; clearInterval(timer); break;
+					}
+
+					liO.css({
+						"transform": "translateY(" + pos + "vh)"
+					});
+				},3000);
+			}
+			
+		}
+
+		
+
+		
+		var h = $(".center").outerHeight()/2;
+
+		function funYao() {
+			$(".top").animate({
+				"top": -h + "px"
+			},300);
+			$(".bot").animate({
+				"bottom": -h + "px"
+			},300);
+			setTimeout(function(){
+				$(".top").animate({
+					"top": "0px"
+				},300);
+				$(".bot").animate({
+					"bottom": "0px"
+				},300);
+			$(".pop").fadeIn(300);
+			},2000);
+		}
+
+		$(".btn").on("touchstart",function(){
+			funYao();
+		});
+
+		var myShakeEvent = new Shake({
+			threshold: 15,
+			timeout: 1000
+		});
+		myShakeEvent.start();
+		window.addEventListener('shake', shakeEventDidOccur, false);
+		function shakeEventDidOccur() {
+			funYao();
+		}
+
+		$(".mask").on("touchstart",function(){
+			$(".pop").fadeOut(300);
+		})
+
+	</script>
+</body>
+</html>

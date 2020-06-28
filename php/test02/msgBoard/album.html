@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>相册</title>
+  <script src="js/jquery-3.3.1.min.js"></script>
+  <script src="js/vue.min.js"></script>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+    /* .clearfix:after {content:"\200B"; display:block; height:0; clear:both; }
+    .clearfix { *zoom:1; } */
+    [v-clock] {display: none;}
+    html {
+      background: #ffe1e7;
+    }
+    header {
+      width: 80%;
+      margin: 0 auto;
+      padding: 20px 0;
+      font-size: 36px;
+      color: #999;
+      font-weight: bold;
+    }
+    .album, .upload {
+      width: 80%;
+      margin: 50px auto;
+      -moz-column-count:3;
+      -webkit-column-count:3; 
+      column-count:3;
+      -moz-column-gap:30px;
+      -webkit-column-gap:30px; 
+      column-gap:30px;
+      position: relative;
+    }
+    .album  .album-img {
+      margin-bottom: 15px;
+    }
+    .album  .album-img img {
+      display: inline-block;
+      width: 100%;
+    }
+    .upload {
+      margin-bottom: 0px;
+    }
+    .upload {
+      height: 25px;
+    }
+    .upload .btn {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100px;
+      line-height: 25px;
+      font-size: 14px;
+      color: #00f;
+      text-decoration: underline;
+      text-align: right;
+    }
+    .upload .btn input {
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: block;
+      width: 100px;
+      height: 25px;
+      opacity: 0;
+      cursor: pointer;
+    }
+    .pop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 100;
+    }
+    .pop .pop-con {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 80%;
+      height: 80%;
+      background-color: #fff;
+      transform: translate(-50%,-50%);
+    }
+    .pop .pop-con .pop-close {
+      position: absolute;
+      top: -50px;
+      left: 50%;
+      width: 40px;
+      height: 40px;
+      background: url(images/clear.png) center center no-repeat;
+      background-size: 100% 100%;
+      transform: translate(-50%, 0);
+      cursor: pointer;
+    }
+    .pop .pop-img {
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+    }
+    .pop .pop-img img {
+      display: block;
+      width: 100%;
+    }
+    .pop .pop-con .pop-ft {
+      position: absolute;
+      bottom: -30px;
+      right: 0;
+      width: 100%;
+      height: 30px;
+      line-height: 30px;
+      text-align: right;
+    }
+    .pop .pop-con .pop-ft .del {
+      display: inline-block;
+      height: 30px;
+      padding: 0 15px;
+      font-size: 16px;
+      color: #fff;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap" id="app" v-clock>
+    <header>相册</header>
+    <form class="upload clearfix">
+      <div class="btn">
+        <input type="file" name="photo" accept="image/jpeg, image/png" @change="upload">
+        <span >上传图片</span>
+      </div>
+    </form>
+    <div class="album">
+      <div class="album-img" v-for="(item,index) in img" @click="bounce(index)">
+        <img :src="item.url" :title="item.name">
+      </div>
+    </div>
+    <div class="pop" v-show="show">
+      <div class="pop-con">
+        <div class="pop-close" @click="close"></div>
+        <div class="pop-img">
+          <img :src="imgUrl" alt="">
+        </div>
+        <div class="pop-ft">
+          <span class="del" @click="del">删除</span>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  <script>
+    new Vue({
+      el: "#app",
+      data: {
+        img: "",
+        imgUrl: "",
+        show: false,
+        idx: ""
+      },
+      mounted: function(){
+        var _this = this;
+        $.ajax({
+          type: "post",
+          url: "album.php?q=query",
+          contentType: "application/x-www-form-urlencoded;charset=utf-8",
+          data: {},
+          success: function (data) {
+            // console.log(data);
+            _this.img = JSON.parse(data);
+            
+          },
+          error: function (e){
+            console.log(e);
+          }
+        });
+      },
+      methods: {
+        upload: function(e){
+          var file = e.currentTarget.files[0];
+          var type = file.type === "image/jpeg" ? ".jpg" : ".png";
+
+          var fileSize = 0;
+          var fileMaxSize = 2048;
+          var size = file.size/1024;
+          if(size > fileMaxSize) {
+            alert("文件不能大于2M！");
+            return false;
+          } else {
+
+            var formData = new FormData();
+            formData.append("file", file);
+  
+            $.ajax({
+              type: "post",
+              url: "album.php?q=insert",
+              // contentType: "application/x-www-form-urlencoded;charset=utf-8",
+              contentType: false,
+              processData: false,
+              data: formData,
+              cache: false,
+              success: function (data) {
+                console.log(data);
+                window.location.reload();
+  
+              },
+              error: function (e) {
+                console.log(e);
+              }
+            });
+            
+          }
+
+        },
+        bounce: function(index){
+          this.show = true;
+          this.imgUrl = this.img[index].url;
+          this.idx = index;
+        },
+        close: function(){
+          this.show = false;
+        },
+        del: function(){
+          var _this = this;
+          var r = confirm("是否确定删除?");
+          if (r == true){
+            $.ajax({
+              type: "post",
+              url: "album.php?q=delete",
+              contentType: "application/x-www-form-urlencoded;charset=utf-8",
+              data: {
+                "id": _this.img[_this.idx].id
+              },
+              success: function (data) {
+                console.log(data);
+                alert("删除成功！");
+                window.location.reload();
+                
+              },
+              error: function (e) {
+                console.log(e);
+              }
+            });
+          }
+        },
+
+          
+          
+          
+      },
+    })
+  </script>
+</body>
+</html>

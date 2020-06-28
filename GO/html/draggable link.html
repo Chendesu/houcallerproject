@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="../js/go.js"></script>
+</head>
+<body onload="init()">
+	<div id="sample">
+		<div style="width: 100%; display: flex; justify-content: space-between">
+		    <div id="myPaletteDiv" style="width: 105px; margin-right: 2px; background-color: whitesmoke; border: solid 1px black"></div>
+		    <div id="myDiagramDiv" style="flex-grow: 1; height: 620px; border: solid 1px black"></div>
+		</div>
+		<div>
+		    <div>
+		      <button id="SaveButton" onclick="save()">Save</button>
+		      <button onclick="load()">Load</button>
+		      Diagram Model saved in JSON format:
+		    </div>
+    		<textarea id="mySavedModel" style="width:100%;height:300px">
+				{ "class": "go.GraphLinksModel",
+				  "linkFromPortIdProperty": "fromPort",
+				  "linkToPortIdProperty": "toPort",
+				  "nodeDataArray": [
+				 ],
+				  "linkDataArray": [
+				 ]}
+    		</textarea>
+  		</div>
+	</div>
+
+	<script>
+		function init(){
+			var $ = go.GraphObject.make;
+			myDiagram = 
+				$(go.Diagram,"myDiagramDiv",
+					{
+						grid: $(go.Panel,"Grid",
+							$(go.Shape,"LineH",
+								{stroke: "lightgray",strokeWidth: 0.5}
+							),
+							$(go.Shape,"LineH",
+								{stroke: "gray",strokeWidth: 0.5,interval: 10}
+							),
+							$(go.Shape,"LineV",
+								{stroke: "lightgray",strokeWidth: 0.5}
+							),
+							$(go.Shape,"LineV",
+								{stroke: "gray",strokeWidth: 0.5,interval: 10}
+							)
+						),
+						"draggingTool.dragsLink": true,
+						"draggingTool.isGridSnapEnabled": true,
+						"linkingTool.isUnconnectedLinkValid": true,
+						"linkingTool.portGravity": 20,
+						"relinkingTool.isUnconnectedLinkValid": true,
+						"relinkingTool.portGravity": 20,
+						"relinkingTool.fromHandleArchetype": 
+							$(go.Shape,"Diamond",{
+								segmentIndex: 0,
+								cursor: "pointer",
+								desiredSize: new go.Size(8, 8),
+								fill: "tomato",
+								stroke: "darked"
+							}),
+						"relinkingTool.toHandleArchetype":
+							$(go.Shape,"Diamond",{
+								segmentIndex: -1,
+								cursor: "pointer",
+								desiredSize: new go.Size(8, 8),
+								fill: "darked",
+								stroke: "tomato",
+							}),
+						"linkReshapingTool.handleArchetype":
+							$(go.Shape,"Diamond",{
+								desiredSize: new go.Size(7, 7),
+								fill: "lightblue",
+								stroke: "deepskyblue"
+							}),
+						"rotatingTool.handleAngle":270,
+						"rotatingTool.handleDistance": 30,
+						"rotatingTool.snapAngleMultiple": 15,
+						"rotatingTool.snapAngleEpsilon": 15,
+						"undoManager.isEnabled": true
+					}
+				);
+
+			myDiagram.addDiagramListener("Modified",function(e){
+				var button = document.getElementById("SaveButton");
+				if(button)
+					button.disabled = !myDiagram.isModified;
+				var idx = document.title.indexOf("*");
+				if(myDiagram.isModified){
+					if(idx < 0) 
+						document.title +="*";
+				} else {
+					if(idx >= 0) 
+						document.title = document.title.substr(0, idx);
+				}
+			});
+
+			function makePort(name,spot,output,input){
+				return $(go.Shape, "Circle",{
+					fill: null,
+					stroke: null,
+					desiredSize: new go.Size(7, 7),
+					alignment: spot,
+					alignmentFocus: spot,
+					portId: name,
+					fromSpot: spot,
+					toSpot: spot,
+					fromLinkable: output,
+					toLinkable: input,
+					cursor: "pointer"
+				});
+			}
+
+			var nodeSelectionAdornmentTemplate = 
+				$(go.Adornment,"Auto",
+					$(go.Shape,{
+						fill: null,
+						stroke: "deepskyblue",
+						strokeWidth: 1.5,
+						strokeDashArray: [4, 2]
+					}),
+					$(go.Placeholder)
+				);
+
+			var nodeResizeAdornmentTemplate = 
+				$(go.Adornment, "Spot",
+					{locationSpot: go.Spot.Right},
+					$(go.Placeholder),
+					$(go.Shape,{
+						alignment: go.Spot.TopLeft,
+						cursor: "nw-resize",
+						desiredSize: new go.Size(6, 6),
+						fill: "lightblue",
+						stroke: "deepskyblue"
+					}),
+					$(go.Shape,{
+						alignment: go.Spot.Top,
+						cursor: "n-resize",
+						desiredSize: new go.Size(6, 6),
+						fill: "lightblue",
+						stroke: "deepskyblue"
+					}),
+					$(go.Shape,{
+						alignment: go.Spot.TopRight,
+						cursor: "ne-resize",
+						desiredSize: new go.Size(6, 6),
+						fill: "lightblue",
+						stroke: "deepskyblue"
+					}),
+					$(go.Shape,{
+						alignment: go.Spot.Left,
+						cursor: "w-resize",
+						desiredSize: new go.Size(6, 6),
+						fill: "lightblue",
+						stroke: "deepskyblue"
+					}),
+					$(go.Shape,{
+						alignment: go.Spot.Right,
+						cursor: "e-resize",
+						desiredSize: new go.Size(6, 6),
+						fill: "lightblue",
+						stroke: "deepskyblue"
+					}),
+					$(go.Shape,{
+						alignment: go.Spot.BottomLeft,
+						cursor: "se-resize",
+						desiredSize: new go.Size(6, 6),
+						fill: "lightblue",
+						stroke: "deepskyblue"
+					}),
+					$(go.Shape,{
+						alignment: go.Spot.Bottom,
+						cursor: "s-resize",
+						desiredSize: new go.Size(6, 6),
+						fill: "lightblue",
+						stroke: "deepskyblue"
+					}),
+					$(go.Shape,{
+						alignment: go.Spot.BottomRight,
+						cursor: "sw-resize",
+						desiredSize: new go.Size(6, 6),
+						fill: "lightblue",
+						stroke: "deepskyblue"
+					}),
+				);
+
+			var nodeRotateAdornmentTemplate = 
+				$(go.Adornment,
+					{
+						locationSpot: go.Spot.Center,
+						locationObjectName: "CIRCLE"
+					},
+					$(go.Shape, "Circle",{
+						name: "CIRCLE",
+						cursor: "pointer",
+						desiredSize: new go.Size(7, 7),
+						fill: "lightblue",
+						stroke: "deepskyblue"
+					}),
+					$(go.Shape,{
+						geometryString: "M3.5 7L3.5 30",
+						isGeometryPositioned: true,
+						stroke: "deepskyblue",
+						strokeWidth: 1.5,
+						strokeDashArray: [4, 2]
+					})
+				);
+
+			myDiagram.nodeTemplate = 
+				$(go.Node, "Spot", 
+					{locationSpot: go.Spot.Center},
+					new go.Binding("location","loc",go.Point.parse).makeTwoWay(go.Point.stringify),
+					{
+						selectable: true,
+						selectionAdornmentTemplate: nodeSelectionAdornmentTemplate
+					},
+					{
+						resizable: true,
+						resizeObjectName: "PANEL",
+						resizeAdornmentTemplate: nodeResizeAdornmentTemplate
+					},
+					{
+						rotatable: true,
+						rotateAdornmentTemplate: nodeRotateAdornmentTemplate
+					},
+					new go.Binding("angle").makeTwoWay(),
+					$(go.Panel, "Auto",
+						{name: "PANEL"},
+						new go.Binding("desiredSize","size",go.Size.parse).makeTwoWay(go.Size.stringify),
+						$(go.Shape, "Rectangle",
+							{
+								portId: "",
+								fromLinkable: true,
+								toLinkable: true,
+								cursor: "pointer",
+								fill: "white",
+								strokeWidth: 2
+							},
+							new go.Binding("figure"),
+							new go.Binding("fill")
+						),
+						$(go.TextBlock,
+							{
+								font: "bold 11pt Helvetica, Arial, sans-serif",
+								margin: 8,
+								maxSize: new go.Size(160, NaN),
+								wrap: go.TextBlock.WrapFit,
+								editable: true
+							},
+							new go.Binding("text").makeTwoWay()
+						)
+					),
+					makePort("T",go.Spot.Top, false, true),
+					makePort("L",go.Spot.Left, true, true),
+					makePort("R",go.Spot.Right, true, true),
+					makePort("B",go.Spot.Bottom, true, false),
+					{
+						mouseEnter: function(e, node){
+							showSmallPorts(node, true);
+						},
+						mouseLeave: function(e, node){
+							showSmallPorts(node, false);
+						}
+					}
+				);
+
+			function showSmallPorts(node, show) {
+				node.ports.each(function(port) {
+					if(port.portId !== "") {
+						port.fill = show ? "rgba(0,0,0,.3)" : null;
+					}
+				});
+			}
+
+			var linkSelectionAdornmentTemplate =
+				$(go.Adornment, "Link",
+					$(go.Shape,
+						{
+							isPanelMain: true,
+							fill: null,
+							stroke: "deepskyblue",
+							strokeWidth: 0
+						}
+					)
+				);
+
+			myDiagram.linkTemplate = 
+				$(go.Link,
+					{
+						selectable: true,
+						selectionAdornmentTemplate: linkSelectionAdornmentTemplate
+					},
+					{
+						relinkableFrom: true,
+						relinkableTo: true,
+						reshapable: true
+					},
+					{
+						routing: go.Link.AvoidsNodes,
+						curve: go.Link.JumpOver,
+						corner: 5,
+						toShortLength: 4
+					},
+					new go.Binding("points").makeTwoWay(),
+					$(go.Shape,{
+						isPanelMain: true,
+						strokeWidth: 2
+					}),
+					$(go.Shape,{
+						toArrow: "Standard",
+						stroke: null
+					}),
+					$(go.Panel, "Auto",
+						new go.Binding("visible","isSelected").ofObject(),
+						$(go.Shape,"RoundedRectangle",{
+							fill: "#f8f8f8",
+							stroke: null
+						}),
+						$(go.TextBlock,
+							{
+								textAlign: "center",
+								font: "10pt Helvetica, Arial, sans-serif",
+								stroke: "#919191",
+								margin: 2,
+								minSize: new go.Size(10, NaN),
+								editable: true
+							},
+							new go.Binding("text").makeTwoWay()
+						)
+					)
+				);
+
+			load();
+
+			myPalette = 
+				$(go.Palette, "myPaletteDiv",
+					{
+						maxSelectionCount: 1,
+						nodeTemplateMap: myDiagram.nodeTemplateMap,
+						linkTemplate:
+							$(go.Link,
+								{
+									locationSpot: go.Spot.Center,
+									selectionAdornmentTemplate: 
+										$(go.Adornment, "link",
+											{locationSpot: go.Spot.Center},
+											$(go.Shape,
+												{
+													isPanelMain: true,
+													fill: null,
+													stroke: "deepskyblue",
+													strokeWidth: 0
+												}
+											),
+											$(go.Shape,
+												{
+													toArrow: "Standard",
+													stroke: null
+												}
+											)
+										)
+								},
+								{
+									routing: go.Link.AvoidsNodes,
+									curve: go.Link.JumpOver,
+									corner: 5,
+									toShortLength: 4
+								},
+								new go.Binding("points"),
+								$(go.Shape, {
+									isPanelMain: true,
+									strokeWidth: 2
+								}),
+								$(go.Shape, {
+									toArrow: "Standard",
+									stroke: null
+								})
+							),
+						model: new go.GraphLinksModel([
+							{
+								text: "Start",
+								figure: "Circle",
+								fill: "#00ad5f"
+							},
+							{text: "Step"},
+							{
+								text: "DB",
+								figure: "Database",
+								fill: "lightgray"
+							},
+							{
+								text: "???",
+								figure: "Diamond",
+								fill: "lightskyblue"
+							},
+							{
+								text: "Comment",
+								figure: "RoundedRectangle",
+								fill: "lightyellow"
+							}
+						],[
+							{
+								points: new go.List().addAll([
+									new go.Point(0,0),
+									new go.Point(30,0),
+									new go.Point(30,40),
+									new go.Point(60,40)
+								])
+							}
+						])
+					}
+				);
+
+		}
+
+		function save(){
+			saveDiagramProperties();
+			document.getElementById("mySavedModel").value = myDiagram.model.toJson();
+			myDiagram.isModified = false;
+		}
+
+		function load(){
+			myDiagram.model = go.Model.fromJson(document.getElementById("mySavedModel").value);
+			loadDiagramProperties();
+		}
+
+		function saveDiagramProperties() {
+			myDiagram.model.modelData.position = go.Point.stringify(myDiagram.position);
+		}
+
+		function loadDiagramProperties(e){
+			var pos = myDiagram.model.modelData.position;
+			if(pos)
+				myDiagram.initialPosition = go.Point.parse(pos);
+		}
+
+	</script>
+
+</body>
+</html>

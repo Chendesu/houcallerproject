@@ -1,0 +1,154 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta namae="keywords" content="豪客来牛排，牛排，会员商城，大转盘">
+	<title>幸运大转盘</title>
+	<script src="js/hbs/flexible_css.js,flexible.js"></script>
+	<link rel="stylesheet" href="css/hbs/swiper.min.css">
+	<link rel="stylesheet" href="css/hbs/common.css">
+	<link rel="stylesheet" href="css/hbs/turntable.css">
+	<script src="js/hbs/vue.min.js"></script>
+	<script src="js/hbs/jquery-1.12.3.min.js"></script>
+	<script src="js/hbs/swiper.min.js"></script>
+	<script src="js/hbs/component/component.js"></script>
+</head>
+<body>
+	<div id="wrap" v-cloak>
+		<div class="times" >
+			今日剩余次数：{{times}}
+		</div>
+		<div v-if="vip==true">
+			<div class="turntable">
+				<img id="img" src="images/hbs/turntable/member/turntable.png" />
+				<img id="tip" src="images/hbs/turntable/member/point.png" @click="begin" />
+			</div>
+		</div>
+		<div v-if="vip==false">
+			<div class="turntable">
+				<img id="img" src="images/hbs/turntable/turntable.png" />
+				<img id="tip" src="images/hbs/turntable/point.png" @click="begin" />
+			</div>
+		</div>
+		<div v-if="vip==true">
+			<div class="rules">
+				<h2 class="rules-tit">
+					<span class="icon-double-line"></span>
+					活动规则
+					<span class="icon-double-line"></span>
+				</h2>
+				<div class="rules-p" v-for="item in vipRules">{{item}}</div>
+			</div>
+			<div class="rules">
+				<h2 class="rules-tit">
+					<span class="icon-double-line"></span>
+					奖品设置
+					<span class="icon-double-line"></span>
+				</h2>
+				<div class="rules-p" v-for="item in vipPrize">{{item}}</div>
+			</div>
+		</div>
+		<div v-if="vip==false">
+			<div class="rules">
+				<h2 class="rules-tit">
+					<span class="icon-double-line"></span>
+					活动规则
+					<span class="icon-double-line"></span>
+				</h2>
+				<div class="rules-p" v-for="item in rules">{{item}}</div>
+			</div>
+			<div class="rules">
+				<h2 class="rules-tit">
+					<span class="icon-double-line"></span>
+					奖品设置
+					<span class="icon-double-line"></span>
+				</h2>
+				<div class="rules-p" v-for="item in prize">{{item}}</div>
+			</div>
+		</div>
+		<div class="pop" v-show="isPop">
+		    <div class="error-pop" >
+		    	<div class="error-hd">
+					<span @click="closePop"></span>
+				</div>
+				<div class="error-main">
+					<img src="images/hbs/turntable/bee.png" alt="">
+					<div v-show="success==true">
+						<p>恭喜您抽奖获得</p>
+						<p>{{getPrize}}</p>
+					</div>
+					<p v-show="success==false">{{tip}}</p>
+				</div>
+			</div>
+	    </div>
+	</div>
+	<script>
+		new Vue({
+			el: "#wrap",
+			data: {
+				vip: true,//是否是会员日
+				times: 10,
+				isPop: false,
+				getPrize: "欢乐奖",
+				tip: "很遗憾，您今日的抽奖次数已达上限",
+				success: true,
+				vipRules: [
+					"1、活动时间：2019.1.1-2019.1.31",
+					"2、每次游戏仅需消耗10豪币，就可以参加超级大转盘来获得豪币",
+					"3、每人每天可参与10次超级大转盘，用户在抽奖中获得的奖品，以实际弹窗为",
+					"4、法律允许的范围内，本次活动最终解释权归厦门豪客来餐饮管理有限公司所有",
+					"5、如有不明，请拨客服热线4006-618-678咨询"
+				],
+				vipPrize: [
+					"感谢参与：无奖励",
+					"10豪币：10豪币",
+					"5元牛排券：5元牛排券（1张）",
+					"爱奇艺月卡：爱奇艺月卡（1张）",
+					"爱奇艺季卡：爱奇艺季卡（1张）",
+					"爱奇艺年卡：爱奇艺年卡（1张）"
+				],
+				rules: [
+					"1、活动时间：2019.1.1-2019.1.31",
+					"2、每次游戏仅需消耗10豪币，就可以参加幸运大转盘来获得豪币",
+					"3、每人每天可参与10次幸运大转盘，用户在抽奖中获得的奖品，以实际弹窗为",
+					"4、法律允许的范围内，本次活动最终解释权归厦门豪客来餐饮管理有限公司所有",
+					"5、如有不明，请拨客服热线4006-618-678咨询"
+				],
+				prize: [
+					"感谢参与：无奖励",
+					"5豪币：5豪币",
+					"10豪币：10豪币",
+					"50豪币：50豪币",
+					"100豪币：100豪币",
+					"200豪币：200豪币"
+				],
+			},
+			mounted: function() {
+				if(this.vip == true) {
+					$("#wrap").addClass("vip");
+					$("html").css("background","#ff4f4f");
+				} else {
+					$("#wrap").removeClass("vip");
+					$("html").css("background","#55097B");
+				}
+			},
+			methods: {
+				begin: function() {
+					this.isPop = true;
+					if(this.times <= 0) {
+						this.success = false;
+					} else {
+						this.success = true;
+						this.times--;
+					}
+					
+				},
+				closePop: function() {
+					this.isPop = false;
+				}
+			}
+		})
+	</script>
+</body>
+</html>

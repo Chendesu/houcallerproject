@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>订单详情</title>
+	<script src="js/flexible_css.js,flexible.js"></script>
+	<link rel="stylesheet" href="css/common.css">
+	<link rel="stylesheet" href="css/handle.css">
+	<script src="js/vue.min.js"></script>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/component.js"></script>
+</head>
+<body>
+	<div id="wrap" v-cloak>
+		<div id="header">
+			<a class="icon-arrow-down"  href="javascript:history.back(-1)"></a>
+			<div class="page-tit">订单详情</div>
+		</div>
+		<div class="handle-con handle-detail">
+			<ul>
+				<li>
+					<div class="handle-list-hd clearfix">
+						<strong class="handle-list-hd-status">{{status}}</strong>
+						<a href="handle-detail.html">
+							订单号
+							{{number}}
+							<i class="icon-arrow-down"></i>
+						</a>
+					</div>
+					<div class="handle-list-main">
+						<h2>{{client}}</h2>
+						<div class="tel">
+							<label>隐私号码</label>
+							<span>{{clientTelHid}}</span>
+						</div>
+						<div class="deliver">
+							<label>顾客号码</label>
+							<span>{{clientTel}}</span>
+						</div>
+						<div class="appeal clearfix">
+							<label>配送地址</label>
+							<span>{{address}}</span>
+							<b>
+								<i class="icon-position"></i>
+								{{distance}}
+							</b>
+						</div>
+					</div>
+					<div class="handle-list-main">
+						<h2>{{nowStatus}}</h2>
+						<div class="deliver">
+							<label>送餐员</label>
+							<span>{{deliver}}</span>
+						</div>
+						<div class="tel">
+							<label>联系方式</label>
+							<span>{{tel}}</span>
+						</div>
+						<a href="tel:{tel}" class="btn">联系骑手</a>
+					</div>
+					<a href="#" class="ride clearfix">
+						<strong>查看骑手位置</strong>
+						<i class="icon-arrow-down"></i>
+					</a>
+					<div class="handle-list-main" style="padding-bottom:0;">
+						<h2>商品</h2>
+						<dl class="clearfix" v-for="(item,index) in pro">
+							<dt>
+								<img :src="item.imgUrl" />
+							</dt>
+							<dd>
+								<span class="pro-tit clearfix">
+									<strong>{{item.title}}</strong>
+									<em>×{{item.count}}</em>
+								</span>
+								<span class="pro-price clearfix">
+									<strong>订单金额</strong>
+									<em>￥{{item.price}}</em>
+								</span>
+							</dd>
+						</dl>
+						<span class="ride" style="padding: 0;">
+							<strong>餐盒费</strong>
+							<em>￥{{lunchBoxPrice}}</em>
+						</span>
+						<div class="total clearfix">
+							<strong>小计</strong>
+							<b>￥{{total}}</b>
+						</div>
+					</div>
+				</li>
+			</ul>
+			<div class="handle-detail-ft">
+				<span>赔付</span>
+				<span>关闭订单</span>
+			</div>
+		</div>
+	</div>
+	<script>
+		new Vue({
+			el: "#wrap",
+			data: {
+				status: "配送超时",
+				number: "2018121710329388",
+				client: "Amber",
+				clientTelHid: "13555555555转7777",
+				clientTel: "135********766",
+				address: "厦门市思明区湖滨北路新港广场南楼704",
+				distance: "2.55km",
+				nowStatus: "骑手配送中",
+				deliver: "Jason Momoa",
+				tel: "13869403333",
+				pro: [
+					{
+						imgUrl:"images/pro.jpg",
+						title: "苹果木肋眼牛排套餐组合",
+						count: 1,
+						price: "88.00"
+					},
+					{
+						imgUrl:"images/pro.jpg",
+						title: "苹果木肋眼牛排套餐组合",
+						count: 1,
+						price: "88.00"
+					}
+				],
+				lunchBoxPrice: "4.00",
+				total: "180.00"
+			},
+			mounted: function(){
+
+			},
+			methods: {
+
+			}
+		})
+	</script>
+</body>
+</html>

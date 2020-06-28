@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>订单</title>
+	<script src="js/flexible_css.js,flexible.js"></script>
+	<link rel="stylesheet" href="css/common.css">
+	<link rel="stylesheet" href="css/order.css">
+	<script src="js/vue.min.js"></script>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/component.js"></script>
+</head>
+<body>
+	<div id="wrap" v-cloak>
+		<navbar :idx="idx"></navbar>
+		<div id="header">
+			<input type="text" class="icon-search" :placeholder="icon">
+		</div>
+		<div class="order-main">
+			<div class="tab-num">
+				<span v-for="(item,index) in navList"
+					:key="index"
+					:class="{'sel':index==navListIdx}"
+					@click="navListIdx=index"
+				>
+					<strong>
+						{{item.text}}
+						<b v-if="item.count>0">{{item.count}}</b>
+					</strong>
+				</span>
+			</div>
+			<div v-show="navListIdx==0" class="order-ing">
+				<div class="order-hd">今日待处理订单<b>{{ordering.total.count}}</b>单，订单总额<b>￥{{ordering.total.money}}</b></div>
+				<ul class="order-ul">
+					<li class="order-li" v-for="(item,index) in ordering.list"
+						:key="index"
+					>
+						<div class="order-li-main" v-show="ingShow[index]">
+							<div class="order-li-main-hd clearfix">
+								<span>预订单</span>
+								<strong class="order-li-main-hd-time">预计{{item.arriveTime}}送达</strong>
+								<strong class="order-li-main-hd-status">{{item.status}}</strong>
+							</div>
+							<div class="order-li-main-div">
+								<h2>{{item.client.name}}</h2>
+								<div class="word-yellow">
+									<label>隐私号码</label>
+									<span>{{item.client.hidTel}}</span>
+								</div>
+								<div class="word-black">
+									<label>顾客号码</label>
+									<span>{{item.client.tel}}</span>
+								</div>
+								<div class="word-addr clearfix">
+									<label>配送地址</label>
+									<span>{{item.client.address}}</span>
+									<b>
+										<i class="icon-position"></i>
+										{{item.client.distance}}
+									</b>
+								</div>
+							</div>
+							<div class="order-li-main-div">
+								<h2>备餐状态</h2>
+								<div>{{item.client.dinnerStatus}}</div>
+							</div>
+							<div class="order-li-main-div" v-if="item.status=='待骑手接单'">
+								<h2>{{item.status}}</h2>
+								<div>送达前一个小时自动分配骑手</div>
+								<div class="btn">取消配送</div>
+							</div>
+							<div class="order-li-main-div" v-if="item.status=='骑手配送中'">
+								<h2>{{item.status}}</h2>
+								<div class="word-black">
+									<label>送餐员</label>
+									<span>{{item.rider.riderName}}</span>
+								</div>
+								<div class="word-yellow">
+									<label>联系方式</label>
+									<span>{{item.rider.riderTel}}</span>
+								</div>
+								<a href="tel:{item.rider.riderTel}" class="btn">联系骑手</a>
+							</div>
+							<a href="#" class="order-li-main-ride" v-show="item.status=='骑手配送中'">
+								<label>查看骑手位置</label>
+								<i class="icon-arrow-down"></i>
+							</a>
+							<div class="order-li-main-pro">
+								<h2>商品</h2>
+								<dl v-for="items in item.client.pro" class="clearfix">
+									<dt>
+										<img :src="items.imgUrl" alt="">
+									</dt>
+									<dd>
+										<div class="tit clearfix">
+											<strong>{{items.title}}</strong>
+											<em>×{{items.count}}</em>
+										</div>
+										<div class="price clearfix">
+											<strong>订单金额</strong>
+											<em>￥{{items.price}}</em>
+										</div>
+									</dd>
+								</dl>
+								<div class="order-li-main-ride clearfix">
+									<label>餐盒费</label>
+									<em>￥{{item.client.lunchBoxPrice}}</em>
+								</div>
+								<div class="order-li-main-ride clearfix">
+									<strong>小计</strong>
+									<b>￥{{item.client.total}}</b>
+								</div>
+							</div>
+						</div>
+						<div class="order-li-ft clearfix">
+							<strong>订单号{{item.orderNO}}</strong>
+							<span v-show="ingShow[index]" @click="close(index)">
+								<em>收起订单详情</em>
+								<i class="icon-arrow-up"></i>
+							</span>
+							<span v-show="ingShow[index]==false" @click="close(index)">
+								<em>展开订单详情</em>
+								<i class="icon-arrow-down"></i>
+							</span>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div v-show="navListIdx==1" class="order-finish">
+				<div class="order-hd">今日已完成订单<b>{{orderFinish.total.count}}</b>单，订单总额<b>￥{{orderFinish.total.money}}</b></div>
+				<ul class="order-ul">
+					<li class="order-li" v-for="(item,index) in orderFinish.list" :key="index">
+						<div class="order-li-main" v-show="finishShow[index]">
+							<div class="order-li-main-hd clearfix">
+								<strong class="order-li-main-hd-time">{{item.time}}</strong>
+								<strong class="order-li-main-hd-status">{{item.status}}</strong>
+							</div>
+							<div class="order-li-main-div">
+								<h2>{{item.client.name}}</h2>
+								<div class="word-yellow">
+									<label>隐私号码</label>
+									<span>{{item.client.hidTel}}</span>
+								</div>
+								<div class="word-black">
+									<label>顾客号码</label>
+									<span>{{item.client.tel}}</span>
+								</div>
+								<div class="word-addr clearfix">
+									<label>配送地址</label>
+									<span>{{item.client.address}}</span>
+									<b>
+										<i class="icon-position"></i>
+										{{item.client.distance}}
+									</b>
+								</div>
+							</div>
+							<div class="order-li-main-div">
+								<h2>配送详情</h2>
+								<div class="word-black">
+									<label>送餐员</label>
+									<span>{{item.rider.riderName}}</span>
+								</div>
+								<div class="word-yellow">
+									<label>联系方式</label>
+									<span>{{item.rider.riderTel}}</span>
+								</div>
+							</div>
+							<div class="order-li-main-pro">
+								<h2>商品</h2>
+								<dl v-for="items in item.client.pro" class="clearfix">
+									<dt>
+										<img :src="items.imgUrl" alt="">
+									</dt>
+									<dd>
+										<div class="tit clearfix">
+											<strong>{{items.title}}</strong>
+											<em>×{{items.count}}</em>
+										</div>
+										<div class="price clearfix">
+											<strong>订单金额</strong>
+											<em>￥{{items.price}}</em>
+										</div>
+									</dd>
+								</dl>
+								<div class="order-li-main-ride clearfix">
+									<label>餐盒费</label>
+									<em>￥{{item.client.lunchBoxPrice}}</em>
+								</div>
+								<div class="order-li-main-ride clearfix">
+									<strong>小计</strong>
+									<b>￥{{item.client.total}}</b>
+								</div>
+							</div>
+						</div>
+						<div class="order-li-ft clearfix">
+							<strong>订单号{{item.orderNO}}</strong>
+							<span v-show="finishShow[index]" @click="closeFinsh(index)">
+								<em>收起订单详情</em>
+								<i class="icon-arrow-up"></i>
+							</span>
+							<span v-show="finishShow[index]==false" @click="closeFinsh(index)">
+								<em>展开订单详情</em>
+								<i class="icon-arrow-down"></i>
+							</span>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div v-show="navListIdx==2" class="order-cancel">
+				<div class="order-hd">今日已取消订单<b>{{orderCancel.total.count}}</b>单，订单总额<b>￥{{orderCancel.total.money}}</b></div>
+				<ul class="order-ul">
+					<li class="order-li" v-for="(item,index) in orderCancel.list" :key="index">
+						<div class="order-li-main" v-show="cancelShow[index]">
+							<div class="order-li-main-hd clearfix">
+								<strong class="order-li-main-hd-time">{{item.time}}</strong>
+								<strong class="order-li-main-hd-status">{{item.status}}</strong>
+							</div>
+							<div class="order-li-main-div">
+								<h2>{{item.client.name}}</h2>
+								<div class="word-yellow">
+									<label>隐私号码</label>
+									<span>{{item.client.hidTel}}</span>
+								</div>
+								<div class="word-black">
+									<label>顾客号码</label>
+									<span>{{item.client.tel}}</span>
+								</div>
+								<div class="word-addr clearfix">
+									<label>配送地址</label>
+									<span>{{item.client.address}}</span>
+									<b>
+										<i class="icon-position"></i>
+										{{item.client.distance}}
+									</b>
+								</div>
+							</div>
+							<div class="order-li-main-div">
+								<h2>配送详情</h2>
+								<div class="word-black">
+									<label>送餐员</label>
+									<span>{{item.rider.riderName}}</span>
+								</div>
+								<div class="word-yellow">
+									<label>联系方式</label>
+									<span>{{item.rider.riderTel}}</span>
+								</div>
+							</div>
+							<div class="order-li-main-pro">
+								<h2>商品</h2>
+								<dl v-for="items in item.client.pro" class="clearfix">
+									<dt>
+										<img :src="items.imgUrl" alt="">
+									</dt>
+									<dd>
+										<div class="tit clearfix">
+											<strong>{{items.title}}</strong>
+											<em>×{{items.count}}</em>
+										</div>
+										<div class="price clearfix">
+											<strong>订单金额</strong>
+											<em>￥{{items.price}}</em>
+										</div>
+									</dd>
+								</dl>
+								<div class="order-li-main-ride clearfix">
+									<label>餐盒费</label>
+									<em>￥{{item.client.lunchBoxPrice}}</em>
+								</div>
+								<div class="order-li-main-ride clearfix">
+									<strong>小计</strong>
+									<b>￥{{item.client.total}}</b>
+								</div>
+							</div>
+						</div>
+						<div class="order-li-ft clearfix">
+							<strong>订单号{{item.orderNO}}</strong>
+							<span v-show="cancelShow[index]" @click="closeCancel(index)">
+								<em>收起订单详情</em>
+								<i class="icon-arrow-up"></i>
+							</span>
+							<span v-show="cancelShow[index]==false" @click="closeCancel(index)">
+								<em>展开订单详情</em>
+								<i class="icon-arrow-down"></i>
+							</span>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<script>
+		new Vue({
+			el: "#wrap",
+			data: {
+				idx: 3,
+				icon: "\ue900 输入订单号/手机号/地址",
+				navList: [
+					{
+						count: 9,
+						text: "进行中"
+					},
+					{
+						count: 0,
+						text: "已完成"
+					},
+					{
+						count: 0,
+						text: "已取消"
+					}
+				],
+				navListIdx: 0,
+				ordering: {
+					total:{
+						count: 9,
+						money: 38337.00
+					},
+					list: [
+						{
+							orderNO: "2018121710329388",
+							arriveTime: "今日09:48",
+							status: "待骑手接单",
+							client: {
+								name: "Amber",
+								hidTel: "13555555555转7777",
+								tel: "135*****766",
+								address: "厦门市思明区湖滨北路新港广场南楼704",
+								distance: "2.55km",
+								dinnerStatus: "已备餐",
+								pro: [
+									{
+										imgUrl:"images/pro.jpg",
+										title: "苹果木肋眼牛排套餐组合",
+										count: 1,
+										price: "88.00"
+									},
+									{
+										imgUrl:"images/pro.jpg",
+										title: "苹果木肋眼牛排套餐组合",
+										count: 1,
+										price: "88.00"
+									}
+								],
+								lunchBoxPrice: "4.00",
+								total: "180.00"
+							}
+						},
+						{
+							orderNO: "2018121710329388",
+							arriveTime: "今日09:48",
+							status: "骑手配送中",
+							client: {
+								name: "Amber",
+								hidTel: "13555555555转7777",
+								tel: "135*****766",
+								address: "厦门市思明区湖滨北路新港广场南楼704",
+								distance: "2.55km",
+								dinnerStatus: "已备餐",
+								pro: [
+									{
+										imgUrl:"images/pro.jpg",
+										title: "苹果木肋眼牛排套餐组合",
+										count: 1,
+										price: "88.00"
+									},
+									{
+										imgUrl:"images/pro.jpg",
+										title: "苹果木肋眼牛排套餐组合",
+										count: 1,
+										price: "88.00"
+									}
+								],
+								lunchBoxPrice: "4.00",
+								total: "180.00"
+							},
+							rider: {
+								riderName: "Jason Momoa",
+								riderTel: "1386940555"
+							},
+						}
+					]
+				},
+				ingShow: [],
+				orderFinish: {
+					total:{
+						count: 9,
+						money: 38337.00
+					},
+					list: [
+						{
+							orderNO: "2018121710329388",
+							time: "2018-12-10",
+							status: "已完成",
+							client: {
+								name: "Amber",
+								hidTel: "13555555555转7777",
+								tel: "135*****766",
+								address: "厦门市思明区湖滨北路新港广场南楼704",
+								distance: "2.55km",
+								pro: [
+									{
+										imgUrl:"images/pro.jpg",
+										title: "苹果木肋眼牛排套餐组合",
+										count: 1,
+										price: "88.00"
+									},
+									{
+										imgUrl:"images/pro.jpg",
+										title: "苹果木肋眼牛排套餐组合",
+										count: 1,
+										price: "88.00"
+									}
+								],
+								lunchBoxPrice: "4.00",
+								total: "180.00"
+							},
+							rider: {
+								riderName: "Jason Momoa",
+								riderTel: "1386940555"
+							}
+						},
+						{
+							orderNO: "2018121710329388",
+							time: "2018-12-10",
+							status: "已完成",
+							client: {
+								name: "Amber",
+								hidTel: "13555555555转7777",
+								tel: "135*****766",
+								address: "厦门市思明区湖滨北路新港广场南楼704",
+								distance: "2.55km",
+								pro: [
+									{
+										imgUrl:"images/pro.jpg",
+										title: "苹果木肋眼牛排套餐组合",
+										count: 1,
+										price: "88.00"
+									},
+									{
+										imgUrl:"images/pro.jpg",
+										title: "苹果木肋眼牛排套餐组合",
+										count: 1,
+										price: "88.00"
+									}
+								],
+								lunchBoxPrice: "4.00",
+								total: "180.00"
+							},
+							rider: {
+								riderName: "Jason Momoa",
+								riderTel: "1386940555"
+							}
+						}
+					]
+				},
+				finishShow: [],
+				orderCancel: {
+					total:{
+						count: 9,
+						money: 38337.00
+					},
+					list: [
+						{
+							orderNO: "2018121710329388",
+							time: "2018-12-10",
+							status: "已取消",
+							client: {
+								name: "Amber",
+								hidTel: "13555555555转7777",
+								tel: "135*****766",
+								address: "厦门市思明区湖滨北路新港广场南楼704",
+								distance: "2.55km",
+								pro: [
+									{
+										imgUrl:"images/pro.jpg",
+										title: "苹果木肋眼牛排套餐组合",
+										count: 1,
+										price: "88.00"
+									},
+									{
+										imgUrl:"images/pro.jpg",
+										title: "苹果木肋眼牛排套餐组合",
+										count: 1,
+										price: "88.00"
+									}
+								],
+								lunchBoxPrice: "4.00",
+								total: "180.00"
+							},
+							rider: {
+								riderName: "Jason Momoa",
+								riderTel: "1386940555"
+							}
+						},
+						{
+							orderNO: "2018121710329388",
+							time: "2018-12-10",
+							status: "已取消",
+							client: {
+								name: "Amber",
+								hidTel: "13555555555转7777",
+								tel: "135*****766",
+								address: "厦门市思明区湖滨北路新港广场南楼704",
+								distance: "2.55km",
+								pro: [
+									{
+										imgUrl:"images/pro.jpg",
+										title: "苹果木肋眼牛排套餐组合",
+										count: 1,
+										price: "88.00"
+									},
+									{
+										imgUrl:"images/pro.jpg",
+										title: "苹果木肋眼牛排套餐组合",
+										count: 1,
+										price: "88.00"
+									}
+								],
+								lunchBoxPrice: "4.00",
+								total: "180.00"
+							},
+							rider: {
+								riderName: "Jason Momoa",
+								riderTel: "1386940555"
+							}
+						}
+					]
+				},
+				cancelShow: [],
+			},
+			mounted: function(){
+				//进行中
+				for(var i=0;i<this.ordering.list.length;i++) {
+					if(i==0) {
+						this.ingShow.push(true);
+					} else {
+						this.ingShow.push(false);
+					}
+				}
+				// 已完成
+				for(var i=0;i<this.orderFinish.list.length;i++) {
+					if(i==0) {
+						this.finishShow.push(true);
+					} else {
+						this.finishShow.push(false);
+					}
+				}
+				// 已取消
+				for(var i=0;i<this.orderCancel.list.length;i++) {
+					if(i==0) {
+						this.cancelShow.push(true);
+					} else {
+						this.cancelShow.push(false);
+					}
+				}
+
+			},
+			methods: {
+				close: function(index) {
+					this.ingShow[index] = !this.ingShow[index];
+					this.ingShow = Object.assign([], this.ingShow);
+				},
+				closeFinsh: function(index) {
+					this.finishShow[index] = !this.finishShow[index];
+					this.finishShow = Object.assign([], this.finishShow);
+				},
+				closeCancel: function(index) {
+					this.cancelShow[index] = !this.cancelShow[index];
+					this.cancelShow = Object.assign([], this.cancelShow);
+				}
+			}
+		})
+	</script>
+</body>
+</html>

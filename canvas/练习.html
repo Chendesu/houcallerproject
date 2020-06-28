@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <canvas id="canvas" style="display:block;margin:0 auto;border:1px solid #aaa;">
+  对不起，该浏览器不支持canvas，请更换浏览器重试！
+  </canvas>
+
+  <script>
+      var canvas = document.getElementById("canvas");
+      var context = canvas.getContext("2d");
+
+      window.onload = function() {
+        canvas.width = 800;
+        canvas.height = 800;
+
+        context.translate(253,-146)
+        context.rotate(Math.PI/6);
+
+        if(context.ellipse) {
+
+          context.lineWidth = 2;
+          context.beginPath();
+          context.arc(400,400,400,0,2*Math.PI,false);
+          context.strokeStyle = "#000";
+
+          context.stroke();
+          context.clip();
+
+          Bigbai(400, 320, 150, 100, 20, 0);
+          function Bigbai(x, y, xr, yr, er, rot) {
+            context.save();
+            context.rotate(rot*Math.PI/180);
+
+            context.lineWidth = 6;
+            context.beginPath();
+            context.ellipse(x, y, xr, yr, 0, 0, 2 * Math.PI, false);
+            context.strokeStyle = "#000";
+            context.fillStyle = "#fff";
+            context.fill();
+            context.stroke();
+            context.closePath();
+
+            context.beginPath();
+            context.arc(x-xr+xr/2, y, er, 0, 2 * Math.PI);
+            context.fillStyle = "#000";
+            context.fill();
+
+            context.beginPath();
+            context.arc(x+xr/2, y, er, 0, 2 * Math.PI);
+            context.fillStyle = "#000";
+            context.fill();
+
+            context.beginPath();
+            context.lineWidth = 6;
+            context.moveTo(x-xr+xr/2, y);
+            context.lineTo(x+xr/2, y);
+            context.strokeStyle = "#000";
+            context.stroke();
+
+            context.globalCompositeOperation = "destination-over";
+
+            context.beginPath();
+            context.lineWidth = 6;
+            context.arc(x, y+yr*5-yr/2, xr*3-yr/2, 0, 2 * Math.PI);
+            context.strokeStyle = "#000";
+            context.stroke();
+
+            context.restore();
+            
+          }
+          
+        } else {
+          alert("no ellipse!");
+        }
+
+      }
+
+
+
+
+
+  </script>
+</body>
+</html>

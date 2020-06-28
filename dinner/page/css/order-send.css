@@ -1,0 +1,206 @@
+@charset "utf-8";
+.wrap .header {
+    border-bottom: 1px solid #efeff4;
+    background-color: #efeff4;
+}
+.wrap .header .page-tit {
+    text-align: left;
+    padding-left: 1.31rem;
+    color: #003A49;
+}
+.wrap {
+	width: 100%;
+	height: 100%;
+	/*background-color: #fff;*/
+}
+#map {
+	position: absolute;
+	top: 1.31rem;
+	left: 0;
+	right: 0;
+	bottom: 2.69rem;
+	background-color: #fff;
+}
+#map img {
+	width: 100%;
+	height: 100%;
+}
+.order-main {
+	position: absolute;
+    bottom: 0px;
+	width: 100%;
+	height: 2.69rem;
+	background-color: #efefef;
+	/*overflow: hidden; */
+}
+.order-main .order-main-inner {
+	overflow: auto;
+}
+.order-main .order-main-line {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 0.64rem;
+	background-color: #fff;
+	position: relative;
+}
+.order-main .order-main-line:after {
+	content: "";
+	position: absolute;
+	left: 50%;
+	top: 0.32rem;
+	width: 0.8rem;
+	height: 0.05rem;
+	background-color: #c8c8c8;
+	transform: translateX(-50%);
+}
+.order-main .order-main-hd {
+	padding: 0 0.35rem;
+	margin-bottom: 0.13rem;
+	background-color: #fff;
+}
+.order-main .order-main-hd h2 {
+	/*line-height: 1.2rem;*/
+	font-size: 14px;
+	color: rgb(60,60,60);
+	font-weight: 600;
+}
+.order-main .order-main-hd .server {
+	margin-top: 0.16rem;
+	font-size: 11px;
+	line-height: 0.43rem;
+}
+.order-main .order-main-hd .server em {
+	display: inline-block;
+	color: #666;
+}
+.order-main .order-main-hd .server span {
+	display: inline-block;
+	padding: 0 0.13rem;
+	border-radius: 0.11rem 0 0.11rem 0;
+	background: #fac030;
+}
+.order-main .order-main-hd .fun {
+	padding: 0.2rem 0;
+	font-size: 14px;
+	color: #103a4a;
+}
+.order-main .order-main-hd .fun span {
+	display: inline-block;
+	width: 2.16rem;
+	height: 0.75rem;
+	margin-right: 0.37rem;
+	border: 1px solid #103a4a;
+	border-radius: 0.08rem;
+	line-height: 0.75rem;
+	text-align: center;
+}
+.order-main .order-main-info {
+	padding: 0 0.35rem;
+	margin-bottom: 0.13rem;
+	background: #fff;
+}
+.order-main .order-main-info h2 {
+	padding: 0.41rem 0;
+    border-bottom: 1px solid #efefef;
+    font-weight: 600;
+}
+.order-main .order-main-info ul li {
+	position: relative;
+}
+.order-main .order-main-info ul li em {
+	display: inline-block;
+    padding: 0.34rem 0;
+    color: #8f8f94;
+}
+.order-main .order-main-info ul li span {
+	float: right;
+    padding-top: 0.34rem;
+    padding-bottom: 0.34rem;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.order-main .order-main-info ul li span strong {
+	display: block;
+    text-align: right;
+    margin-bottom: 0.17rem;
+}
+.order-main .order-main-pro {
+	padding: 0 0.35rem;
+	margin-bottom: 0.13rem;
+	background: #fff;
+}
+.order-main .order-main-pro .hd {
+	padding: 0.41rem 0;
+    border-bottom: 1px solid #efefef;
+    font-weight: 600;
+}
+.order-main .order-main-pro ul li {
+	padding: 0.47rem 0;
+    border-bottom: 1px solid #efefef;
+}
+.order-main .order-main-pro ul li .img {
+	float: left;
+    width: 1.48rem;
+    height: 1.48rem;
+    overflow: hidden;
+}
+.order-main .order-main-pro ul li .img img {
+	display: block;
+    width: auto;
+    height: 100%;
+}
+.order-main .order-main-pro ul li .detail {
+	float: left;
+    width: 5.47rem;
+    margin-left: 0.34rem;
+}
+.order-main .order-main-pro ul li .detail strong,
+.order-main .order-main-pro ul li .detail em {
+	display: block;
+}
+.order-main .order-main-pro ul li .detail em {
+	font-size: 12px;
+}
+.order-main .order-main-pro ul li .price {
+	float: right;
+}
+.order-main .order-main-pro .coupon a {
+	display: block;
+    padding: 0.34rem 0;
+}
+.order-main .order-main-pro .coupon a strong {
+	float: left;
+}
+.order-main .order-main-pro .coupon a span {
+	float: right;
+}
+.order-main .order-main-pro .other-pay {
+	border-bottom: 1px solid #efefef;
+}
+.order-main .order-main-pro .other-pay span {
+	display: block;
+    padding: 0.34rem 0;
+}
+.order-main .order-main-pro .other-pay span strong {
+	float: left;
+}
+.order-main .order-main-pro .other-pay span em {
+	float: right;
+}
+.order-main .order-main-pro .total {
+	padding: 0.34rem 0;
+    text-align: right;
+}
+.order-main .order-main-pro .total span {
+	display: inline-block;
+    margin-left: 0.2rem; 
+}
+.order-main .mui-scroll-wrapper {
+	top: 0.64rem;
+}
+.order-main .mui-scroll-wrapper .mui-scroll {
+	background: #efefef;
+}

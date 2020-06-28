@@ -1,0 +1,389 @@
+@charset "utf-8";
+html,body {
+	width: 100%;
+	min-height: 100%;
+}
+#wrap {
+	width: 100%;
+	min-height: 100%;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.set-main {
+	margin-bottom: 0.27rem;
+}
+.set-main .set-list {
+	overflow: hidden;
+	display: block;
+	/*height: 1.33rem;*/
+	padding: 0.34rem 0.4rem;
+	border-bottom: 1px solid #efefef;
+	/*line-height: 1.33rem;*/
+	font-size: 14px;
+	color: rgb(51,51,51);
+	background: #fff;
+	position: relative;
+}
+[data-dpr="2"] .set-main .set-list {
+	font-size: 28px;
+}
+[data-dpr="3"] .set-main .set-list {
+	font-size: 42px;
+}
+.set-main .set-list.set-list-large {
+	/*height: 2.13rem;
+	line-height: 2.13rem;*/
+	line-height: 1.6rem;
+}
+.set-main .set-list strong {
+	float: left;
+	font-weight: 400;
+}
+.set-main .set-list .switch {
+	float: right;
+	width: 1.17rem;
+	height: 0.64rem;
+	/*margin-top: 0.34rem;*/
+	background: url(../images/switch_off.png) center center no-repeat;
+	background-size: 100% 100%;
+}
+.set-main .set-list .switch.on {
+	background: url(../images/switch_on.png) center center no-repeat;
+	background-size: 100% 100%;
+}
+.set-main .set-list .right {
+	position: absolute;
+	top: 50%;
+	right: 0.4rem;
+	transform: translateY(-50%);
+}
+.set-main .set-list em {
+	float: right;
+	max-width: 70%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.set-main .set-list em.uploaded {
+	color: rgb(250,192,48);
+}
+.set-main .set-list em.addr {
+	overflow: auto;
+	white-space: normal;
+	text-align: right;
+}
+.set-main .set-list .icon-arrow-down {
+	float: right;
+	margin-left: 0.2rem;
+	/*line-height: 1.33rem;*/
+	font-size: 50%;
+	-webkit-transform: rotate(-90deg) translateX(-50%);
+	-ms-transform: rotate(-90deg) translateX(-50%);
+	-o-transform: rotate(-90deg) translateX(-50%);
+	transform: rotate(-90deg) translateX(-50%);
+}
+.set-main .set-list.set-list-large .img {
+	float: right;
+	width: 1.6rem;
+	height: 1.6rem;
+	/*margin-top: 0.27rem;*/
+	border-radius: 0.13rem;
+	overflow: hidden;
+}
+.set-main .set-list.set-list-large .img img {
+	display: block;
+	height: 100%;
+}
+.set-main .set-list.set-list-large .icon-arrow-down {
+	/*line-height: 2.13rem;*/
+	line-height: 1.6rem;
+}
+.set-main .set-list .time {
+	float: left;
+	width: 100%;
+	font-size: 86%;
+	color: rgb(102,102,102);
+}
+.set-upload-main {
+	width: 100%;
+	height: 5.33rem;
+	margin-top: 0.13rem;
+	font-size: 14px;
+	background: #fff;
+	position: relative;
+}
+[data-dpr="2"] .set-upload-main {
+	font-size: 28px;
+}
+[data-dpr="3"] .set-upload-main {
+	font-size: 42px;
+}
+.set-upload-main .upload-btn {
+	position: absolute;
+	top: 50%;
+	left: 0;
+	width: 100%;
+	text-align: center;
+	transform: translateY(-50%);
+}
+.set-upload-main .upload-btn span {
+	display: block;
+	width: 2.8rem;
+	height: 0.93rem;
+	margin: 0 auto;
+	border-radius: 0.13rem;
+	line-height: 0.93rem;
+	text-align: center;
+	color: #fff;
+	background: rgb(16,58,74);
+	/*position: relative;*/
+}
+.set-upload-main .upload-btn span input {
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: block;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+}
+.set-upload-main .upload-btn strong {
+	display: block;
+	font-weight: 400;
+	margin-top: 0.2rem;
+}
+.set-upload-main .upload-img {
+	position: absolute;
+	top: 0;
+	display: block;
+	width: 100%;
+	height: 4.53rem;
+	padding: 0.4rem 0;
+	/*position: relative;*/
+	background: #fff;
+}
+.set-upload-main .upload-img img {
+	display: block;
+	height: 100%;
+	margin: 0 auto;
+}
+.set-upload-main .upload-img input {
+	position: absolute;
+	top: 0.4rem;
+	bottom: 0.4rem;
+	display: block;
+	width: 100%;
+	opacity: 0;
+}
+.set-upload-btn {
+	padding: 0.53rem 0.4rem;
+}
+.set-upload-btn button {
+	display: block;
+	width: 100%;
+	height: 1.23rem;
+	border: 0;
+	border-radius: 0.13rem;
+	line-height: 1.23rem;
+	text-align: center;
+	font-size: 14px;
+	color: #fff;
+	background: rgb(16,58,74);
+}
+[data-dpr="2"] .set-upload-btn button {
+	font-size: 28px;
+}
+[data-dpr="3"] .set-upload-btn button {
+	font-size: 42px;
+}
+#map {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+#map img {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+.set-deliver-main {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	background: #fff;
+}
+.set-deliver-main ul li {
+	display: block;
+	width: 100%;
+	height: 1.87rem;
+	padding: 0.4rem;
+	border-bottom: 1px solid #efefef;
+	font-size: 14px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	position: relative;
+}
+[data-dpr="2"] .set-deliver-main ul li {
+	font-size: 28px;
+}
+[data-dpr="3"] .set-deliver-main ul li {
+	font-size: 42px;
+}
+.set-deliver-main ul li .tit {
+	margin-bottom: 0.27rem;
+}
+.set-deliver-main ul li .tit span {
+	display: inline-block;
+	padding: 0 0.1rem;
+	margin-right: 0.27rem;
+	border-radius: 0.05rem;
+	color: #fff;
+	background: rgb(153,153,153);
+}
+.set-deliver-main ul li.sel .tit span {
+	color: rgb(60,60,60);
+	background: rgb(250,192,48);
+}
+.set-deliver-main ul li.sel .tit strong {
+	color: rgb(16,58,74);
+}
+.set-deliver-main ul li .price strong {
+	color: rgb(153,153,153);
+}
+.set-deliver-main ul li.sel .price strong {
+	color: rgb(60,60,60);
+}
+.set-deliver-main ul li .price span {
+	display: inline-block;
+	margin-left: 0.27rem;
+	color: rgb(102,102,102);
+}
+.set-deliver-main ul li strong {
+	font-weight: 400;
+}
+.set-deliver-main ul li .icon-help {
+	margin-left: 0.07rem;
+}
+.set-deliver-main ul li .icon-choose {
+	position: absolute;
+	top: 50%;
+	right: 0.4rem;
+	color: rgb(16,58,74);
+	font-size: 150%;
+	-webkit-transform: translateY(-50%);
+	-ms-transform: translateY(-50%);
+	-o-transform: translateY(-50%);
+	transform: translateY(-50%);
+}
+.set-deliver-main ul li .range-btn {
+	position: absolute;
+	top: 50%;
+	right: 1.2rem;
+	padding: 0.07rem;
+	border: 1px solid rgb(16,58,74);
+	border-radius: 0.05rem;
+	line-height: 1;
+	color: rgb(16,58,74);
+	-webkit-transform: translateY(-50%);
+	-ms-transform: translateY(-50%);
+	-o-transform: translateY(-50%);
+	transform: translateY(-50%);
+}
+/*修改公告*/
+.set-edit {
+	padding: 0.34rem 0.4rem;
+	background: #fff;
+}
+.set-edit textarea {
+	display: block;
+	width: 100%;
+	height: 2.28rem;
+	padding: 0.34rem;
+	border: 1px solid #666;
+	border-radius: 0.07rem;
+	color: #333;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+/*选择时间*/
+.picker-time {
+	position: fixed;
+	top:0;
+	left:0;
+	right:0;
+	bottom:0;
+	background: rgba(0,0,0,0.5);
+	z-index: 100;
+}
+.picker-time .picker-time-main {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	height: 7.5rem;
+	background: #fff;
+}
+.picker-time .picker-time-main .picker-time-hd {
+    height: 0.93rem;
+    padding: 0 0.4rem;
+    text-align: center;
+    line-height: 0.93rem;
+    color: #333;
+    background-color: rgb(245,245,245);
+}
+.picker-time .picker-time-main .picker-time-hd span {
+	display: inline-block;
+	padding: 0 0.3rem;
+}
+.picker-time .picker-time-main .picker-time-hd span:first-child {
+	float: left;
+}
+.picker-time .picker-time-main .picker-time-hd span:last-child {
+	float: right;
+}
+.picker-time .picker-time-main .picker-time-con {
+	/*padding: 0 0.4rem;*/
+	height: 6.57rem;
+}
+.picker-time .picker-time-main .picker-time-con .picker-time-left {
+	float: left;
+	width: 2.67rem;
+	height: 6.57rem;
+	background-color: rgb(245,245,245);
+}
+.picker-time .picker-time-main .picker-time-con .picker-time-left span {
+	display: block;
+	height: 1.07rem;
+    line-height: 1.07rem;
+    text-align: center;
+    color: #333;
+}
+.picker-time .picker-time-main .picker-time-con .picker-time-left span.sel {
+	color: rgb(16,58,74);
+    font-weight: 600;
+    background-color: #fff;
+}
+.picker-time .picker-time-main .picker-time-con .picker-time-right {
+	float: right;
+	width: calc(100% - 2.67rem);
+	height: 6.57rem;
+	overflow: scroll;
+}
+.picker-time .picker-time-main .picker-time-con .picker-time-right span {
+	display: block;
+    text-align: center;
+    line-height: 1.07rem;
+    color: rgb(102,102,102);
+}
+.picker-time .picker-time-main .picker-time-con .picker-time-right span.sel {
+	color: rgb(16,58,74);
+    font-weight: 600;
+}
+.picker-time .picker-time-main .picker-time-con .picker-time-right .picker-time-right-main {
+	min-height: 100%;
+}

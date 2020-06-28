@@ -1,0 +1,227 @@
+@charset "utf-8";
+/*异常配送*/
+.handle-con {
+	font-size: 14px;
+	color: rgb(102,102,102);
+}
+[data-dpr="2"] .handle-con {
+	font-size: 28px;
+}
+[data-dpr="3"] .handle-con {
+	font-size: 42px;
+}
+.handle-con .btn {
+	display: inline-block;
+	width: 2.16rem;
+	height: 0.75rem;
+	border: 1px solid rgb(16,58,74);
+	border-radius: 0.05rem;
+	line-height: 0.75rem;
+	text-align: center;
+	color: rgb(16,58,74);
+}
+.handle-con ul li {
+	margin-bottom: 0.27rem;
+	background: #fff;
+}
+.handle-con ul li .handle-list-hd {
+	display: block;
+	height: 1.01rem;
+	padding: 0 0.4rem;
+	border-bottom: 1px solid #efefef;
+	line-height: 1.01rem;
+}
+.handle-con ul li .handle-list-hd strong {
+	float: left;
+	font-weight: 600;
+	color: rgb(250,77,48);
+}
+.handle-con ul li .handle-list-hd strong.grey {
+	color: rgb(102,102,102);
+}
+.handle-con ul li .handle-list-hd a {
+	float: right;
+	padding-right: 0.4rem;
+	position: relative;
+}
+.handle-con ul li .handle-list-hd a .icon-arrow-down {
+	position: absolute;
+	right: 0;
+	top: 50%;
+	font-size: 50%;
+	-webkit-transform: translateY(-50%) rotate(-90deg);
+	-ms-transform: translateY(-50%) rotate(-90deg);
+	-o-transform: translateY(-50%) rotate(-90deg);
+	transform: translateY(-50%) rotate(-90deg);
+}
+.handle-con ul li .handle-list-main {
+	padding: 0.33rem 0.4rem;
+	border-bottom: 1px solid #efefef;
+	position: relative;
+}
+.handle-con ul li .handle-list-main > div {
+	line-height: 150%;
+}
+.handle-con ul li .handle-list-main div label {
+	display: inline-block;
+	width: 1.81rem;
+}
+.handle-con ul li .handle-list-main div.deliver span {
+	color: #333;
+}
+.handle-con ul li .handle-list-main div.tel span {
+	color: rgb(250,192,48);
+}
+.handle-con ul li .handle-list-main div.price span {
+	color: rgb(250,77,48);
+}
+.handle-con ul li .handle-list-main div.appeal span {
+	max-width: calc(100% - 1.81rem);
+	font-size: 85%;
+	background: #f5f5f5;
+}
+.handle-con ul li .handle-list-main .btn {
+	position: absolute;
+	top: 50%;
+	right: 0.4rem;
+	-webkit-transform: translateY(-50%);
+	-ms-transform: translateY(-50%);
+	-o-transform: translateY(-50%);
+	transform: translateY(-50%);
+}
+.handle-con ul li .handle-list-ft {
+	padding: 0.21rem 0.4rem; 
+	text-align: right;
+}
+.handle-con ul li .handle-list-ft .btn {
+	margin-left: 0.4rem;
+}
+/*订单详情*/
+.handle-detail {
+}
+.handle-con ul li .handle-list-main h2 {
+	margin-bottom: 0.17rem;
+	font-size: 16px;
+	color: #333;
+	font-weight: 600;
+}
+[data-dpr="2"] .handle-con ul li .handle-list-main h2 {
+	font-size: 32px;
+}
+[data-dpr="3"] .handle-con ul li .handle-list-main h2 {
+	font-size: 48px;
+}
+.handle-detail ul li .handle-list-main .appeal label {
+	float: left;
+}
+.handle-con.handle-detail ul li .handle-list-main .appeal span {
+	float: left;
+	max-width: calc(100% - 1.81rem - 1.73rem);
+}
+.handle-detail ul li .handle-list-main div.appeal b {
+	float: left;
+	width: 1.73rem;
+	text-align: right;
+	font-weight: 400;
+	font-size: 85%;
+}
+.handle-detail ul li .ride {
+	display: block;
+	height: 1.17rem;
+	padding: 0 0.4rem;
+	border-bottom: 1px solid #efefef;
+	line-height: 1.17rem;
+	position: relative;
+}
+.handle-detail ul li .ride strong {
+	/*float: left;*/
+	font-weight: 400;
+}
+.handle-detail ul li .ride i {
+	position: absolute;
+	top: 50%;
+	right: 0.4rem;
+	font-size: 50%;
+	-webkit-transform: translateY(-50%) rotate(-90deg);
+	-ms-transform: translateY(-50%) rotate(-90deg);
+	-o-transform: translateY(-50%) rotate(-90deg);
+	transform: translateY(-50%) rotate(-90deg);
+}
+.handle-detail ul li .ride em {
+	float: right;
+}
+.handle-detail ul li .handle-list-main dl {
+	padding: 0.27rem;
+	background: #efefef;
+}
+.handle-detail ul li .handle-list-main dl dt {
+	float: left;
+	width: 1.07rem;
+	height: 1.07rem;
+	border-radius: 0.05rem;
+	overflow: hidden;
+}
+.handle-detail ul li .handle-list-main dl dt img {
+	display: block;
+	height: 100%;
+}
+.handle-detail ul li .handle-list-main dl dd {
+	float: right;
+	width: calc(100% - 1.26rem);
+}
+.handle-detail ul li .handle-list-main dl dd span {
+	display: block;
+}
+.handle-detail ul li .handle-list-main dl dd span strong {
+	float: left;
+}
+.handle-detail ul li .handle-list-main dl dd span em {
+	float: right;
+}
+.handle-detail ul li .handle-list-main dl dd span.pro-tit {
+	color: #333;
+}
+.handle-detail ul li .handle-list-main dl dd span.pro-price {
+	color: rgb(102,102,102);
+}
+.handle-detail ul li .handle-list-main dl dd span.pro-price strong {
+	font-weight: 400;
+}
+.handle-detail ul li .handle-list-main .total {
+	height: 0.96rem;
+	line-height: 0.96rem;
+	font-size: 16px;
+	color: #333;
+}
+[data-dpr="2"] .handle-detail ul li .handle-list-main .total {
+	font-size: 32px;
+}
+[data-dpr="3"] .handle-detail ul li .handle-list-main .total {
+	font-size: 48px;
+}
+.handle-detail ul li .handle-list-main .total b {
+	float: right;
+	color: rgb(250,77,48);
+}
+.handle-detail .handle-detail-ft {
+	padding: 0.61rem 0 0;
+	text-align: center;
+	font-size: 14px;
+	color: #fff;
+}
+[data-dpr="2"] .handle-detail .handle-detail-ft {
+	font-size: 28px;
+}
+[data-dpr="3"] .handle-detail .handle-detail-ft {
+	font-size: 42px;
+}
+.handle-detail .handle-detail-ft span {
+	display: inline-block;
+	width: 4.27rem;
+	height: 1.2rem;
+	margin: 0 0.13rem;
+	border-radius: 0.13rem;
+	line-height: 1.2rem;
+	text-align: center;
+	background: rgb(16,58,74);
+}

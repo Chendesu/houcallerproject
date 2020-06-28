@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta namae="keywords" content="豪客来牛排，牛排，会员商城，订单详情">
+	<title>订单列表</title>
+	<script src="js/hbs/flexible_css.js,flexible.js"></script>
+	<link rel="stylesheet" href="css/hbs/swiper.min.css">
+	<link rel="stylesheet" href="css/hbs/common.css">
+	<link rel="stylesheet" href="css/hbs/order.css">
+	<script src="js/hbs/vue.min.js"></script>
+	<script src="js/hbs/jquery-1.12.3.min.js"></script>
+	<script src="js/hbs/swiper.min.js"></script>
+	<script src="js/hbs/component/component.js"></script>
+</head>
+<body>
+	<div id="wrap">
+		<banner :imglist="banner"></banner>
+		<div class="pro-info">
+			<div class="pro-info-main">
+				<h3>{{pro.title}}</h3>
+				<div class="price">
+					{{pro.haobi}}豪币+￥{{pro.money}}
+				</div>
+				<div class="time">
+					{{pro.time}}
+					<span class="status">支付成功</span>
+				</div>
+			</div>
+		</div>
+		<div class="rules">
+			<div class="block-inner">
+				<h2>
+					<span class="icon-double-line"></span>
+					使用说明
+					<span class="icon-double-line"></span>
+				</h2>
+				<p v-for="(item,index) in rules">{{item}}</p>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		new Vue({
+			el: "#wrap",
+			data: {
+				banner: [
+					{
+						id: 0,
+						title: "",
+						url: "#",
+						imgUrl: "images/hbs/title.jpg"
+					}
+				],
+				pro: {
+					img: "images/hbs/steak.jpg",
+					title: "苹果木肋眼牛排套餐组合",
+					haobi: 88,
+					money: 20.00,
+					time: "2018-11-28 15:20:40",
+					status: "支付成功"
+				},
+				rules: [
+				"1、使用本券后，仍可以以实收金额累计积分",
+				"2、本券仅限用于薄荷柠檬/野生蓝莓气泡饮",
+				"3、本券不与其他券同时使用，每桌仅限用1张",
+				"4、本券结账时出示给服务员，使用后将被注销",
+				"5、本券豪客来全国餐厅通用，如有不明，请拨4006-618-678咨询",
+				"6、本券领券日起有效期30天，逾期作废",
+				"7、卡券图片仅供参考，产品以实物为准"
+				],
+			}
+		})
+	</script>
+</body>
+</html>

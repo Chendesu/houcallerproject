@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>门店运营</title>
+	<script src="js/flexible_css.js,flexible.js"></script>
+	<link rel="stylesheet" href="js/mobiscroll/css/mobiscroll.css">
+	<link rel="stylesheet" href="js/mobiscroll/css/mobiscroll_date.css">
+	<link rel="stylesheet" href="css/common.css">
+	<link rel="stylesheet" href="css/store-operation.css">
+	<script src="js/vue.min.js"></script>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/mobiscroll/js/mobiscroll_date.js" charset="gb2312"></script>
+	<script src="js/mobiscroll/js/mobiscroll.js"></script>
+	<script src="js/component.js"></script>
+</head>
+<body>
+	<div id="wrap" v-cloak>
+		<navbar :idx="idx"></navbar>
+		<div id="header">
+			<ul class="clearfix">
+				<li v-for="(item,index) in list"
+					:key="index"
+					:class="{'sel':index==curindex}"
+					@click="curindex=index"
+				>{{item}}</li>
+			</ul>
+		</div>
+		<div class="data" v-show="curindex==0">
+			<div class="data-today">
+				<a href="store-operation-today.html" class="data-today-hd clearfix">
+					<b></b>
+					<strong>今日实时数据</strong>
+					<span>详情<i class="icon-arrow-right-thin"></i></span>
+				</a>
+				<ul class="data-today-main clearfix">
+					<li>
+						<strong><b>￥</b>{{dataToday.turnover}}</strong>
+						<span>营业额<i class="icon-help" @click="open"></i></span>
+					</li>
+					<li>
+						<strong>{{dataToday.validOrder}}<b>单</b></strong>
+						<span>有效订单<i class="icon-help" @click="open"></i></span>
+					</li>
+				</ul>
+			</div>
+			<div class="data-analysis">
+				<div class="tab-num data-analysis-tab clearfix">
+					<span 
+						v-for="(item, index) in analysisTab" 
+						:key="index" 
+						:class="{'sel':index==analysisTabIndex}" 
+						@click="analysisTabClick(index)"
+					>{{item}}</span>
+					<div class="choose-date clearfix" v-show="analysisTabIndex == 3">
+						<label>选择日期</label>
+						<input type="text" class="date" >
+						<label>--</label>
+						<input type="text" class="date" >
+						<button>确定</button>
+					</div>
+				</div>
+				<a href="store-operation-analysis.html" class="data-analysis-hd clearfix">
+					<b></b>
+					<strong>营业数据环比分析</strong>
+					<span>详情<i class="icon-arrow-right-thin"></i></span>
+				</a>
+				<ul class="data-analysis-main clearfix">
+					<li class="first">
+						<strong><b>￥</b>{{dataAnalysis.turnover}}</strong>
+						<span>营业额<i class="icon-help" @click="open"></i></span>
+						<div>
+							比前7日
+							<em v-if="dataAnalysis.trend.contrast=='up'" class="up">
+								<i class="icon-rise"></i>
+								{{dataAnalysis.trend.percentage}}
+							</em>
+							<em v-if="dataAnalysis.trend.contrast=='down'" class="down">
+								<i class="icon-decline"></i>
+								{{dataAnalysis.trend.percentage}}
+							</em>
+						</div>
+					</li>
+					<li>
+						<strong>{{dataAnalysis.validOrder}}单</strong>
+						<span>有效订单<i class="icon-help" @click="open"></i></span>
+						<div>
+							比前7日
+							<em v-if="dataAnalysis.validOrderTrend.contrast=='up'" class="up">
+								<i class="icon-rise"></i>
+								{{dataAnalysis.trend.percentage}}
+							</em>
+							<em v-if="dataAnalysis.validOrderTrend.contrast=='down'" class="down">
+								<i class="icon-decline"></i>
+								{{dataAnalysis.trend.percentage}}
+							</em>
+						</div>
+					</li>
+					<li class="last">
+						<strong>￥{{dataAnalysis.validOrder}}</strong>
+						<span>单均价<i class="icon-help" @click="open"></i></span>
+						<div>
+							比前7日
+							<em v-if="dataAnalysis.priceTrend.contrast=='up'" class="up">
+								<i class="icon-rise"></i>
+								{{dataAnalysis.priceTrend.percentage}}
+							</em>
+							<em v-if="dataAnalysis.priceTrend.contrast=='down'" class="down">
+								<i class="icon-decline"></i>
+								{{dataAnalysis.priceTrend.percentage}}
+							</em>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="data-affair">
+				<a href="store-operation-affair.html" class="data-affair-hd">
+					<strong>发现下列可能情况</strong>
+					<span>全部<i class="icon-arrow-right-thin"></i></span>
+				</a>
+				<div class="data-affair-main">
+					<ul>
+						<li v-for="(item,index) in affair"
+							:key="index"
+						>
+							<strong>
+								<i :class="item.icon"></i>
+								{{item.text}}
+							</strong>
+							<span v-if="item.contrast=='up'" class="up">
+								<i class="icon-rise"></i>
+								￥{{item.price}}
+							</span>
+							<span v-if="item.contrast=='down'" class="down">
+								<i class="icon-decline"></i>
+								￥{{item.price}}
+							</span>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="pro" v-show="curindex==1">
+			<div class="pro-hd">
+				<div class="pro-hd-main clearfix">
+					<div class="pro-hd-time">
+						<span @click="openTime">
+							<strong></strong>
+							<i class="icon-arrow-down"></i>
+						</span>
+						<ul v-show="chooseShow==true">
+							<li v-for="(item,index) in proTime"
+								:key="index"
+								@click="chooseTime"
+							>{{item}}</li>
+						</ul>
+					</div>
+					<div class="pro-hd-choose">
+						<span v-for="(item,index) in proTab"
+							  :key="index"
+							  :class="{'sel':index==proIndex}"
+							  v-html="item"
+							  @click="chooseTab(index)"
+						></span>
+					</div>
+				</div>
+			</div>
+			<div class="pro-main">
+				<ul>
+					<li v-for="(item,index) in proList">
+						<div class="img">
+							<img :src="item.imgUrl" />
+						</div>
+						<div class="main">
+							<div class="main-hd">
+								<em v-show="item.ranking <= 3" class="front">NO.{{item.ranking}}</em>
+								<em v-show="item.ranking > 3" class="behind">{{item.ranking}}</em>
+								<h2>{{item.title}}</h2>
+							</div>
+							<div class="main-con">
+								<div class="main-con-total">
+									销售额 
+									<span>￥{{item.total}}</span>
+								</div>
+								<div class="main-con-info">
+									<span>好评率
+										<b>{{item.favorableRate}}</b>
+									</span>
+									<span>
+										<i class="icon-good"></i>
+										{{item.good}}赞
+									</span>
+									<span>
+										<i class="icon-bad"></i>
+										{{item.bad}}踩
+									</span>
+									<span>月销{{item.sale}}</span>
+								</div>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<pop-help :popshow="popShow"
+			:tit="tit"
+			:helpcon="helpCon"
+			v-on:closepop="close"
+		></pop-help>
+
+	</div>
+
+	<script>
+		new Vue({
+			el: "#wrap",
+			data: {
+				idx:0, //默认选中导航栏第几项
+				curindex: 0,
+				list: ["经营数据","商品分析"],
+				analysisTab: ["昨日","近7天","近30天","自定义"],
+				analysisTabIndex: 0,
+				dataToday: {
+					turnover: "4988.00",
+					validOrder: 6
+				},
+				dataAnalysis: {
+					turnover: "149888.00",
+					trend: {
+						contrast: "up",
+						percentage: "55.55%"
+					},
+					validOrder: 1744,
+					validOrderTrend: {
+						contrast: "up",
+						percentage: "55.55%"
+					},
+					price: 5656,
+					priceTrend: {
+						contrast: "down",
+						percentage: "55.55%"
+					}
+				},
+				affair: [
+					{
+						icon: "icon-clock",
+						text: "午餐",
+						contrast: "up",
+						price: "2828.87"
+					},
+					{
+						icon: "icon-clock",
+						text: "晚餐",
+						contrast: "up",
+						price: "2828.87"
+					},
+					{
+						icon: "icon-position",
+						text: "同安家园",
+						contrast: "down",
+						price: "2828.87"
+					}
+				],
+				popShow: false,
+				tit: "",
+				helpCon: "",
+				proTime: ["昨日","近7天","近30天","近90天"],
+				proTab: ["销售额最高","销量最高","赞","踩"],
+				chooseShow: false,
+				proIndex: 0,
+				proList: [
+					{
+						ranking: 1,
+						title: "苹果木肋眼牛排套餐组合",
+						total: "123.00",
+						favorableRate: "95%",
+						good: 37,
+						bad: 37,
+						sale: 55,
+						imgUrl: "images/steak.jpg"
+					},
+					{
+						ranking: 2,
+						title: "苹果木肋眼牛排套餐组合",
+						total: "123.00",
+						favorableRate: "95%",
+						good: 37,
+						bad: 37,
+						sale: 55,
+						imgUrl: "images/steak.jpg"
+					},
+					{
+						ranking: 3,
+						title: "苹果木肋眼牛排套餐组合",
+						total: "123.00",
+						favorableRate: "95%",
+						good: 37,
+						bad: 37,
+						sale: 55,
+						imgUrl: "images/steak.jpg"
+					},
+					{
+						ranking: 4,
+						title: "苹果木肋眼牛排套餐组合",
+						total: "123.00",
+						favorableRate: "95%",
+						good: 37,
+						bad: 37,
+						sale: 55,
+						imgUrl: "images/steak.jpg"
+					},
+					{
+						ranking: 5,
+						title: "苹果木肋眼牛排套餐组合",
+						total: "123.00",
+						favorableRate: "95%",
+						good: 37,
+						bad: 37,
+						sale: 55,
+						imgUrl: "images/steak.jpg"
+					},
+					{
+						ranking: 6,
+						title: "苹果木肋眼牛排套餐组合",
+						total: "123.00",
+						favorableRate: "95%",
+						good: 37,
+						bad: 37,
+						sale: 55,
+						imgUrl: "images/steak.jpg"
+					},
+					{
+						ranking: 7,
+						title: "苹果木肋眼牛排套餐组合",
+						total: "123.00",
+						favorableRate: "95%",
+						good: 37,
+						bad: 37,
+						sale: 55,
+						imgUrl: "images/steak.jpg"
+					}
+				]
+			},
+			mounted: function() {
+				// 日期选择
+				var currYear = (new Date()).getFullYear();	
+				var opt={};
+				opt.date = {preset : 'date'};
+				opt.datetime = {preset : 'datetime'};
+				opt.time = {preset : 'time'};
+				opt.default = {
+					theme: 'android-ics light', //皮肤样式
+					display: 'modal', //显示方式 
+					mode: 'scroller', //日期选择模式
+					dateFormat: 'yyyy-mm-dd',
+					lang: 'zh',
+					showNow: true,
+					nowText: "今天",
+					startYear: currYear - 50, //开始年份
+					endYear: currYear + 10, //结束年份
+				};
+				$(".date").mobiscroll($.extend(opt['date'], opt['default']));
+				// 选择时间
+				$(".pro-hd-time span strong").text(this.proTime[0]);
+
+			},
+			methods: {
+				close: function() {
+					this.popShow = false;
+				},
+				open: function(e) {
+					var el = e.srcElement;
+					var txt = $(el).parent().text();
+					this.popShow = true;
+					this.tit = "关于"+txt;
+					this.helpCon ="营业额是指纳税人提供应税劳务、转让无形资产或者销售不动产向对方收取的全部价款和价外费用。价外费用包括向对方收取的手续费、基金、集资费、代收款项、代垫款项及其他各种性质的价外收费。运输物流企业从事联运业务的营业额为其实际取得的营业额"
+				},
+				openTime: function() {
+					this.chooseShow = true;
+				},
+				chooseTime: function(e) {
+					var val = e.target.innerText;
+					var el = e.currentTarget;
+					$(el).parent().parent().find("span strong").text(val);
+					this.chooseShow = false;
+				},
+				chooseTab: function(index) {
+					this.proIndex = index
+				},
+				analysisTabClick: function(index) {
+					this.analysisTabIndex = index;
+				}
+			}
+		})
+	</script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<item value="E:\php\project01" key="OUTSIDE_LOCATION"/>
+	<section name="com.zend.php.ide.svn.internal.ui.wizards.NewPHPProjectSVNWizard">
+	</section>
+	<section name="com.zend.php.ide.internal.ui.wizards.NewProjectFromExistingWizard">
+	</section>
+	<section name="com.zend.php.ide.internal.ui.wizards.NewLocalPHPProjectWizard">
+	</section>
+</section>

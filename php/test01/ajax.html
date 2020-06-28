@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <p>在输入框中输入一个姓名：</p>
+  <form>
+    <div>
+      <label for="">姓名：</label>
+      <input type="text" onkeyup="showHint(this.value)" />
+    </div>
+  </form>
+  <p>返回值：<span id="txtHint"></span></p>
+  <script>
+    function showHint(str){
+      if(str.length==0){
+        document.getElementById("txtHint").innerHTML="";
+        return;
+      }
+      if(window.XMLHttpRequest){
+        xmlhttp=new XMLHttpRequest();
+      } else {
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+      }
+      xmlhttp.onreadystatechange=function(){
+        
+        if(xmlhttp.readyState==4 && xmlhttp.status==200){
+          document.getElementById("txtHint").innerHTML=xmlhttp.responseText;
+        }
+      }
+      // get方法
+      // xmlhttp.open("get","ajax.php?q="+str,true);
+      // xmlhttp.send();
+
+      // post方法
+      xmlhttp.open("post","ajax.php",true);
+      xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+      xmlhttp.send("q="+str);
+
+    }
+  </script>
+</body>
+</html>

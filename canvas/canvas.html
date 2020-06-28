@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>canvas</title>
+	<style>
+		html,body{
+			margin:0px;
+			width:100%;
+			height:100%;
+			overflow:hidden;
+			/* background:#000; */
+		}
+    #canvas {
+      display: block;
+      margin: 0 auto;
+      border: 1px solid #999;
+      /*background-color: #CDCD08;*/
+    }
+		
+	</style>
+</head>
+<body>
+	<canvas id="canvas" width="800" height="800"></canvas>
+	<script>
+    
+    var canvas = document.getElementById('canvas');
+    var context = canvas.getContext('2d');
+    // var linearGrad = context.createLinearGradient(0,0,800,800);
+    // linearGrad.addColorStop(0.0,"#fff");
+    // linearGrad.addColorStop(1.0,"#000");
+    // context.fillStyle = linearGrad;
+    // context.fillRect(0,0,800,800);
+
+    // var radialGrad = context.createRadialGradient(400,400,0,400,400,500);
+    // radialGrad.addColorStop(0.0,"white");
+    // radialGrad.addColorStop(0.25,"yellow");
+    // radialGrad.addColorStop(0.5,"green");
+    // radialGrad.addColorStop(0.75,"blue");
+    // radialGrad.addColorStop(1.0,"black");
+    // context.fillStyle = radialGrad;
+    // context.fillRect(0,0,800,800);
+    
+
+    // var backgroundImage = new Image();
+    // backgroundImage.src = "clock_1.jpg";
+    // backgroundImage.onload = function() {
+    //     var pattern = context.createPattern(backgroundImage,"repeat");
+    //     context.fillStyle = pattern;
+    //     context.fillRect(0,0,800,800);
+    // }
+
+
+
+    // 圆角矩形
+    // drawRoundRect(context,150,150,500,500,10);
+    // for(var i = 0; i < 4; i++) {
+    //     for(var j = 0; j < 4; j++) {
+    //         drawRoundRect(context,170+i*120,170+j*120,100,100,6);
+    //     }
+    // }
+
+    // function drawRoundRect(cxt, x, y, width, height,radius) {
+    //     cxt.save();
+    //     cxt.translate(x,y);
+    //     pathRoundRect(cxt,width,height,radius);
+    //     cxt.strokeStyle = "black";
+    //     cxt.stroke();
+    //     cxt.restore();
+    // }
+    // function pathRoundRect(cxt, width, height, radius) {
+    //     cxt.beginPath();
+    //     cxt.arc(width-radius,height-radius,radius,0,Math.PI/2);
+    //     cxt.lineTo(radius,height);
+    //     // cxt.lineTo(width-radius,height);
+    //     cxt.arc(radius,height-radius,radius,Math.PI/2,Math.PI);
+    //     cxt.lineTo(0,radius);
+    //     // cxt.lineTo(0,height-radius);
+    //     cxt.arc(radius,radius,radius,Math.PI,3*Math.PI/2);
+    //     // cxt.lineTo(radius,0);
+    //     cxt.lineTo(width-radius,0);
+    //     cxt.arc(width-radius,radius,radius,3*Math.PI/2,2*Math.PI);
+    //     cxt.closePath();
+    // }
+
+
+    // arcTo
+    // context.beginPath();
+    // context.moveTo(150,150);
+    // context.arcTo(650,150,650,650,300);
+    // context.lineWidth = 6;
+    // context.strokeStyle = "red";
+    // context.stroke();
+    // context.beginPath();
+    // context.moveTo(150,150);
+    // context.lineTo(650,150);
+    // context.lineTo(650,650);
+    // context.lineWidth = 2;
+    // context.strokeStyle = "grey";
+    // context.stroke();
+
+    // 月亮
+    fillMoon(context,2,400,400,300,0);
+    function fillMoon(cxt,d,x,y,R,rot,fillColor) {
+        cxt.save();
+        cxt.translate(x,y);
+        cxt.rotate(rot*Math.PI/180);
+        cxt.scale(R,R);
+        pathMoon(cxt,d);
+        cxt.fillStyle = fillColor || "#fb5";
+        cxt.fill();
+        cxt.restore();
+    }
+    function pathMoon(cxt,d) {
+        cxt.beginPath();
+        cxt.arc(0, 0, 1, 0.5*Math.PI, 1.5*Math.PI, true);
+        cxt.moveTo(0, -1);
+        cxt.arcTo(d, 0, 0, 1,dis(0, -1, d, 0)/d);
+        cxt.closePath();
+    }
+    function dis(x1,y1,x2,y2) {
+        return Math.sqrt( (x1-x2)*(x1-x2)+(y1-y2)*(y1-y2) );
+    }
+
+
+    // 文字
+    context.font = "bold 40px Arial";
+    context.fillStyle = "#058";
+    context.fillText("这是第一句话",40,100);
+    context.lineWidth = 1;
+    context.strokeStyle = "#058";
+    context.strokeText("这是第二句话",40,200);
+
+
+    // 剪辑
+    // context.beginPath();
+    // context.fillStyle = "black";
+    // context.fillRect(0,0,canvas.width,canvas.height);
+
+    // context.beginPath();
+    // context.arc(400,400,150,0,Math.PI*2);
+    // context.fillStyle = "#fff";
+    // context.fill();
+    // context.clip();
+
+    // context.font = "bold 150px Arial";
+    // context.textAlign = "center";
+    // context.textBaseline = "middle";
+    // context.fillStyle = "#058";
+    // context.fillText("CANVAS", canvas.width/2,canvas.height/2);
+
+    //路径方向-非零环绕原则
+    // context.beginPath();
+    // context.arc(400,400,300,0,2*Math.PI,true);
+    // context.arc(400,400,220,0,2*Math.PI,false);
+    // context.fillStyle = "#058";
+    // context.shadowColor = "grey";
+    // context.shadowOffsetX = 10;
+    // context.shadowOffsetY = 10;
+    // context.shadowBlur = 10;
+    // context.fill();
+
+
+
+
+
+
+
+		
+	</script>
+</body>
+</html>

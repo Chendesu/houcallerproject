@@ -1,0 +1,183 @@
+@charset 'utf-8';
+.list {
+	padding-bottom: 1.2rem;
+}
+.list li {
+	display: block;
+	width: 100%;
+	padding: 0 0.45rem;
+	background-color: #fff;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.list li a {
+	display: block;
+	border-bottom: 0.03rem solid #d0d7d9;
+	font-size: 14px;
+	color: #000033;
+	line-height: 1.39rem;
+}
+[data-dpr="2"] .list li a {
+	font-size: 28px;
+}
+[data-dpr="3"] .list li a {
+	font-size: 42px;
+}
+.list li:last-child a {
+	border-bottom: 0;
+}
+.list li a i {
+	float: right;
+	color: #666;
+	line-height: 1.39rem;
+}
+.list li a span {
+	display: inline-block;
+	width: 0.93rem;
+	text-align: center;
+	color: #ffc72c;
+}
+.cards {
+	width: 100%;
+	padding: 0.27rem 0.2rem;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.cards .cards-main {
+	width: 100%;
+	height: 6.08rem;
+	border-radius: 0.53rem;
+	overflow: hidden;
+}
+.cards .cards-main img {
+	display: block;
+	height: 100%;
+}
+.card-list {
+	margin-bottom: 0.2rem;
+	padding: 0 0.45rem;
+	background-color: #fff;
+}
+.card-list li {
+	height: 1.39rem;
+	border-bottom: 0.03rem solid #d0d7d9;
+	font-size: 14px;
+	color: #003;
+}
+[data-dpr="2"] .card-list li {
+	font-size: 28px;
+}
+[data-dpr="3"] .card-list li {
+	font-size: 42px;
+}
+.card-list li strong {
+	line-height: 1.39rem;
+	font-size: 14px;
+	color: #000033;
+}
+.card-list li strong.right {
+	float: right;
+}
+[data-dpr="2"] .card-list li strong {
+	font-size: 28px;
+}
+[data-dpr="3"] .card-list li strong {
+	font-size: 42px;
+}
+.card-list li:last-child {
+	border-bottom: 0;
+}
+.card-list li .ctrl {
+	float: right;
+	margin-top: 0.37rem;
+	border-radius: 0.13rem;
+	line-height: 0.67rem;
+	overflow: hidden;
+}
+.card-list li .ctrl i {
+	display: block;
+	float: left;
+	width: 0.67rem;
+	height: 0.67rem;
+	text-align: center;
+	background-color: #ffc72c;
+}
+.card-list li .ctrl input {
+	display: block;
+	float: left;
+	width: 1.07rem;
+	height: 0.67rem;
+	border: 0;
+	text-align: center;
+	line-height: 0.67rem;
+	background-color: #fff5db;
+}
+.rules {
+    overflow: hidden;
+    padding: 0.4rem 0.73rem;
+    margin-bottom: 1.67rem;
+    border-radius: 0.13rem;
+    background: #fff;
+    position: relative;
+}
+.rules h2 {
+	text-align: center;
+	font-size: 15px;
+	color: #333;
+	padding-bottom: 0.32rem;
+}
+[data-dpr="2"]  .rules h2 {
+	font-size: 30px;
+}
+[data-dpr="3"] .rules h2 {
+	font-size: 45px;
+}
+.rules h2 .icon-double-line {
+	color: #ffc72c;
+	margin: 0 0.1rem;
+}
+.rules p {
+	color: #666;
+	padding-bottom: 0.27rem;
+}
+.block {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	padding: 0.3rem 0;
+}
+.block-inner {
+    overflow: hidden;
+    /*padding: 0.4rem 0.07rem 0.4rem 0.07rem;*/
+    border-radius: 0.13rem;
+    background: #fff;
+    position: relative;
+}
+.btn {
+	display: block;
+	padding-left: 0.19rem;
+	padding-right: 0.19rem;
+	background-color: transparent;
+}
+.btn button {
+	display: block;
+	width: 100%;
+	height: 1.07rem;
+	border: 0;
+	border-radius: 0.13rem;
+	line-height: 1.07rem;
+	text-align: center;
+	font-size: 16px;
+	color: rgb(0,58,72);
+	font-weight: bold;
+	background: #ffc72c;
+}
+[data-dpr="2"] .btn button {
+	font-size: 32px;
+}
+[data-dpr="3"] .btn button {
+	font-size: 48px;
+}

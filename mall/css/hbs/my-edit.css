@@ -1,0 +1,95 @@
+@charset 'utf-8';
+.list {
+	padding: 0 0.45rem;
+	background-color: #fff;
+}
+.list li {
+	padding: 0 0.27rem;
+	border-bottom: 0.03rem solid #d0d7d9;
+	color: #000033;
+    line-height: 1.33rem;
+    font-size: 14px;
+    /*display: flex;
+    align-items: center;*/
+}
+[data-dpr="2"] .list li {
+	font-size: 28px;
+}
+[data-dpr="3"] .list li {
+	font-size: 42px;
+}
+.list li:last-child {
+	border-bottom: 0;
+}
+.list li i {
+	float: left;
+	display: inline-block;
+	width: 0.53rem;
+	line-height: 1.3rem;
+	color: #ffc72c;
+	text-align: center;
+}
+.list li input {
+	float: right;
+	width: 50%;
+	height: 1.3rem;
+	border: 0;
+	line-height: 1.3rem;
+	text-align: right;
+	background-color: #fff;
+}
+.list li div {
+	float: right;
+	display: inline-block;
+}
+.list li strong {
+	float: left;
+	margin-left: 0.13rem;
+}
+.list li input[disabled="disabled"] {
+	color: #666;
+}
+.list li span {
+	float: right;
+	width: 0.29rem;
+	height: 1.3rem;
+	margin-left: 0.21rem;
+	text-align: right;
+	line-height: 1.3rem;
+	color: #666;
+	font-size: 85%;
+}
+button {
+	position: absolute;
+	left: 0.2rem;
+	bottom: 0.88rem;
+	width: 9.6rem;
+	height: 1.07rem;
+	border: 0;
+	border-radius: 0.11rem;
+	line-height: 1.07rem;
+	text-align: center;
+	font-size: 15px;
+	color: #003b49;
+	font-weight: bold;
+	background-color: #ffc72c;
+}
+[data-dpr="2"] button {
+	font-size: 30px;
+}
+[data-dpr="3"] button {
+	font-size: 45px;
+}
+.list li .get,.list li .count {
+	float: right;
+	/*padding: 0 0.27rem;*/
+	width: 2.09rem;
+	height: 0.8rem;
+	margin-top: 0.25rem;
+	border-radius: 0.11rem;
+	line-height: 0.8rem;
+	text-align: center;
+	font-weight: 600;
+	color: #003b49;
+	background-color: #ffc72c;
+}

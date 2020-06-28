@@ -1,0 +1,169 @@
+@charset 'utf-8';
+.order {
+	padding: 0.13rem;
+}
+.order li {
+	padding: 0.13rem;
+	margin-bottom: 0.27rem;
+	border-radius: 0.13rem;
+	background-color: #fff;
+}
+.order li .img {
+	display: block;
+	float: left;
+	width: 3.2rem;
+	height: 2.4rem;
+	border-radius: 0.13rem 0 0 0.13rem;
+	overflow: hidden;
+}
+.order li .img img {
+	display: block;
+	height: 100%;
+}
+.order li .info {
+	float: right;
+	width: calc(100% - 3.2rem);
+	padding: 0 0.27rem;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.order li .info h3 {
+	font-size: 14px;
+	color: #333;
+}
+.order li .info h3 a {
+	color: inherit;
+	font-size: inherit;
+}
+[data-dpr="2"] .order li .info h3 {
+	font-size: 28px;
+}
+[data-dpr="3"] .order li .info h3 {
+	font-size: 42px;
+}
+.price {
+	  font-size: 14px;
+	  color: #FF0036;
+	  font-weight: bold;
+}
+[data-dpr="2"] .price {
+	font-size: 28px;
+}
+[data-dpr="3"] .price {
+	font-size: 42px;
+}
+.order li .info .time {
+	font-size: 12px;
+	color: #666;
+	line-height: 200%;
+}
+[data-dpr="2"]  .order li .info .time {
+	font-size: 24px;
+}
+[data-dpr="3"]  .order li .info .time {
+	font-size: 36px;
+}
+.status {
+	display: inline-block;
+	padding: 0.11rem 0.12rem;
+	border-radius: 0.11rem;
+	font-size: 11px;
+	color: #fff;
+	background-color: #4dcb59;
+}
+[data-dpr="2"] .status {
+	font-size: 22px;
+}
+[data-dpr="3"] .status {
+	font-size: 33px;
+}
+.rules {
+    overflow: hidden;
+    padding: 0.4rem 0.73rem;
+    margin: 0 0.13rem;
+    margin-bottom: 1.67rem;
+    border-radius: 0.13rem;
+    background: #fff;
+    position: relative;
+}
+.rules h2 {
+	text-align: center;
+	font-size: 15px;
+	color: #333;
+	padding-bottom: 0.32rem;
+}
+[data-dpr="2"]  .rules h2 {
+	font-size: 30px;
+}
+[data-dpr="3"] .rules h2 {
+	font-size: 45px;
+}
+.rules h2 .icon-double-line {
+	color: #ffc72c;
+	margin: 0 0.1rem;
+}
+.rules p {
+	color: #666;
+	padding-bottom: 0.27rem;
+}
+.pro-info {
+	padding: 0.13rem;
+}
+.pro-info .pro-info-main {
+	border-radius: 0.11rem;
+	background: #fff;
+}
+.pro-info .pro-info-main h3 {
+	padding-top: 0.24rem;
+	padding-left: 0.29rem;
+	font-size: 14px;
+	color: #333;
+}
+[data-dpr="2"] .pro-info .pro-info-main h3 {
+	font-size: 28px;
+}
+[data-dpr="3"] .pro-info .pro-info-main h3 {
+	font-size: 42px;
+}
+.pro-info .pro-info-main .price {
+	padding-bottom: 0.24rem;
+	padding-left: 0.29rem;
+	padding-top: 0.19rem;
+}
+.pro-info .pro-info-main .time {
+	width: 100%;
+	height: 0.85rem;
+	padding: 0 0.29rem;
+	border-top: 0.03rem solid #f0f0f0;
+	font-size: 12px;
+	color: #666;
+	line-height: 0.85rem;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+[data-dpr="2"] .pro-info .pro-info-main .time {
+	font-size: 24px;
+}
+[data-dpr="3"] .pro-info .pro-info-main .time {
+	font-size: 36px;
+}
+.pro-info .pro-info-main .time .status {
+	float: right;
+	margin-top: 0.16rem;
+	/*margin-right: 0.16rem;*/
+	line-height: 100%;
+}
+.downwarp-content {
+	font-size: 14px;
+}
+[data-dpr="2"] .downwarp-content {
+	font-size: 28px;
+}
+[data-dpr="3"] .downwarp-content {
+	font-size: 42px;
+}
+.mescroll-downwarp .downwarp-tip, .mescroll-upwarp .upwarp-tip, .mescroll-upwarp .upwarp-nodata {
+	font-size: inherit;
+}

@@ -1,0 +1,323 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<script type="text/javascript" src="jquery-1.12.3.min.js"></script>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=axlZcGNwc56CXxwsVehmtUSsehGWOk95"></script>
+	<script type="text/javascript" src="http://api.map.baidu.com/library/GeoUtils/1.2/src/GeoUtils_min.js"></script>
+	<!--加载鼠标绘制工具-->
+	<script type="text/javascript" src="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.js"></script>
+	<link rel="stylesheet" href="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.css" />
+	<!--加载检索信息窗口-->
+	<script type="text/javascript" src="http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow_min.js"></script>
+	<link rel="stylesheet" href="http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow_min.css" />
+	<style>
+		*{padding: 0;margin:0;}
+		html,body {
+			width: 100%;
+			height: 100%;
+		}
+		#map {
+			width: 100%;
+			height: 100%;
+		}
+    #r-result {
+      position: absolute;
+      right: 5px;
+      top: 60px;
+      width: 150px;
+      height: 47px;
+      background-color: #fff;
+      text-align: center;
+    }
+    #r-result input {
+      display: inline-block;
+      width: 100%;
+      height: 100%;
+      margin: 10px 0;
+      border: 1px solid #666;
+      border-radius: 5px;
+      line-height: 47px;
+      font-size: 14px;
+      color: #1C6DAB;
+      font-weight: 600;
+      outline: none;
+      background: #F4F4F4;
+    }
+	</style>
+</head>
+<body>
+	<div id="map"></div>
+	<div id="r-result">
+		<input type="button" value="清除上一个覆盖物" onclick="clearAll()"/>
+    <input type="button" value="显示/隐藏位置图标" onclick="hide()"/>
+	</div>
+	<script>
+		var map = new BMap.Map("map",{enableMapClick:false});
+		var point = new BMap.Point(118.086999, 24.4669);//新港广场：118.086814,24.482754/豪客来：118.086999,24.4669/海湾公园:118.082793,24.479322
+		var myIcon = new BMap.Icon("marker.png",new BMap.Size(32,32));
+		var marker = new BMap.Marker(point,{icon:myIcon});
+    var top_left_navigation = new BMap.NavigationControl();  //左上角，添加默认缩放平移控件
+		map.addOverlay(marker);
+		map.centerAndZoom(point,15);
+		// marker.setAnimation(BMAP_ANIMATION_BOUNCE);
+		map.enableScrollWheelZoom(true);
+    map.addControl(top_left_navigation);
+
+    //圆
+		var circle = new BMap.Circle(point,3500,{ 
+			fillColor: "blue",
+			strokeWeight: 1,
+			fillOpacity: 0.1,
+			strokeOpacity: 0.2
+		});
+    map.addOverlay(circle);
+    
+    //多边形
+    // var points = [
+    //   new BMap.Point(118.083036, 24.486742),
+    //   new BMap.Point(118.100858, 24.486248),
+    //   new BMap.Point(118.108117, 24.477238),
+    //   new BMap.Point(118.097661, 24.473751),
+    //   new BMap.Point(118.081599, 24.471318)
+    // ];
+    // var polygon = new BMap.Polygon(points,{
+		// 	fillColor: "blue",
+    //   strokeWeight: 1,
+    //   fillOpacity: 0.1,
+		// 	strokeOpacity: 1
+		// });
+    // map.addOverlay(polygon);
+
+
+		var index = 0;
+		var myGeo = new BMap.Geocoder();
+		var pts = [
+			new BMap.Point(118.087016,24.483352),
+			new BMap.Point(118.087236,24.482721),
+			new BMap.Point(118.087243,24.482781),
+			new BMap.Point(118.086274,24.483694),
+			new BMap.Point(118.088008,24.482536),
+			new BMap.Point(118.087356,24.481645),
+			new BMap.Point(118.08678,24.481623),
+			new BMap.Point(118.093891,24.482387),
+			new BMap.Point(118.094503,24.48189),
+			new BMap.Point(118.093848,24.482553),
+			new BMap.Point(118.093022,24.481543),
+			new BMap.Point(118.089661,24.48136),
+			new BMap.Point(118.08974,24.48508),
+			new BMap.Point(118.089737,24.48599),
+			new BMap.Point(118.090934,24.486011),
+			new BMap.Point(118.101218, 24.491345),
+			new BMap.Point(118.096026, 24.486232),
+			new BMap.Point(118.082569, 24.491148),
+			new BMap.Point(118.089037, 24.492102),
+			new BMap.Point(118.082641, 24.479244),
+			new BMap.Point(118.08088, 24.476514),
+			new BMap.Point(118.084761, 24.472469),
+			new BMap.Point(118.086701, 24.488485),
+      new BMap.Point(118.082138, 24.485229),
+      new BMap.Point(118.114595, 24.472754),
+      new BMap.Point(118.086999, 24.4669),
+      new BMap.Point(118.11287, 24.46815),
+      new BMap.Point(118.089371, 24.462295),
+      new BMap.Point(118.079022, 24.465979),
+      new BMap.Point(118.088939, 24.452099),
+      new BMap.Point(118.085634, 24.457033),
+      new BMap.Point(118.11323, 24.45769),
+      new BMap.Point(118.100509, 24.459598),
+      new BMap.Point(118.097347, 24.470123),
+      new BMap.Point(118.117973, 24.466111),
+      new BMap.Point(118.100438, 24.471044),
+      new BMap.Point(118.099216, 24.469005),
+      new BMap.Point(118.086999, 24.460256),
+      new BMap.Point(118.122428, 24.473281),
+      new BMap.Point(118.110499, 24.468676),
+      new BMap.Point(118.11632, 24.475385),
+      new BMap.Point(118.110211, 24.481568),
+      new BMap.Point(118.086999, 24.471899),
+      new BMap.Point(118.105324, 24.472162),
+		];
+
+    // 将坐标显示在地图上，范围外的坐标不显示
+    var index = 0;
+    var adds = [];
+    var mkArr = [];
+    pts.forEach(function (n) {
+      index++;
+      var pt = n;
+      //范围是圆
+      var result = BMapLib.GeoUtils.isPointInCircle(pt, circle);
+      if (result == true) {
+        adds.push(pt);
+        var mk = new BMap.Marker(pt);
+        mkArr.push(mk);
+        map.addOverlay(mk);
+      }
+      //范围是多边形
+      // var result = BMapLib.GeoUtils.isPointInPolygon(pt, polygon);
+      // if(result == true) {
+      //   adds.push(pt);
+      //   var mk = new BMap.Marker(pt);
+      //   map.addOverlay(mk);
+      // }
+
+    });
+    // console.log(adds);
+    
+    var status = "show"; //默认显示
+    function hide(){
+      if(status == "show"){
+        mkArr.forEach(function(n){
+          n.hide();
+        });
+        status = "hide";
+      } else if(status == "hide") {
+        mkArr.forEach(function(n){
+          n.show();
+        });
+        status = "show";
+      }
+    }
+		
+		var overlays = [];
+		var overlaycomplete = function(e){
+			// console.log(e.overlay.ia);//获取坐标
+			var opt = e.overlay.getPath()[0];
+      overlays.push(e.overlay);
+      var count = 0;
+      var result = "";
+      var i = 0;
+      if(e.drawingMode == "circle") {
+        for(var i = 0; i < adds.length; i++) {
+          var result = BMapLib.GeoUtils.isPointInCircle(adds[i],e.overlay);
+          if(result == true) {
+            count++;
+          } 
+        }
+        setLab((count/adds.length*100).toFixed(2)+"%");
+      }
+      if(e.drawingMode == "rectangle") {
+        for(var i = 0; i < adds.length; i++) {
+          var result = BMapLib.GeoUtils.isPointInRect(adds[i],e.overlay.getBounds());
+          if(result == true) {
+            count++;
+          } 
+        }
+        setLab((count / adds.length * 100).toFixed(2)+"%");
+      }
+      if(e.drawingMode == "polygon") {
+        for(var i = 0; i < adds.length; i++) {
+          var result = BMapLib.GeoUtils.isPointInPolygon(adds[i],e.overlay);
+          if(result == true) {
+            count++;
+          }
+        }
+        setLab((count / adds.length * 100).toFixed(2)+"%");
+      }
+      if (e.drawingMode == "polyline") {
+        console.log(e.overlay.ia);
+        var pt = e.overlay.ia;
+        if(pt.length == 2) {
+          var result = BMapLib.GeoUtils.getDistance(pt[0], pt[1]);
+          var cenLat = (pt[0].lat+pt[1].lat)/2;
+          var cenLng = (pt[0].lng+pt[1].lng)/2;
+          var cenPoint = new BMap.Point(cenLng, cenLat);
+          var label2 = new BMap.Label(result.toFixed(4)+"m",{
+            position: cenPoint
+          });
+          label2.setStyle({
+            padding: "5px 10px",
+            border: "1px solid #000"
+          });
+          map.addOverlay(label2);
+        }
+      }
+
+      // 绘制不同颜色的覆盖物
+      var perCount = (count / adds.length * 100).toFixed(2);
+      switch(true){
+        case perCount <= 10: e.overlay.setFillColor("red"); break;
+        case perCount > 10 && perCount <= 20: e.overlay.setFillColor("green"); break;
+        default: e.overlay.setFillColor("blue"); break;
+      }
+      
+      function setLab(count) {
+        var opts = {
+          position: opt,
+          offset: new BMap.Size(0,0)
+        }
+        var label = new BMap.Label(count,opts);
+        
+        label.setStyle({
+          textAlign: "center",
+          fontSize: "22px",
+          fontWeight: "bold",
+          color: "#000",
+          // padding: "0",
+          border: "0px solid blue",
+          // borderRadius: "10px",
+          backgroundColor: "rgba(255,255,255,0)",
+          zIndex: "999"
+        });
+        map.addOverlay(label);
+      }
+
+	  };
+    var styleOptions = {
+        strokeColor:"#333",    //边线颜色。
+        fillColor:"white",      //填充颜色。当参数为空时，圆形将没有填充效果。
+        strokeWeight: 2,       //边线的宽度，以像素为单位。
+        strokeOpacity: 0,	   //边线透明度，取值范围0 - 1。
+        fillOpacity: 0,      //填充的透明度，取值范围0 - 1。
+        strokeStyle: 'solid' //边线的样式，solid或dashed。
+    };
+    //线的样式
+    var styleOptionsLine = {
+      strokeWeight: 4,
+      strokeStyle: 'solid',
+      strokeColor: "#000"
+    }
+    //实例化鼠标绘制工具
+    var drawingManager = new BMapLib.DrawingManager(map, {
+        isOpen: false, //是否开启绘制模式
+        enableDrawingTool: true, //是否显示工具栏
+        drawingToolOptions: {
+            anchor: BMAP_ANCHOR_TOP_RIGHT, //位置
+            offset: new BMap.Size(5, 5), //偏离值
+            drawingModes: [
+              BMAP_DRAWING_CIRCLE,
+              BMAP_DRAWING_RECTANGLE,
+              BMAP_DRAWING_POLYLINE,
+              BMAP_DRAWING_POLYGON,
+            ]
+        },
+        enableCalculate: false,//绘制是否进行测距(画线时候)、测面(画圆、多边形、矩形)
+        circleOptions: styleOptions, //圆的样式
+        polylineOptions: styleOptionsLine, //线的样式
+        polygonOptions: styleOptions, //多边形的样式
+        rectangleOptions: styleOptions //矩形的样式
+    });  
+    // drawingManager.enableCalculate();
+    //添加鼠标绘制工具监听事件，用于获取绘制结果
+    drawingManager.addEventListener('overlaycomplete', overlaycomplete);
+
+    //清除上一个
+		function clearAll() {
+      //上一个绘制图形
+			map.removeOverlay(overlays[overlays.length-1]);
+			overlays.length --;
+			if(overlays.length <= 0) {
+				overlays.length = 0;
+      }
+      //上一个文字标注
+      $(".BMapLabel").eq(overlays.length).remove();
+	  }
+
+	 
+	</script>
+</body>
+</html>

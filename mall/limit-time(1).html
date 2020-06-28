@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta namae="keywords" content="豪客来牛排，牛排，会员商城，限时秒杀">
+	<title>限时秒杀</title>
+	<script src="js/hbs/flexible_css.js,flexible.js"></script>
+	<link rel="stylesheet" href="css/hbs/swiper.min.css">
+	<link rel="stylesheet" href="css/hbs/common.css">
+	<link rel="stylesheet" href="css/hbs/limit-time.css">
+	<script src="js/hbs/vue.min.js"></script>
+	<script src="js/hbs/jquery-1.12.3.min.js"></script>
+	<script src="js/hbs/swiper.min.js"></script>
+	<script src="js/hbs/component/component.js"></script>
+</head>
+<body>
+	<div id="wrap" v-cloak>
+		<navbar :preurl="result" :idx="curIndex"></navbar>
+		<banner :imglist="banner"></banner>
+		<div class="main">
+			<div class="date">
+				<ul class="date-ul clearfix">
+					<li class="date-li" 
+						v-for="(itemOuter, index) in pro" 
+						:key="index"
+						v-bind:class="{'dateSel':index==currentIndex}" 
+					>
+						<h3 @click="clickDate(index)">{{itemOuter.date}}</h3>
+						<div class="time-outer">
+							<div class="time" 
+								v-for="(item,index) in itemOuter.proList"
+								v-bind:class="{'timeSel':index==timeSelIndex}"
+							>
+								<h4 @click="clickTime(index)">
+									<span class="icon-fire" v-if="item.status=='热抢中'">
+										<span class="path1"></span>
+										<span class="path2"></span>
+									</span>
+									{{item.time}}
+									<b>{{item.status}}</b>
+									
+								</h4>
+								<div class="pro-outer">
+									<div class="pro" v-for="(itemInner,index) in item.list">
+										<div class="pro-inner">
+											<a class="pro-img">
+												<span class="icon-hot"></span>
+												<img :src="itemInner.img" alt="">
+											</a>
+											<div class="pro-main">
+												<span class="pro-style">特价套餐</span>
+												<strong class="pro-tit">{{itemInner.title}}</strong>
+												<div class="pro-label">
+													<span v-for="(itemspan,index) in itemInner.label">
+														{{itemspan}}
+													</span>
+													<a v-if="itemInner.count > 0"  href="limit-time-detail.html" class="btn">立即秒</a>
+													<a v-if="itemInner.count == 0" class="btn disabled">立即秒</a>
+												</div>
+												<div class="sale">
+													<span>
+														{{itemInner.haobi}}豪币
+													</span>
+													<span>￥{{itemInner.money}}</span>
+													<span class="count">
+														剩余：{{itemInner.count}}
+													</span>
+												</div>
+												<span class="cir cir-left"></span>
+												<span class="cir cir-right"></span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</li>
+				</ul>
+				
+			</div>
+		</div>
+	</div>
+	
+	<script>
+		var pathName = document.location.pathname;
+		var index = pathName.substr(1).indexOf("/");
+		var result = pathName.substr(0,index+1);
+		new Vue({
+			el: "#wrap",
+			data: {
+				result: result,
+				curIndex: 0,
+				banner: [
+					{
+						id: 0,
+						title: "",
+						url: "#",
+						imgUrl: "images/hbs/lemon-tea.jpg"
+					},
+					{
+						id: 0,
+						title: "",
+						url: "#",
+						imgUrl: "images/hbs/set_meal.jpg"
+					},
+					{
+						id: 0,
+						title: "",
+						url: "#",
+						imgUrl: "images/hbs/steak.jpg"
+					}
+				],
+				pro: [
+					{
+						date: "11月21日",
+						proList: [
+							{
+								time: "10:00",
+								status: "已开抢",
+								list: [
+									{
+										img: "images/hbs/steak.jpg",
+										title: "苹果木肋眼牛排套餐组合1-1-1",
+										label: ["肉质鲜美","果香诱人","约会必点","肉质鲜美","果香诱人","约会必点"],
+										haobi: 888,
+										money: 120,
+										count: 0
+									},
+									{
+										img: "images/hbs/bac_bg.png",
+										title: "苹果木肋眼牛排套餐组合1-1-2",
+										label: ["肉质鲜美","果香诱人","约会必点"],
+										haobi: 888,
+										money: 120,
+										count: 0
+									},
+								]
+							},
+							{
+								time: "13:00",
+								status: "已开抢",
+								list: [
+									{
+										img: "images/hbs/steak.jpg",
+										title: "苹果木肋眼牛排套餐组合1-2-1",
+										label: ["肉质鲜美","果香诱人","约会必点"],
+										haobi: 888,
+										money: 120,
+										count: 100
+									},
+									{
+										img: "images/hbs/steak.jpg",
+										title: "苹果木肋眼牛排套餐组合1-2-2",
+										label: ["肉质鲜美","果香诱人","约会必点"],
+										haobi: 888,
+										money: 120,
+										count: 100
+									},
+								]
+							},
+							{
+								time: "15:00",
+								status: "热抢中",
+								list: [
+									{
+										img: "images/hbs/bac_bg.png",
+										title: "苹果木肋眼牛排套餐组合1-3-1",
+										label: ["肉质鲜美","果香诱人","约会必点"],
+										haobi: 888,
+										money: 120,
+										count: 100
+									},
+									{
+										img: "images/hbs/bac_bg.png",
+										title: "苹果木肋眼牛排套餐组合1-3-2",
+										label: ["肉质鲜美","果香诱人","约会必点"],
+										haobi: 888,
+										money: 120,
+										count: 100
+									},
+								]
+							},
+							{
+								time: "19:00",
+								status: "未开始",
+								list: [
+									{
+										img: "images/hbs/steak.jpg",
+										title: "苹果木肋眼牛排套餐组合1-4-1",
+										label: ["肉质鲜美","果香诱人","约会必点"],
+										haobi: 888,
+										money: 120,
+										count: 100
+									},
+									{
+										img: "images/hbs/steak.jpg",
+										title: "苹果木肋眼牛排套餐组合1-4-2",
+										label: ["肉质鲜美","果香诱人","约会必点"],
+										haobi: 888,
+										money: 120,
+										count: 100
+									},
+								]
+							}
+						]
+					},
+					{
+						date: "11月22日",
+						proList: [
+							{
+								time: "10:00",
+								status: "已开抢",
+								list: [
+									{
+										img: "images/hbs/steak.jpg",
+										title: "苹果木肋眼牛排套餐组合2-1-1",
+										label: ["肉质鲜美","果香诱人","约会必点"],
+										haobi: 888,
+										money: 120,
+										count: 100
+									},
+									{
+										img: "images/hbs/steak.jpg",
+										title: "苹果木肋眼牛排套餐组合2-1-2",
+										label: ["肉质鲜美","果香诱人","约会必点"],
+										haobi: 888,
+										money: 120,
+										count: 100
+									},
+								]
+							},
+							{
+								time: "13:00",
+								status: "已开抢",
+								list: [
+									{
+										img: "images/hbs/steak.jpg",
+										title: "苹果木肋眼牛排套餐组合2-2-1",
+										label: ["肉质鲜美","果香诱人","约会必点"],
+										haobi: 888,
+										money: 120,
+										count: 100
+									},
+									{
+										img: "images/hbs/steak.jpg",
+										title: "苹果木肋眼牛排套餐组合2-2-2",
+										label: ["肉质鲜美","果香诱人","约会必点"],
+										haobi: 888,
+										money: 120,
+										count: 100
+									},
+								]
+							},
+							{
+								time: "15:00",
+								status: "热抢中",
+								list: [
+									{
+										img: "images/hbs/steak.jpg",
+										title: "苹果木肋眼牛排套餐组合2-3-1",
+										label: ["肉质鲜美","果香诱人","约会必点"],
+										haobi: 888,
+										money: 120,
+										count: 100
+									},
+									{
+										img: "images/hbs/steak.jpg",
+										title: "苹果木肋眼牛排套餐组合2-3-2",
+										label: ["肉质鲜美","果香诱人","约会必点"],
+										haobi: 888,
+										money: 120,
+										count: 100
+									},
+								]
+							},
+							{
+								time: "19:00",
+								status: "未开始",
+								list: [
+									{
+										img: "images/hbs/steak.jpg",
+										title: "苹果木肋眼牛排套餐组合2-4-1",
+										label: ["肉质鲜美","果香诱人","约会必点"],
+										haobi: 888,
+										money: 120,
+										count: 100
+									},
+									{
+										img: "images/hbs/steak.jpg",
+										title: "苹果木肋眼牛排套餐组合2-4-2",
+										label: ["肉质鲜美","果香诱人","约会必点"],
+										haobi: 888,
+										money: 120,
+										count: 100
+									},
+								]
+							}
+						]
+					},
+					{
+						date: "11月23日",
+						proList: [
+							{
+								time: "10:00",
+								status: "已开抢",
+								list: [
+									{
+										img: "images/hbs/steak.jpg",
+										title: "苹果木肋眼牛排套餐组合3-1-1",
+										label: ["肉质鲜美","果香诱人","约会必点"],
+										haobi: 888,
+										money: 120,
+										count: 100
+									},
+									{
+										img: "images/hbs/steak.jpg",
+										title: "苹果木肋眼牛排套餐组合3-1-2",
+										label: ["肉质鲜美","果香诱人","约会必点"],
+										haobi: 888,
+										money: 120,
+										count: 100
+									},
+								]
+							},
+							{
+								time: "13:00",
+								status: "已开抢",
+								list: [
+									{
+										img: "images/hbs/steak.jpg",
+										title: "苹果木肋眼牛排套餐组合3-2-1",
+										label: ["肉质鲜美","果香诱人","约会必点"],
+										haobi: 888,
+										money: 120,
+										count: 100
+									},
+									{
+										img: "images/hbs/steak.jpg",
+										title: "苹果木肋眼牛排套餐组合3-2-2",
+										label: ["肉质鲜美","果香诱人","约会必点"],
+										haobi: 888,
+										money: 120,
+										count: 100
+									},
+								]
+							},
+							{
+								time: "15:00",
+								status: "热抢中",
+								list: [
+									{
+										img: "images/hbs/steak.jpg",
+										title: "苹果木肋眼牛排套餐组合3-3-1",
+										label: ["肉质鲜美","果香诱人","约会必点"],
+										haobi: 888,
+										money: 120,
+										count: 100
+									},
+									{
+										img: "images/hbs/steak.jpg",
+										title: "苹果木肋眼牛排套餐组合3-3-2",
+										label: ["肉质鲜美","果香诱人","约会必点"],
+										haobi: 888,
+										money: 120,
+										count: 100
+									},
+								]
+							},
+							{
+								time: "19:00",
+								status: "未开始",
+								list: [
+									{
+										img: "images/hbs/steak.jpg",
+										title: "苹果木肋眼牛排套餐组合3-4-1",
+										label: ["肉质鲜美","果香诱人","约会必点"],
+										haobi: 888,
+										money: 120,
+										count: 100
+									},
+									{
+										img: "images/hbs/steak.jpg",
+										title: "苹果木肋眼牛排套餐组合3-4-2",
+										label: ["肉质鲜美","果香诱人","约会必点"],
+										haobi: 888,
+										money: 120,
+										count: 100
+									},
+								]
+							}
+						]
+					},
+					{
+						date: "11月24日",
+						proList: [
+							{
+								time: "10:00",
+								status: "已开抢",
+								list: [
+									{
+										img: "images/hbs/steak.jpg",
+										title: "苹果木肋眼牛排套餐组合4-1-1",
+										label: ["肉质鲜美","果香诱人","约会必点"],
+										haobi: 888,
+										money: 120,
+										count: 100
+									},
+									{
+										img: "images/hbs/steak.jpg",
+										title: "苹果木肋眼牛排套餐组合4-1-2",
+										label: ["肉质鲜美","果香诱人","约会必点"],
+										haobi: 888,
+										money: 120,
+										count: 100
+									},
+								]
+							},
+							{
+								time: "13:00",
+								status: "已开抢",
+								list: [
+									{
+										img: "images/hbs/steak.jpg",
+										title: "苹果木肋眼牛排套餐组合4-2-1",
+										label: ["肉质鲜美","果香诱人","约会必点"],
+										haobi: 888,
+										money: 120,
+										count: 100
+									},
+									{
+										img: "images/hbs/steak.jpg",
+										title: "苹果木肋眼牛排套餐组合4-2-2",
+										label: ["肉质鲜美","果香诱人","约会必点"],
+										haobi: 888,
+										money: 120,
+										count: 100
+									},
+								]
+							},
+							{
+								time: "15:00",
+								status: "热抢中",
+								list: [
+									{
+										img: "images/hbs/steak.jpg",
+										title: "苹果木肋眼牛排套餐组合4-3-1",
+										label: ["肉质鲜美","果香诱人","约会必点"],
+										haobi: 888,
+										money: 120,
+										count: 100
+									},
+									{
+										img: "images/hbs/steak.jpg",
+										title: "苹果木肋眼牛排套餐组合4-3-2",
+										label: ["肉质鲜美","果香诱人","约会必点"],
+										haobi: 888,
+										money: 120,
+										count: 100
+									},
+								]
+							},
+							{
+								time: "19:00",
+								status: "未开始",
+								list: [
+									{
+										img: "images/hbs/steak.jpg",
+										title: "苹果木肋眼牛排套餐组合4-4-1",
+										label: ["肉质鲜美","果香诱人","约会必点"],
+										haobi: 888,
+										money: 120,
+										count: 100
+									},
+									{
+										img: "images/hbs/steak.jpg",
+										title: "苹果木肋眼牛排套餐组合4-4-2",
+										label: ["肉质鲜美","果香诱人","约会必点"],
+										haobi: 888,
+										money: 120,
+										count: 100
+									},
+								]
+							}
+						]
+					},
+					{
+						date: "11月25日",
+						proList: [
+							{
+								time: "10:00",
+								status: "已开抢",
+								list: [
+									{
+										img: "images/hbs/steak.jpg",
+										title: "苹果木肋眼牛排套餐组合5-1-1",
+										label: ["肉质鲜美","果香诱人","约会必点"],
+										haobi: 888,
+										money: 120,
+										count: 100
+									},
+									{
+										img: "images/hbs/steak.jpg",
+										title: "苹果木肋眼牛排套餐组合5-1-2",
+										label: ["肉质鲜美","果香诱人","约会必点"],
+										haobi: 888,
+										money: 120,
+										count: 100
+									},
+								]
+							},
+							{
+								time: "13:00",
+								status: "已开抢",
+								list: [
+									{
+										img: "images/hbs/steak.jpg",
+										title: "苹果木肋眼牛排套餐组合5-2-1",
+										label: ["肉质鲜美","果香诱人","约会必点"],
+										haobi: 888,
+										money: 120,
+										count: 100
+									},
+									{
+										img: "images/hbs/steak.jpg",
+										title: "苹果木肋眼牛排套餐组合5-2-2",
+										label: ["肉质鲜美","果香诱人","约会必点"],
+										haobi: 888,
+										money: 120,
+										count: 100
+									},
+								]
+							},
+							{
+								time: "15:00",
+								status: "热抢中",
+								list: [
+									{
+										img: "images/hbs/steak.jpg",
+										title: "苹果木肋眼牛排套餐组合5-3-1",
+										label: ["肉质鲜美","果香诱人","约会必点"],
+										haobi: 888,
+										money: 120,
+										count: 100
+									},
+									{
+										img: "images/hbs/steak.jpg",
+										title: "苹果木肋眼牛排套餐组合5-3-2",
+										label: ["肉质鲜美","果香诱人","约会必点"],
+										haobi: 888,
+										money: 120,
+										count: 100
+									},
+								]
+							},
+							{
+								time: "19:00",
+								status: "未开始",
+								list: [
+									{
+										img: "images/hbs/steak.jpg",
+										title: "苹果木肋眼牛排套餐组合5-4-1",
+										label: ["肉质鲜美","果香诱人","约会必点"],
+										haobi: 888,
+										money: 120,
+										count: 100
+									},
+									{
+										img: "images/hbs/steak.jpg",
+										title: "苹果木肋眼牛排套餐组合5-4-2",
+										label: ["肉质鲜美","果香诱人","约会必点"],
+										haobi: 888,
+										money: 120,
+										count: 100
+									},
+								]
+							}
+						]
+					}
+				],
+				currentIndex: 0,
+				timeSelIndex: 0
+			},
+			mounted: function() {
+				$(".date-ul .date-li").css("border-radius","0");
+				$(".date-ul .date-li").eq(this.currentIndex-1).css("border-radius","0 0 0.11rem 0");
+				$(".date-ul .date-li").eq(this.currentIndex+1).css("border-radius","0 0 0 0.11rem");
+			},
+			methods: {
+				clickDate: function(index) {
+					this.currentIndex = index;
+					this.timeSelIndex = 0;
+					$(".date-ul .date-li").css("border-radius","0");
+					$(".date-ul .date-li").eq(index-1).css("border-radius","0 0 0.11rem 0");
+					$(".date-ul .date-li").eq(index+1).css("border-radius","0 0 0 0.11rem");
+				},
+				clickTime: function(index) {
+					this.timeSelIndex = index;
+				}
+			}
+			
+		})
+	</script>
+</body>
+</html>

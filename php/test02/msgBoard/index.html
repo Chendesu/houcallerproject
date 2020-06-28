@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>留言板</title>
+  <script src="js/jquery-3.3.1.min.js"></script>
+  <script src="js/vue.min.js"></script>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+    .clearfix:after {content:"\200B"; display:block; height:0; clear:both; }
+    .clearfix { *zoom:1; }
+    ul,
+    li {
+      list-style: none;
+    }
+
+    html {
+      background: #ffe1e7;
+    }
+    header {
+      width: 80%;
+      margin: 0 auto;
+      padding: 20px 0;
+      font-size: 36px;
+      color: #999;
+      font-weight: bold;
+    }
+
+    .board,
+    form,
+    .page {
+      width: 80%;
+      margin: 50px auto;
+    }
+    form {
+      margin-top: 0;
+    }
+    form textarea {
+      display: block;
+      width: 100%;
+      height: 100px;
+      padding: 10px;
+      /* border: 1px solid #999; */
+      border: 0;
+      border-radius: 10px;
+      box-shadow: 2px 2px 5px #999;
+      box-sizing: border-box;
+      outline: none;
+    }
+
+    form .btn {
+      float: right;
+      padding: 5px 10px;
+      margin: 10px 0 0;
+      border: 0;
+      border-radius: 5px;
+      font-size: 14px;
+      color: #fff;
+      background-color: #999;
+      box-shadow: 2px 2px 5px #999;
+      cursor: pointer;
+    }
+
+    .board ul li {
+      padding: 20px;
+      border-bottom: 2px dashed #999;
+    }
+
+    .board ul li .li-hd {
+      height: 26px;
+      margin-bottom: 8px;
+    }
+
+    .board ul li .li-hd strong {
+      float: left;
+    }
+
+    .board ul li .li-hd em {
+      float: right;
+      font-size: 12px;
+      color: #aaa;
+      font-style: normal;
+    }
+    .board ul li .li-ft {
+      float: right;
+      color: #00f;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    #page {
+      text-align: center;
+    }
+    #page a {
+      display: inline-block;
+      padding: 5px 10px;
+      margin: 0 5px;
+      border: 1px solid #333;
+      border-radius: 3px;
+      color: #000;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    #page a:hover,#page a.sel {
+      color: #fff;
+      background-color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap" id="app">
+    <header>留言板</header>
+    <form>
+      <textarea id="" cols="30" rows="10" placeholder="请输入..." v-model="txt" @keyup.enter="deliver"></textarea>
+      <!-- <input type="submit" value="发表" onclick="deliver"> -->
+      <span class="btn" @click="deliver">发表</span>
+    </form>
+    <div class="board">
+      <ul>
+        <li v-for="(item,index) in list" class="clearfix">
+          <div class="li-hd">
+            <strong>{{item.name}}</strong>
+            <em>{{item.time}}</em>
+          </div>
+          <div class="li-con">{{item.msg}}</div>
+          <span class="li-ft" @click="deleteData(index)">删除</span>
+        </li>
+      </ul>
+    </div>
+    <div class="page" v-html="page"></div>
+  </div>
+  <script>
+    new Vue({
+      el:"#app",
+      data: {
+        txt: "",
+        list: [
+          {
+            id: 0,
+            name: "游客1",
+            msg: "这是一条留言。。。",
+            time: "2019-8-14 13:29:46"
+          },
+          {
+            id: 1,
+            name: "游客2",
+            msg: "这是一条留言。。。233",
+            time: "2019-8-14 13:29:46"
+          }
+        ],
+        page: "", // 分页
+      },
+      mounted: function(){
+        var _this = this;
+        $.ajax({
+          type: "post",
+          url: "data.php?q=query",
+          contentType: "application/x-www-form-urlencoded;charset=utf-8",
+          data: {
+            "p": 3
+          },
+          contentType: false,
+          processData: false,
+          success: function(data){
+            // console.log(data);
+            var list = JSON.parse(data).list;
+            // console.log(list);
+            // console.log("==============================");
+            // console.log(JSON.parse(list))
+            _this.list = JSON.parse(list);
+            _this.page = JSON.parse(data).page;
+
+          },
+          error: function(e){
+            console.log(e);
+          }
+        });
+        
+      },
+      methods: {
+        deliver: function(){
+          var _this = this;
+          if(this.txt == "") {
+            alert("请输入内容");
+            return;
+          } else {
+            $.ajax({
+              type: "post",
+              url: "data.php?q=insert",
+              contentType: "application/x-www-form-urlencoded;charset=utf-8",
+              data: {
+                "msg": _this.txt
+              },
+              success: function(data){
+                // console.log(data);
+                _this.list = JSON.parse(data);
+                _this.txt = "";
+                window.location.reload();
+              }
+            });
+
+          }
+        },
+        deleteData: function(index){
+          var _this = this;
+          var r = confirm("是否确定删除?");
+          if(r==true){
+
+            $.ajax({
+              type: "post",
+              url: "data.php?q=delete",
+              contentType: "application/x-www-form-urlencoded;charset=utf-8",
+              data: {
+                "id": _this.list[index].id
+              },
+              success: function(data){
+                // console.log(data);
+                _this.list = JSON.parse(data);
+                alert("删除成功！");
+                window.location.reload();
+              }
+            });
+
+          } 
+        },
+      }
+    });
+  </script>
+</body>
+</html>

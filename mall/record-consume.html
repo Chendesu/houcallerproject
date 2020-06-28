@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta namae="keywords" content="豪客来牛排，牛排，会员商城，消费记录">
+	<title>消费记录</title>
+	<script src="js/hbs/flexible_css.js,flexible.js"></script>
+	<link rel="stylesheet" href="css/hbs/swiper.min.css">
+	<link rel="stylesheet" href="css/hbs/common.css">
+	<link rel="stylesheet" href="css/hbs/record-consume.css">
+	<script src="js/hbs/vue.min.js"></script>
+	<script src="js/hbs/jquery-1.12.3.min.js"></script>
+	<script src="js/hbs/swiper.min.js"></script>
+	<script src="js/hbs/component/component.js"></script>
+</head>
+<body>
+	<div id="wrap">
+		<div class="process">
+			<h2 class="process-h2">
+				<span class="icon-double-line"></span>
+				VIP成长
+				<span class="icon-double-line"></span>
+			</h2>
+			<div class="process-outer">
+				<div class="process-inner">
+					<strong class="curmoney">￥{{grademoney}}</strong>
+				</div>
+				<strong class="nextmoney">￥{{nextmoney}}</strong>
+				<div class="cur">
+					<span class="angle"></span>
+					<em>￥{{curmoney}}</em>
+				</div>
+				<div class="star srar-left">
+					<span v-for="item in nowLevel" class="icon-star-solid"></span>
+				</div>
+				<div class="star star-right">
+					<span v-for="item in nextLevel" class="icon-star-solid"></span>
+				</div>
+			</div>
+			<p>你距离下个等级还需消费￥{{nextmoney-curmoney}}</p>
+		</div>
+		<div class="main">
+			<div class="main-hd">
+				<span v-for="(item,index) in timeArr" :key="index" :class="{'sel': index==idx}" @click="click(index)">{{item}}</span>
+			</div>
+			<ul class="main-list">
+				<li v-for="item in list">
+					<div class="main-list-hd">
+						<span class="left">
+							<i class="icon-clock"></i>
+							{{item.time}}
+						</span>
+						<span class="right">
+							实付金额<b>￥{{item.pay}}</b>
+						</span>
+					</div>
+					<div class="main-list-con clearfix">
+						<span>
+							<strong>豪币余额</strong>
+							<strong>{{item.balanceHaobi}}</strong>
+						</span>
+						<span>
+							<strong>返还积分</strong>
+							<strong>{{item.getpoint}}</strong>
+						</span>
+						<span>
+							<strong>返还豪币</strong>
+							<strong>{{item.geihaobi}}</strong>
+						</span>
+						<span>
+							<strong>抵用积分</strong>
+							<strong>{{item.usedpoint}}</strong>
+						</span>
+						<span>
+							<strong>消费豪币</strong>
+							<strong>{{item.balanceHaobi}}</strong>
+						</span>
+					</div>
+					<div class="main-list-remark">
+						备注：{{item.remark}}
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<script>
+		new Vue({
+			el: "#wrap",
+			data: {
+				curmoney: 4828,
+				nextmoney: 9999,
+				grademoney: 2000,
+				nowLevel: [],
+				nextLevel: [],
+				level: 4,
+				idx: 0,
+				timeArr: ["今年","去年","半年前"],
+				list: [
+					{
+						time: "2018-12-12",
+						pay: 200,
+						balanceHaobi: 200,
+						getpoint: 200,
+						geihaobi: 200,
+						usedpoint: 200,
+						usedhaobi: 200,
+						remark: "这是一句话这是一句话这是一句话这是一句话这是一句话这是一句话这是一句话这是一句话这是一句话这是一句话这是一句话这是一句话这是一句话"
+					},
+					{
+						time: "2018-12-12",
+						pay: 200,
+						balanceHaobi: 200,
+						getpoint: 200,
+						geihaobi: 200,
+						usedpoint: 200,
+						usedhaobi: 200,
+						remark: ""
+					}
+				]
+			},
+			mounted: function() {
+				for(var i = 0; i < this.level; i++) {
+					$(".grade li").eq(i).addClass("icon-star-solid");
+					this.nowLevel.push("");
+				}
+				for(var i = 0; i < this.level+1 && i <=5; i++) {
+					this.nextLevel.push("");
+				}
+				var w = (Number(this.curmoney)-Number(this.grademoney))/(Number(this.nextmoney)-Number(this.grademoney));
+				// w = 1;
+				$(".process-inner").animate({
+					"width": w * 100 + "%"
+				},300);
+				if(w > 0.8) {
+					$(".cur").css("margin-right","0");
+				}
+				if(w >= 1) {
+					this.gift = true;
+				}
+				$(".cur").animate({
+					"left": w * 100 + "%"
+				},300);
+			},
+			methods: {
+				click: function(index) {
+					this.idx = index;
+				}
+			}
+		})
+	</script>
+</body>
+</html>

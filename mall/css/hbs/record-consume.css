@@ -1,0 +1,193 @@
+@charset 'utf-8';
+.process {
+	padding: 0.27rem 0.53rem;
+	background-color: #fff;
+}
+.process .process-h2 {
+	margin-bottom: 0.53rem;
+	text-align: center;
+	font-size: 15px;
+	color: #333;
+}
+[data-dpr="2"]  .process .process-h2 {
+	font-size: 30px;
+}
+[data-dpr="3"] .process .process-h2 {
+	font-size: 45px;
+}
+.process .process-h2 .icon-double-line {
+	color: #ffc72c;
+	margin: 0 0.1rem;
+}
+.process .process-outer {
+	/*width: 8rem;*/
+	width: 100%;
+	height: 0.4rem;
+	border-radius: 0.05rem;
+	line-height: 0.4rem;
+	text-align: right;
+	background-color: #1d505c;
+	position: relative;
+}
+.process .process-outer .nextmoney {
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 0 0.1rem;
+	color: #fff;
+	z-index: 1;
+}
+.process .process-outer .process-inner {
+	float: left;
+	width: 0;
+	height: 0.4rem;
+	text-align: left;
+	background-color: #fac030;
+}
+.process .process-outer .process-inner .curmoney {
+	color: #fff;
+	padding: 0 0.1rem;
+}
+.process .process-outer .cur {
+	position: absolute;
+	top: 0.35rem;
+	left: 35%;
+	color: #fac030;
+	line-height: 0.4rem;
+	font-weight: 600;
+	text-align: center;
+	transform: translateX(-50%);
+}
+.process .process-outer .cur .angle {
+	display: inline-block;
+	width: 0.21rem;
+	height: 0.24rem;
+	background: url(../../images/hbs/angle.png) center center no-repeat;
+	background-size: 100% 100%;
+
+}
+.process .process-outer .cur em {
+	display: block;
+}
+.process .process-outer .star {
+	position: absolute;
+	top: -0.53rem;
+	height: 0.53rem;
+	display: flex;
+	align-items: center;
+	font-size: 12px;
+}
+.process .process-outer .srar-left {
+	left: 0;
+}
+.process .process-outer .star-right {
+	right: 0;
+}
+[data-dpr="2"] .process .process-outer .star {
+	font-size: 24px;
+}
+[data-dpr="3"] .process .process-outer .star {
+	font-size: 36px;
+}
+.process .process-outer .srar-left strong {
+	color: #1d505c;
+}
+.process .process-outer .srar-left span {
+	color: #fac030;
+}
+.process .process-outer .srar-right span {
+	color: #1d505c;
+}
+.process p {
+	margin-top: 0.8rem;
+	text-align: center;
+	font-size: 14px;
+	color: #333;
+}
+[data-dpr="2"] .process p {
+	font-size: 28px;
+}
+[data-dpr="3"] .process p {
+	font-size: 42px;
+}
+.main {
+	padding: 0 0.13rem;
+}
+.main .main-hd {
+	padding: 0.4rem 0 0.27rem;
+}
+.main .main-hd span {
+	display: inline-block;
+	padding: 0.21rem 0.27rem;
+	margin-right: 0.24rem;
+	border-radius: 0.11rem;
+	font-size: 14px;
+	color: #ffc72c;
+	font-weight: bold;
+	background-color: #003b49;
+} 
+[data-dpr="2"] .main .main-hd span {
+	font-size: 28px;
+}
+[data-dpr="3"] .main .main-hd span {
+	font-size: 42px;
+}
+.main .main-hd span.sel {
+	color: #003b49;
+	background-color: #ffc72c;
+}
+.main-list li {
+	margin-bottom: 0.13rem;
+	border-radius: 0.11rem;
+	background-color: #fff;
+	overflow: hidden;
+}
+.main-list li .main-list-hd {
+	height: 0.8rem;
+	padding: 0 0.32rem;
+	border-bottom: 0.03rem solid #f0f0f0;
+	line-height: 0.8rem;
+}
+.main-list li .main-list-hd .left {
+	float: left;
+	font-size: 12px;
+	color: #333;
+}
+[data-dpr="2"] .main-list li .main-list-hd .left {
+	font-size: 24px;
+}
+[data-dpr="3"] .main-list li .main-list-hd .left {
+	font-size: 36px;
+}
+.main-list li .main-list-hd .right {
+	float: right;
+	font-size: 15px;
+	color: #333;      
+}
+[data-dpr="2"] .main-list li .main-list-hd .right {
+	font-size: 30px;
+}
+[data-dpr="3"] .main-list li .main-list-hd .right {
+	font-size: 45px;
+}
+.main-list li .main-list-hd .right b {
+	color: #FF0036;
+	font-weight: bold;
+}
+.main-list li .main-list-con {
+	padding: 0.27rem 0;
+	border-bottom: 0.03rem solid #f0f0f0;
+}
+.main-list li .main-list-con span {
+	float: left;
+	width: 20%;
+	text-align: center;
+}
+.main-list li .main-list-con span strong {
+	display: block;
+	color: #666;
+}
+.main-list li .main-list-remark {
+	/*height: 0.8rem;*/
+	padding: 0.27rem 0.32rem;
+}

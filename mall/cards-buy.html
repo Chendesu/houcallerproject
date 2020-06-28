@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta namae="keywords" content="豪客来牛排，牛排，会员商城，豪礼卡，豪礼卡详情">
+	<title>豪礼卡详情</title>
+	<script src="js/hbs/flexible_css.js,flexible.js"></script>
+	<link rel="stylesheet" href="css/hbs/common.css">
+	<link rel="stylesheet" href="css/hbs/cards.css">
+	<script src="js/hbs/vue.min.js"></script>
+	<script src="js/hbs/jquery-1.12.3.min.js"></script>
+</head>
+<body>
+	<div id="wrap">
+		<div class="cards">
+			<div class="cards-main">
+				<img src="images/hbs/title.jpg" alt="">
+			</div>
+		</div>
+		<ul class="card-list">
+			<li v-for="(item,index) in cards" :key="index">
+				<strong>{{item.denomination}}元仅售{{item.sale}}元</strong>
+				<div class="ctrl">
+					<i @click="changeMoney(item,-1)">-</i>
+					<!-- <em>{{item.quality}}</em> -->
+					<input type="text" v-model="item.quality">
+					<i @click="changeMoney(item,1)">+</i>
+				</div>
+			</li>
+			
+		</ul>
+		<ul class="card-list">
+			<li>
+				<strong>购买数量</strong>
+				<strong class="right">{{totalNum}}</strong>
+			</li>
+			<li>
+				<strong>订单金额</strong>
+				<strong class="right">￥{{total}}</strong>
+			</li>
+		</ul>
+		<div class="rules">
+			<div class="block-inner">
+				<h2>
+					<span class="icon-double-line"></span>
+					使用说明
+					<span class="icon-double-line"></span>
+				</h2>
+				<p v-for="(item,index) in rules">{{item}}</p>
+			</div>
+		</div>
+		<div class="block">
+			<div class="block-inner btn">
+				<button>立即购买</button>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		new Vue({
+			el: "#wrap",
+			data: {
+				rules: [
+				"1、使用本券后，仍可以以实收金额累计积分",
+				"2、本券仅限用于薄荷柠檬/野生蓝莓气泡饮",
+				"3、本券不与其他券同时使用，每桌仅限用1张",
+				"4、本券结账时出示给服务员，使用后将被注销",
+				"5、本券豪客来全国餐厅通用，如有不明，请拨4006-618-678咨询",
+				"6、本券领券日起有效期30天，逾期作废",
+				"7、卡券图片仅供参考，产品以实物为准"
+				],
+				cards: [
+					{
+						id: 0,
+						quality: 0,
+						denomination: 1000,
+						sale: 819,
+					},
+					{
+						id: 2,
+						quality: 0,
+						denomination: 800,
+						sale: 659,
+					},
+					{
+						id: 0,
+						quality: 0,
+						denomination: 500,
+						sale: 429,
+					}
+				],
+				totalNum: 0,
+				total: 0
+			},
+			mounted: function() {
+
+			},
+			methods: {
+				changeMoney: function(card,way) {
+					if(way > 0) {
+						card.quality++;
+					} else {
+						if(card.quality > 0) {
+							card.quality--;
+						}
+					}
+					this.calcTotal();
+					this.calcTotalPrice();
+				},
+				calcTotal: function() {
+					var _this = this;
+					this.totalNum = 0;
+					this.cards.forEach(function(item,index){
+						_this.totalNum += item.quality;
+					})
+				},
+				calcTotalPrice: function() {
+					var _this = this;
+					this.total = 0;
+					this.cards.forEach(function(item,index){
+						_this.total += item.quality*item.sale;
+					})
+				}
+			}
+		})
+	</script>
+</body>
+</html>

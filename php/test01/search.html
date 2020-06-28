@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>实时搜索</title>
+</head>
+<body>
+  <form>
+    <div>
+      <input type="text" size="30" onkeyup="showResult(this.value)">
+      <div id="livesearch"></div>
+    </div>
+  </form>
+  <script>
+    function showResult(str){
+      if(str.length==0){
+        document.getElementById("livesearch").innerHTML="";
+        document.getElementById("livesearch").style.border="0px";
+        return;
+      }
+      if(window.XMLHttpRequest){
+        xmlhttp = new XMLHttpRequest();
+      } else {
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+      }
+      xmlhttp.onreadystatechange = function(){
+        if(xmlhttp.readyState==4 && xmlhttp.status==200){
+          document.getElementById("livesearch").innerHTML = xmlhttp.responseText;
+          document.getElementById("livesearch").style.border="1px solid #a5acb2";
+        }
+      }
+      xmlhttp.open("GET","livesearch.php?q="+str,true);
+      xmlhttp.send();
+
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>配送信息</title>
+	<script src="js/flexible_css.js,flexible.js"></script>
+	<link rel="stylesheet" href="css/common.css">
+	<link rel="stylesheet" href="css/set.css">
+	<script src="js/vue.min.js"></script>
+	<script src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=axlZcGNwc56CXxwsVehmtUSsehGWOk95"></script>
+	<script src="js/component.js"></script>
+</head>
+<body>
+	<div id="wrap">
+		<div id="header">
+			<a href="javascript:history.back(-1)" class="icon-arrow-down"></a>
+			<div class="page-tit">配送信息</div>
+		</div>
+		<div id="map"></div>
+		<div class="set-deliver-main">
+			<ul>
+				<li v-for="(item,index) in programme"
+					:key="index"
+					:class="{'sel':index==programmeIdx}"
+				>
+					<div class="tit">
+						<span @click="choose(index)">{{item.title}}</span>
+						<strong>{{item.status}}</strong>
+					</div>
+					<div class="price">
+						<strong>起送费￥{{item.deliveryCost}}</strong>
+						<span>动态<i class="icon-help"></i></span>
+					</div>
+					<span v-show="index==programmeIdx" class="icon-choose"></span>
+					<span v-show="item.status=='恶劣天气'" 
+						class="range-btn" 
+						@click="showRange"
+					>配送范围</span>
+					
+				</li>
+			</ul>
+		</div>
+	</div>
+	<script>
+		new Vue({
+			el: "#wrap",
+			data: {
+				programmeIdx: 0,
+				programme: [
+					{
+						title: "配送方案1",
+						status: "生效中",
+						deliveryCost: "30.00",
+					},
+					{
+						title: "配送方案2",
+						status: "恶劣天气",
+						deliveryCost: "30.00",
+					}
+				],
+				storePos: {
+					lng: 118.09487,
+					lat: 24.471456
+				},
+				storeRange: [
+					{
+						lng: 118.087181,
+						lat: 24.483624
+					},
+					{
+						lng: 118.078557,
+						lat: 24.465799
+					},
+					{
+						lng: 118.094726,
+						lat: 24.457576
+					},
+					{
+						lng: 118.10989,
+						lat: 24.474219
+					},
+					{
+						lng: 118.1022,
+						lat: 24.482967
+					}
+				],
+				range: false
+			},
+			mounted: function() {
+				var map = new BMap.Map("map",{enableMapClick: false});
+				var point = new BMap.Point(this.storePos.lng,this.storePos.lat);
+				map.centerAndZoom(point,15);
+				//餐厅位置
+				var pt = new BMap.Point(this.storePos.lng,this.storePos.lat);
+				var myIcon = new BMap.Icon("images/map_store.png",new BMap.Size(33,36));
+				var marker = new BMap.Marker(pt,{icon:myIcon});
+				map.addOverlay(marker);
+				var _this = this;
+
+				var polygon = new BMap.Polygon(this.storeRange, {fillColor:"#fac030", strokeWeight:1, fillOpacity:0.4});
+				map.addOverlay(polygon);
+				
+				
+				_this.showOver = function() {
+					polygon.show();
+				}
+				_this.hideOver = function() {
+					polygon.hide();
+				}
+				_this.hideOver();
+			},
+			methods: {
+				choose: function(index) {
+					this.programmeIdx=index;
+				},
+				showRange: function() {
+					this.range = !this.range;
+					if(this.range==true) {
+						this.showOver();
+					} else {
+						this.hideOver();
+					}
+				}
+			}
+		})
+	</script>
+</body>
+</html>

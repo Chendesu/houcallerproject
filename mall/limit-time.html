@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta namae="keywords" content="豪客来牛排，牛排，会员商城，限时秒杀">
+	<title>限时秒杀</title>
+	<script src="js/hbs/flexible_css.js,flexible.js"></script>
+	<link rel="stylesheet" href="css/hbs/swiper.min.css">
+	<link rel="stylesheet" href="css/hbs/common.css">
+	<link rel="stylesheet" href="css/hbs/limit-time.css">
+	<script src="js/hbs/vue.min.js"></script>
+	<script src="js/hbs/jquery-1.12.3.min.js"></script>
+	<script src="js/hbs/swiper.min.js"></script>
+	<script src="js/hbs/jquery.lazyload.js"></script>
+	<script src="js/hbs/component/component.js"></script>
+</head>
+<body>
+	<div id="wrap" v-cloak>
+		<navbar :preurl="result" :idx="curIndex"></navbar>
+		<banner :imglist="banner"></banner>
+		<div class="main">
+			<div class="date">
+				<ul class="date-ul clearfix" style="height: 1.07rem;">
+					<li class="date-li" v-for="(item, index) in date" 
+						:key="index"
+						v-bind:class="{'dateSel':index==currentIndex}" >
+						<h3 @click="clickDate(index)">{{item}}</h3>
+						<div class="time-outer clearfix">
+							<div class="time" 
+								v-for="(item,index) in time"
+								v-bind:class="{'timeSel':index==timeSelIndex}"
+							>
+								<h4 @click="clickTime(index)">
+									<span class="icon-fire" v-if="item.title=='热抢中'">
+										<span class="path1"></span>
+										<span class="path2"></span>
+									</span>
+									{{item.timespace}}{{item.title}}
+								</h4>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="main-pro">
+				<div class="pro" v-for="item in list">
+					<div class="pro-inner">
+						<a href="limit-time-detail.html" class="pro-img">
+							<span class="icon-hot"></span>
+							<img :data-original="item.img" class="lazy">
+						</a>
+						<div class="pro-main">
+							<span class="pro-style">特价套餐</span>
+							<strong class="pro-tit">{{item.title}}</strong>
+							<div class="pro-label">
+								<span v-for="it in item.label">
+									{{it}}
+								</span>
+								<a v-if="item.count > 0"  href="limit-time-detail.html" class="btn">立即秒</a>
+								<a v-if="item.count == 0" class="btn disabled">立即秒</a>
+							</div>
+							<div class="sale">
+								<span>
+									{{item.haobi}}豪币
+								</span>
+								<span>￥{{item.money}}</span>
+								<span class="count">
+									剩余：{{item.count}}
+								</span>
+							</div>
+							<span class="cir cir-left"></span>
+							<span class="cir cir-right"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<script>
+		var pathName = document.location.pathname;
+		var index = pathName.substr(1).indexOf("/");
+		var result = pathName.substr(0,index+1);
+		new Vue({
+			el: "#wrap",
+			data: {
+				result: result,
+				curIndex: 0,
+				banner: [
+					{
+						id: 0,
+						title: "",
+						url: "#",
+						imgUrl: "images/hbs/lemon-tea.jpg",
+						alink: false
+					},
+					{
+						id: 0,
+						title: "",
+						url: "#",
+						imgUrl: "images/hbs/set_meal.jpg",
+						alink: false
+					},
+					{
+						id: 0,
+						title: "",
+						url: "#",
+						imgUrl: "images/hbs/steak.jpg",
+						alink: false
+					}
+				],
+				date: ["11月21日","11月22日"],
+				time: ["10:00","13:00","15:00","19:00"],
+				time: [
+					{
+						timespace: "10:00",
+						ishot: false,
+						title: "已开抢"
+					},
+					{
+						timespace: "13:00",
+						ishot: false,
+						title: "已开抢"
+					},
+					{
+						timespace: "15:00",
+						ishot: false,
+						title: "热抢中"
+					},
+					{
+						timespace: "17:00",
+						ishot: false,
+						title: "未开抢"
+					},
+					{
+						timespace: "17:00",
+						ishot: false,
+						title: "未开抢"
+					}
+				],
+				list: [
+					{
+						img: "images/hbs/steak.jpg",
+						title: "苹果木肋眼牛排套餐组合1-1",
+						label: ["肉质鲜美","果香诱人","约会必点","肉质鲜美","果香诱人","约会必点"],
+						haobi: 888,
+						money: 120,
+						count: 0
+					},
+					{
+						img: "images/hbs/steak.jpg",
+						title: "苹果木肋眼牛排套餐组合1-2",
+						label: ["肉质鲜美","果香诱人","约会必点"],
+						haobi: 888,
+						money: 120,
+						count: 100
+					},
+					{
+						img: "http://pic1.16xx8.com/allimg/180409/16xx8-77529-1.jpg",
+						title: "苹果木肋眼牛排套餐组合1-1",
+						label: ["肉质鲜美","果香诱人","约会必点","肉质鲜美","果香诱人","约会必点"],
+						haobi: 888,
+						money: 120,
+						count: 0
+					},
+					{
+						img: "http://pic1.16xx8.com/allimg/180409/16xx8-77529-2.jpg",
+						title: "苹果木肋眼牛排套餐组合1-2",
+						label: ["肉质鲜美","果香诱人","约会必点"],
+						haobi: 888,
+						money: 120,
+						count: 100
+					},
+					{
+						img: "http://pic1.16xx8.com/allimg/180409/16xx8-77529-3.jpg",
+						title: "苹果木肋眼牛排套餐组合1-1",
+						label: ["肉质鲜美","果香诱人","约会必点","肉质鲜美","果香诱人","约会必点"],
+						haobi: 888,
+						money: 120,
+						count: 0
+					},
+					{
+						img: "http://pic1.16xx8.com/allimg/180409/16xx8-77529-4.jpg",
+						title: "苹果木肋眼牛排套餐组合1-2",
+						label: ["肉质鲜美","果香诱人","约会必点"],
+						haobi: 888,
+						money: 120,
+						count: 100
+					}
+				],
+				
+				currentIndex: 0,
+				timeSelIndex: 0
+			},
+			mounted: function() {
+				$("img.lazy").lazyload({effect: "fadeIn"});
+			},
+			methods: {
+				clickDate: function(index) {
+					this.currentIndex = index;
+					
+				},
+				clickTime: function(index) {
+					this.timeSelIndex = index;
+				}
+			}
+			
+		});
+	</script>
+</body>
+</html>

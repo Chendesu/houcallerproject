@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>canvas 碰壁反弹</title>
+	<style>
+		#canvas {
+			display: block;
+			margin: 10px auto;
+			border: 1px solid #999;
+		}
+	</style>
+</head>
+<body>
+
+	<canvas id="canvas">当前浏览器不支持canvas，请更换浏览器后再试</canvas>
+	<script>
+		var canvas = document.getElementById("canvas");
+		var context = canvas.getContext("2d");
+
+		var balls = [];
+		window.onload = function() {
+			canvas.width = 800;
+			canvas.height = 500;
+
+			for(var i = 0; i < 30; i++) {
+				var color = {
+					r: Math.random()*255,
+					g: Math.random()*255,
+					b: Math.random()*255
+				};
+				var ballR = Math.random()*20+10;
+				var ball = {
+					r:ballR, 
+					x:Math.random()*(canvas.width-2*ballR)+ballR, 
+					y:Math.random()*(canvas.height-2*ballR)+ballR, 
+					vx: Math.random()*5+10, 
+					vy: Math.random()*5+20, 
+					color: "rgb("+color.r+","+color.g+","+color.b+")"
+				};
+				balls[i] = ball;
+			}
+			var timer = setInterval(function(){
+				for(var i = 0; i < 10; i++) {
+					draw(context);
+				}
+				bounce();
+			},50);
+		}
+
+		function bounce() {
+			for(var i = 0; i < balls.length; i++) {
+
+				balls[i].x += balls[i].vx;
+				balls[i].y += balls[i].vy;
+				if(balls[i].y >= canvas.height - balls[i].r) {
+					balls[i].y = canvas.height - balls[i].r;
+          // balls[i].vy = -balls[i].vy;
+        } 
+        // else if(balls[i].y <= balls[i].r) {
+				// 	balls[i].y = balls[i].r;
+				// 	balls[i].vy = -balls[i].vy;
+				// }
+				else if(balls[i].x >= canvas.width - balls[i].r) {
+					balls[i].x = canvas.width - balls[i].r;
+					balls[i].vx = -balls[i].vx;
+				} else if(balls[i].x <= balls[i].r) {
+					balls[i].x = balls[i].r;
+					balls[i].vx = -balls[i].vx;
+				}
+			}
+			
+		}
+		function draw() {
+
+			context.clearRect(0,0,canvas.width,canvas.height);
+			for(var i = 0; i < balls.length; i++) {
+				context.beginPath();
+				context.arc(balls[i].x,balls[i].y,balls[i].r,0,2*Math.PI);
+				
+				context.globalAlpha = 0.9;
+				context.globalCompositeOperation = "xor";
+				context.fillStyle = balls[i].color;
+				context.fill();
+			}
+		}
+
+	</script>
+</body>
+</html>

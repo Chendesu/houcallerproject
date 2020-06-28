@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>钟表</title>
+  <style>
+    * {padding: 0;margin: 0;}
+		html,body {
+			height: 100%;
+		}
+  </style>
+</head>
+<body>
+  <canvas id="canvas" style="display:block;margin: 0 auto;border: 0px solid #aaa;">
+    您的浏览器暂时不支持canvas，请更换浏览器后重试
+  </canvas>
+  <script>
+    var canvas = document.getElementById("canvas");
+    var context = canvas.getContext("2d");
+
+    window.onload = function() {
+      canvas.width = document.body.clientWidth;
+      canvas.height = document.body.clientHeight;
+
+      
+      
+      setInterval(() => {
+        clock();
+      }, 10);
+    }
+
+    function clock() {
+
+      context.clearRect(0, 0, canvas.width, canvas.height);
+
+      // var skyStyle = context.createRadialGradient(400, 250, 0,400, 250, 250);
+      var skyStyle = context.createLinearGradient(canvas.width, 0, canvas.width, 500);
+      skyStyle.addColorStop(0.0, "#87ceeb");
+      skyStyle.addColorStop(1.0, "#fff");
+      context.fillStyle = skyStyle;
+      context.fillRect(0, 0, canvas.width, canvas.height);
+
+      var date = new Date();
+
+      var hour = date.getHours();
+      var min = date.getMinutes();
+      var sec = date.getSeconds();
+
+      context.beginPath();
+      context.lineWidth = 4;
+      context.arc(canvas.width/2,250,200,0,2*Math.PI,false);
+      context.strokeStyle = "#fff";
+      context.fillStyle = "#ca856a";
+      context.fill();
+      context.stroke();
+      context.closePath();
+
+      context.beginPath();
+      context.arc(canvas.width/2, 250, 4, 0, 2 * Math.PI, false);
+      context.fillStyle = "#333";
+      context.fill();
+      context.closePath();
+
+      drawHourMark();
+      drawMinMark();
+
+      drawHourPath(hour,min);
+      drawMinPath(min);
+      drawSecPath(sec);
+
+      context.beginPath();
+      context.lineWidth = 2;
+      context.rect((canvas.width/2-70), 280, 150, 35);
+      context.fillStyle = "#fff";
+      context.fill();
+
+      context.beginPath();
+      context.font = "normal 20px Arial";
+      context.fillStyle = "#333";
+      context.fillText(addZero(hour) + ":" + addZero(min) + ":" + addZero(sec), (canvas.width / 2-34), 305);
+      context.closePath();
+      
+    }
+
+    function drawHourPath(hour,min) {
+      var hour = hour;
+      var min = min; 
+
+      hour <= 12 ? hour : hour-12;
+      hour = hour + min/60;
+
+      context.beginPath();
+      context.lineWidth = 8;
+      context.moveTo(canvas.width/2,250);
+      context.lineTo(
+        Math.cos( (90-hour*30)/180*Math.PI )*100+ canvas.width/2,
+        -Math.sin( (90 - hour * 30) / 180 * Math.PI ) * 100 + 250
+      );
+      context.strokeStyle = "#FFB86C";
+      context.stroke();
+      context.closePath();
+    }
+
+    function drawMinPath(min) {
+      var min = min;
+
+      context.beginPath();
+      context.lineWidth = 4;
+      context.moveTo(canvas.width/2, 250);
+      context.lineTo(
+        Math.cos((90 - min * 6) / 180 * Math.PI) * 130 + canvas.width/2,
+        -Math.sin((90 - min * 6) / 180 * Math.PI) * 130 + 250
+      );
+      context.strokeStyle = "#869B74";
+      context.stroke();
+      context.closePath();
+    }
+
+    function drawSecPath(sec) {
+      var sec = sec;
+
+      context.beginPath();
+      context.lineWidth = 1;
+      context.moveTo(canvas.width/2, 250);
+      context.lineTo(
+        Math.cos((90 - sec * 6) / 180 * Math.PI) * 180 + canvas.width/2,
+        -Math.sin((90 - sec * 6) / 180 * Math.PI) * 180 + 250
+      );
+      context.strokeStyle = "#F01B2D";
+      context.stroke();
+      context.closePath();
+    }
+
+    //时针刻度
+    function drawHourMark() {
+      context.beginPath();
+      context.lineWidth = 4;
+
+      for (var i = 0; i < 12; i++) {
+        context.moveTo(
+          Math.cos((30 * (i + 1)) / 180 * Math.PI) * 200 + canvas.width/2,
+          -Math.sin((30 * (i + 1)) / 180 * Math.PI) * 200 + 250
+        );
+        context.lineTo(
+          Math.cos((30 * (i + 1)) / 180 * Math.PI) * 185 + canvas.width/2,
+          -Math.sin((30 * (i + 1)) / 180 * Math.PI) * 185 + 250
+        );
+
+      }
+      context.strokeStyle = "#fff";
+      context.stroke();
+      context.closePath();
+    }
+    //分钟刻度
+    function drawMinMark() {
+        context.beginPath();
+        context.lineWidth = 2;
+
+        for (var i = 0; i < 60; i++) {
+          context.moveTo(
+            Math.cos((6 * (i + 1)) / 180 * Math.PI) * 200 + canvas.width/2,
+            -Math.sin((6 * (i + 1)) / 180 * Math.PI) * 200 + 250
+          );
+          context.lineTo(
+            Math.cos((6 * (i + 1)) / 180 * Math.PI) * 193 + canvas.width/2,
+            -Math.sin((6 * (i + 1)) / 180 * Math.PI) * 193 + 250
+          );
+
+        }
+        context.strokeStyle = "#fff";
+        context.stroke();
+        context.closePath();
+
+      }
+
+      // 当数字小于10，前面加0
+      function addZero(num) {
+        var num = num;
+        if(num < 10) {
+          num = "0" + num;
+        }
+        return num;
+      }
+
+  </script> 
+</body>
+</html>

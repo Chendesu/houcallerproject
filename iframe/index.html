@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>iframe</title>
+	<link rel="stylesheet" href="index.css">
+	<script src="jquery-1.12.3.min.js"></script>
+</head>
+<body>
+	<header>
+		<h1>首页</h1>
+	</header>
+	<nav>
+		<ul>
+			<li class="active"><a data-href="index1.html" data-title="首页1" data-id="1">首页1</a></li>
+			<li><a data-href="index2.html" data-title="首页2" data-id="2">首页2</a></li>
+			<li><a data-href="index3.html" data-title="首页3" data-id="3">首页3</a></li>
+			<li><a data-href="index4.html" data-title="首页4" data-id="4">首页4</a></li>
+			<li><a data-href="index5.html" data-title="首页5" data-id="5">首页5</a></li>
+			<li><a data-href="https://www.baidu.com" data-title="百度" data-id="6">百度</a></li>
+			<li><a data-href="https://weibo.com" data-title="新浪" data-id="7">新浪</a></li>
+		</ul>
+	</nav>
+	<section id="main">
+		<div id="tab_nav">
+			<ul id="tab_nav_ul">
+				<li class="sel">
+					<a data-href="index1.html" data-id="1">首页1</a>
+					<i>×</i>
+				</li>
+			</ul>
+		</div>
+		<iframe id="iframe" src="index1.html" frameborder="0"></iframe>
+	</section>
+
+	<script>
+		$("nav ul li").on("click",function(){
+			$(this).addClass("active").siblings().removeClass("active");
+			var ul = document.getElementById("tab_nav_ul");
+			
+			var href = $(this).find("a").attr("data-href");
+			var title = $(this).find("a").attr("data-title");
+			var id = $(this).find("a").attr("data-id");
+			$("#iframe").attr("src",href);
+			
+			var isExist = false;//判断右边是否已经打开该页面
+			$("#tab_nav_ul li").each(function(){
+				var id2 = $(this).find("a").attr("data-id");
+				if(id2 == id) {
+					$(this).addClass("sel").siblings().removeClass("sel");
+					isExist = true;
+				} 
+			});
+
+			if(isExist == false) {
+				var li = document.createElement("li");
+				var a = document.createElement("a");
+				var i = document.createElement("i");
+				ul.appendChild(li);
+				li.appendChild(a);
+				li.appendChild(i);
+				a.innerHTML = title;
+				a.setAttribute("data-href",href);
+				a.setAttribute("data-id",id);
+
+				$("#tab_nav_ul li").removeClass("sel");
+				li.classList.add("sel");
+			}
+
+		});
+
+		$("#tab_nav").on("click","li",function(e){
+			$(this).addClass("sel").siblings().removeClass("sel");
+			var href = $(this).find("a").attr("data-href");
+			var id = $(this).find("a").attr("data-id");
+			$("#iframe").attr("src",href);
+			$("nav ul li").each(function(){
+				var id2 = $(this).find("a").attr("data-id");
+				if(id2 == id) {
+					$("nav ul li").removeClass("active");
+					$(this).find("a[data-id="+id2+"]").parent().addClass("active");
+				}
+
+			})
+		});
+		$("#tab_nav").on("click", "li i", function(e) {
+			e.stopPropagation();
+			var index = $(this).parent().index();
+			// console.log(index);
+			// console.log($(this).parent().parent().find("li").eq(index-1));
+			$(this).parent().parent().find("li").eq(index-1).addClass("sel").siblings().removeClass("sel");
+			
+			var id2 = $(this).parent().parent().find("li").eq(index-1).find("a").attr("data-id");
+			$("nav ul li").each(function(){
+				var id3 = $(this).find("a").attr("data-id");
+				if(id3 == id2) {
+					var href = $(this).find("a").attr("data-href");
+					$(this).find("a[data-id="+id3+"]").parent().addClass("active").siblings().removeClass("active");
+					$("#iframe").attr("src",href);
+				}
+			});
+			$(this).parent().remove();
+			
+		})
+	</script>
+</body>
+</html>

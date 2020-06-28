@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta namae="keywords" content="豪客来牛排，牛排，会员商城，豪币换礼">
+	<title>豪币换礼</title>
+	<script src="js/hbs/flexible_css.js,flexible.js"></script>
+	<link rel="stylesheet" href="css/hbs/swiper.min.css">
+	<link rel="stylesheet" href="css/hbs/common.css">
+	<link rel="stylesheet" href="css/hbs/haobi-change.css">
+	<script src="js/hbs/vue.min.js"></script>
+	<script src="js/hbs/jquery-1.12.3.min.js"></script>
+	<script src="js/hbs/swiper.min.js"></script>
+	<script src="js/hbs/component/component.js"></script>
+</head>
+<body>
+	<div id="wrap" v-cloak>
+		<navbar :idx="currentIndex"></navbar>
+		<div class="search">
+			<input type="text" class="icon-search" :placeholder="icon">
+		</div>
+		<div class="main">
+			<div class="main-hd">
+				<span v-for="(item,index) in pro" :class="{'sel':index == selIndex}" @click="selClick(index)">
+					<i v-if="item.classify=='star'" class="icon-VIP" style="font-size: 65%;"></i>
+					<i v-if="item.classify=='hot'" class="icon-my-cake"></i>
+					<strong v-if="item.classify=='star'">会员特权</strong>
+					<strong v-if="item.classify=='hot'">生日特权</strong>
+				</span>
+			</div>
+			<div class="main-pro">
+				<div class="pro" v-for="item in selPro.list">
+					<div class="pro-inner">
+						<a href="limit-time-detail.html" class="pro-img">
+							<span class="icon-hot"></span>
+							<img :src="item.img" alt="">
+						</a>
+						<div class="pro-main">
+							<span class="pro-style">特价套餐</span>
+							<strong class="pro-tit">{{item.title}}</strong>
+							<div class="pro-label">
+								<span v-for="it in item.label">
+									{{it}}
+								</span>
+								<a href="limit-time-detail.html" class="btn">立即兑</a>
+							</div>
+							<div class="sale">
+								<span>
+									{{item.haobi}}豪币
+								</span>
+							</div>
+							<span class="cir cir-left"></span>
+							<span class="cir cir-right"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		new Vue({
+			el: "#wrap",
+			data: {
+				currentIndex: 0,
+				icon: "\ue932 搜索您想要的美味",
+				isSel: true,
+				pro: [
+					{
+						classify: "star",
+						list: [
+							{
+								img: "images/hbs/steak.jpg",
+								title: "苹果木肋眼牛排套餐组合1-1",
+								label: ["肉质鲜美","果香诱人","约会必点","肉质鲜美","果香诱人","约会必点"],
+								haobi: 888,
+							},
+							{
+								img: "images/hbs/steak.jpg",
+								title: "苹果木肋眼牛排套餐组合1-2",
+								label: ["肉质鲜美","果香诱人","约会必点"],
+								haobi: 888,
+							}
+						]
+					},
+					{
+						classify: "hot",
+						list: [
+							{
+								img: "images/hbs/bac_bg.png",
+								title: "苹果木肋眼牛排套餐组合2-1",
+								label: ["肉质鲜美","果香诱人","约会必点","肉质鲜美","果香诱人","约会必点"],
+								haobi: 888,
+								money: 120
+							},
+							{
+								img: "images/hbs/bac_bg.png",
+								title: "苹果木肋眼牛排套餐组合2-2",
+								label: ["肉质鲜美","果香诱人","约会必点"],
+								haobi: 888,
+								money: 120
+							}
+						]
+					}
+				],
+				selIndex: 0,
+				selPro: {}
+			},
+			mounted: function() {
+				this.selPro =  this.pro[0];
+			},
+			methods: {
+				selClick: function(index) {
+					this.selIndex = index;
+					this.isSel = !this.isSel;
+					this.selPro = this.pro[index]
+
+				}
+			}
+		})
+	</script>
+</body>
+</html>

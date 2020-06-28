@@ -1,0 +1,138 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot?x2mgc1');
+  src:  url('fonts/icomoon.eot?x2mgc1#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?x2mgc1') format('truetype'),
+    url('fonts/icomoon.woff?x2mgc1') format('woff'),
+    url('fonts/icomoon.svg?x2mgc1#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-search:before {
+  content: "\e900";
+  color: #666;
+}
+.icon-arrow-down:before {
+  content: "\e901";
+  color: #666;
+}
+.icon-arrow-up:before {
+  content: "\e902";
+  color: #666;
+}
+.icon-edit:before {
+  content: "\e903";
+  color: #fac030;
+}
+.icon-bad:before {
+  content: "\e904";
+  color: #64fa30;
+}
+.icon-good:before {
+  content: "\e905";
+  color: #fac030;
+}
+.icon-id:before {
+  content: "\e91d";
+  color: #f3bf2e;
+}
+.icon-password:before {
+  content: "\e91e";
+  color: #f3bf2e;
+}
+.icon-star:before {
+  content: "\e906";
+  color: #fac030;
+}
+.icon-arrow-right-thin:before {
+  content: "\e907";
+}
+.icon-refresh:before {
+  content: "\e908";
+}
+.icon-label:before {
+  content: "\e909";
+}
+.icon-safe-food:before {
+  content: "\e90a";
+}
+.icon-position:before {
+  content: "\e90b";
+}
+.icon-position-2:before {
+  content: "\e90c";
+}
+.icon-car:before {
+  content: "\e90d";
+}
+.icon-server:before {
+  content: "\e90e";
+}
+.icon-choose:before {
+  content: "\e90f";
+}
+.icon-add:before {
+  content: "\e910";
+  color: #fac030;
+}
+.icon-minus:before {
+  content: "\e911";
+  color: #fac030;
+}
+.icon-zhe:before {
+  content: "\e912";
+  color: #307cfa;
+}
+.icon-clock:before {
+  content: "\e913";
+}
+.icon-hui:before {
+  content: "\e914";
+  color: #fa4d30;
+}
+.icon-camera:before {
+  content: "\e915";
+  color: #fff;
+}
+.icon-decline:before {
+  content: "\e916";
+  color: #00e21b;
+}
+.icon-rise:before {
+  content: "\e917";
+  color: #fa4d30;
+}
+.icon-menu:before {
+  content: "\e918";
+  color: #fff;
+}
+.icon-close:before {
+  content: "\e919";
+}
+.icon-shopping-car:before {
+  content: "\e91a";
+  color: #fff;
+}
+.icon-help:before {
+  content: "\e91b";
+  color: #999;
+}
+.icon-horn:before {
+  content: "\e91c";
+}

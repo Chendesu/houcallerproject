@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>AJAX 与 MySQL</title>
+</head>
+<body>
+  <form action="">
+    <select name="users" onchange="showSite(this.value)">
+      <option value="" style="display: none;">选择一个网站：</option>
+      <option value="1">Google</option>
+      <option value="2">淘宝</option>
+      <option value="3">微博</option>
+      <option value="4">Facebook</option>
+    </select>
+  </form>
+  <div id="txtHint"><b>网站信息显示在这里……</b></div>
+  <script>
+    function showSite(str){
+      if(str==""){
+        document.getElementById("txtHint").innerHTML;
+        return;
+      }
+      if(window.XMLHttpRequest){
+        xmlhttp = new XMLHttpRequest();
+      } else {
+        xmlhttp = new ActiveObject("Microsoft.XMLHTTP");
+      }
+      xmlhttp.onreadystatechange = function(){
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+          document.getElementById("txtHint").innerHTML = xmlhttp.responseText;
+        }
+      }
+      xmlhttp.onreadystatechange=function()
+    {
+        if (xmlhttp.readyState==4 && xmlhttp.status==200)
+        {
+            document.getElementById("txtHint").innerHTML=xmlhttp.responseText;
+        }
+    }
+      xmlhttp.open("get","getsite_mysql.php?q="+str,true);
+      xmlhttp.send();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		a {
+			color:#f30;
+			text-decoration:underline;
+			padding:2px 0;
+		}
+		a:hover {
+			color:#f30;
+			text-decoration:none; 
+			background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 4'%3E%3Cpath fill='none' stroke='%23ff3300' d='M0 3.5c5 0 5-3 10-3s5 3 10 3 5-3 10-3 5 3 10 3'/%3E%3C/svg%3E") repeat-x 0 100%; 
+			/*background: url("mui/images/h_coin.png") repeat-x 0 100%;*/
+			background-size:20px auto; 
+			animation:waveMove 1s infinite linear;
+		}
+		@keyframes waveMove {
+			from { background-position: 0 100%; }
+		  	to { background-position:-20px 100%; }
+		}
+		h2 {
+			/*font-feature-settings: "ornm";*/
+			font-feature-settings: "titl";
+		}
+	</style>
+</head>
+<body>
+
+	<a href="#">这是一个链接</a>
+
+	<h2>abcdefg</h2>
+
+
+    <script src="jquery-1.12.3.min.js"></script>
+    <script>
+    	
+    	function openDB (name,version) {
+            var version=version || 1;
+            var request=window.indexedDB.open(name,version);
+            request.onerror=function(e){
+                console.log(e.currentTarget.error.message);
+            };
+            request.onsuccess=function(e){
+                myDB.db=e.target.result;
+            };
+            request.onupgradeneeded=function(e){
+                var db=e.target.result;
+                if(!db.objectStoreNames.contains('students')){
+                    db.createObjectStore('students',{keyPath: 'id'});
+                }
+                console.log('DB version changed to '+version);
+            };
+        }
+    	var myDB = {
+    		name: "test",
+    		version: 3,
+    		db: null
+    	};
+    	
+    	var students = [{
+    		id: 1001,
+    		name: "Byron",
+    		age: 24
+    	},{
+    		id: 1002,
+    		name: "Frank",
+    		age: 30
+    	},{
+    		id: 1003,
+    		name: "Aaron",
+    		age: 26
+    	}];
+
+    	// 添加数据
+    	function addData(db,storeName){
+            var transaction=db.transaction(storeName,'readwrite');
+            var store=transaction.objectStore(storeName); 
+
+            for(var i=0;i<students.length;i++){
+                store.add(students[i]);
+            }
+        }
+       
+        //查找数据
+        function getDataByKey(db,storeName,value){
+        	var transaction = db.transaction(storeName,"readwrite");
+        	var store = transaction.objectStore(storeName);
+        	var request = store.get(value);
+        	request.onsuccess = function(e) {
+        		var student = e.target.result;
+        		console.log(student.name);
+        	}
+        }
+       
+
+        //更新数据
+        function updateDataByKey(db,storeName,value) {
+        	var transaction = db.transaction(storeName, "readwrite");
+        	var store = transaction.objectStore(storeName);
+        	var request = store.get(value);
+        	request.onsuccess = function(e) {
+        		var student = e.target.result;
+        		student.age = 35;
+        		store.put(student);
+        		// console.log(e);
+        	}
+        }
+
+        //删除数据
+        function deleteDataByKey(db,storeName,value) {
+        	var transaction = db.transaction(storeName,"readwrite");
+        	var store = transaction.objectStore(storeName);
+        	store.delete(value);
+        }
+
+        //清空
+        function clearObjectStore(db,storeName) {
+        	var transaction = db.transaction(storeName,"readwrite");
+        	var store = transaction.objectStore(storeName);
+        	store.clear();
+        }
+
+
+		openDB(myDB.name,myDB.version);
+        setTimeout(function(){
+            addData(myDB.db,'students');
+            // updateDataByKey(myDB.db,'students',1002);
+            // getDataByKey(myDB.db,'students',1003);
+            // deleteDataByKey(myDB.db,'students',1001);
+            // clearObjectStore(myDB.db,'students');
+        },1000);
+
+    </script>
+</body>
+</html>

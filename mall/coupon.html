@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta namae="keywords" content="豪客来牛排，牛排，会员商城，优惠券">
+	<title>我的优惠券</title>
+	<script src="js/hbs/flexible_css.js,flexible.js"></script>
+	<link rel="stylesheet" href="css/hbs/swiper.min.css">
+	<link rel="stylesheet" href="css/hbs/common.css">
+	<link rel="stylesheet" href="css/hbs/coupon.css">
+	<script src="js/hbs/vue.min.js"></script>
+	<script src="js/hbs/jquery-1.12.3.min.js"></script>
+	<script src="js/hbs/swiper.min.js"></script>
+	<script src="js/hbs/component/component.js"></script>
+	<script src="js/hbs/jsized.snow.js"></script>
+</head>
+<body>
+	<div id="wrap" v-cloak>
+		<div class="tab-tit clearfix">
+			<span v-for="(item,index) in tabList" :key="index" :class="{'sel':index==selIndex}" @click="click(index)">{{item}}</span>
+		</div>
+		<ul class="tab-con">
+			<li v-for="item in listCon">
+				<div class="img">
+					<img :src="item.img" title="item.title">
+				</div>
+				<div class="info">
+					<h3>{{item.title}}</h3>
+					<div class="time">
+						<div>有效期：</div>
+						<div>{{item.time}}</div>
+					</div>
+					<img v-if="item.status=='-1'" src="images/hbs/coupon_timeover.png" alt="">
+					<img v-if="item.status=='0'" src="images/hbs/coupon_used.png" alt="">
+				</div>
+			</li>
+		</ul>
+	</div>
+	<script>
+		new Vue({
+			el: "#wrap",
+			data: {
+				selIndex: 0,
+				tabList: ["未使用","已使用","已过期"],
+				list: [
+					{
+						id: 0,
+						status: "1", //0:已使用，-1:已过期，1:未使用
+						title: "苹果木肋眼牛排套餐组合",
+						img: "images/hbs/steak.jpg",
+						time: "2018-11-28 15:20:40"
+					},
+					{
+						id: 1,
+						status: "-1", 
+						title: "苹果木肋眼牛排套餐组合",
+						img: "images/hbs/steak.jpg",
+						time: "2018-11-28 15:20:40"
+					},
+					{
+						id: 2,
+						status: "1", 
+						title: "苹果木肋眼牛排套餐组合",
+						img: "images/hbs/steak.jpg",
+						time: "2018-11-28 15:20:40"
+					},
+					{
+						id: 3,
+						status: "1", 
+						title: "苹果木肋眼牛排套餐组合",
+						img: "images/hbs/steak.jpg",
+						time: "2018-11-28 15:20:40"
+					},
+					{
+						id: 4,
+						status: "0", 
+						title: "苹果木肋眼牛排套餐组合",
+						img: "images/hbs/steak.jpg",
+						time: "2018-11-28 15:20:40"
+					},
+					{
+						id: 5,
+						status: "1", 
+						title: "苹果木肋眼牛排套餐组合",
+						img: "images/hbs/steak.jpg",
+						time: "2018-11-28 15:20:40"
+					},
+					{
+						id: 6,
+						status: "-1", 
+						title: "苹果木肋眼牛排套餐组合",
+						img: "images/hbs/steak.jpg",
+						time: "2018-11-28 15:20:40"
+					}
+				],
+				listCon: [],
+				listConLen: "",
+			},
+			mounted: function() {
+				var len = this.list.length;
+				this.listConLen = len;
+				
+				for(var i = 0; i < len; i++) {
+					if(this.list[i].status == "1") {
+						this.listCon.push(this.list[i]);
+					}
+				}
+			},
+			methods: {
+				click: function(index) {
+					this.selIndex = index;
+					this.listCon = [];
+					for(var i = 0; i < this.listConLen; i++) {
+						if(index == 0) {
+							if(this.list[i].status == "1") {
+								this.listCon.push(this.list[i]);
+							}
+						}
+						if(index == 1) {
+							if(this.list[i].status == "0") {
+								this.listCon.push(this.list[i]);
+							}
+						} 
+						if(index == 2) {
+							if(this.list[i].status == "-1") {
+								this.listCon.push(this.list[i]);
+							}
+						}
+						
+					}
+				}
+			}
+		})
+	</script>
+</body>
+</html>

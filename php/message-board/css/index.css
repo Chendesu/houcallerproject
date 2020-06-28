@@ -1,0 +1,327 @@
+[v-clock] {
+  display: none;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.clearfix:after {
+  content: "\200B";
+  display: block;
+  height: 0;
+  clear: both;
+}
+
+.clearfix {
+  *zoom: 1;
+}
+
+ul, li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: #333;
+}
+
+a:hover {
+  color: #333;
+}
+
+html, body {
+  min-height: 100%;
+  background-color: #efefef;
+  background-image: url(../images/thumb_watermelon.jpg);
+  background-repeat: repeat;
+  background-attachment: fixed;
+  background-position: center top;
+}
+
+.wrap {
+  padding-top: 64px;
+}
+
+.wrap .hd {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 44px;
+  padding: 0 32px;
+  background: #fff;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  -webkit-box-shadow: 3px 3px 1px #efefef;
+          box-shadow: 3px 3px 1px #efefef;
+  z-index: 100;
+}
+
+.wrap .hd .user strong {
+  color: #333;
+  font-weight: 400;
+}
+
+.wrap .hd .user a {
+  text-decoration: none;
+  color: #0000ee;
+  padding: 0 0 0 10px;
+}
+
+.wrap .hd .user a:hover {
+  text-decoration: underline;
+}
+
+.wrap .hd .nav {
+  height: 44px;
+  padding: 0 20px;
+}
+
+.wrap .hd .nav li {
+  display: inline-block;
+  height: 44px;
+}
+
+.wrap .hd .nav li a {
+  display: inline-block;
+  height: 44px;
+  padding: 0 20px 0 12px;
+  font-size: 16px;
+  color: #333;
+  font-weight: bold;
+  text-decoration: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.wrap .hd .nav li a:hover {
+  color: #55C97B;
+}
+
+.wrap .hd .nav li a b {
+  display: inline-block;
+  width: 24px;
+  height: 30px;
+  margin-right: 5px;
+  background: #999;
+}
+
+.wrap .hd .nav li a b.dairy {
+  background: url(../images/dairy.png) center center no-repeat;
+  background-size: 100% auto;
+}
+
+.wrap .hd .nav li a b.album {
+  background: url(../images/album.png) center center no-repeat;
+  background-size: 100% auto;
+}
+
+.wrap .hd .nav li a b.msg {
+  background: url(../images/msg.png) center center no-repeat;
+  background-size: 100% auto;
+}
+
+.wrap .hd .nav li:hover {
+  border-bottom: 3px solid #55C97B;
+}
+
+.wrap .hd .nav li.sel {
+  border-bottom: 3px solid #55C97B;
+}
+
+.wrap .hd .nav li.sel a {
+  color: #55C97B;
+}
+
+.wrap .main {
+  width: 600px;
+  padding: 15px;
+  margin: 0 auto;
+  border-radius: 5px;
+  background: rgba(94, 118, 47, 0.25);
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.wrap .main form {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 30px;
+  background: rgba(255, 255, 255, 0.6);
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.wrap .main form textarea {
+  display: block;
+  width: 100%;
+  height: 100px;
+  padding: 10px;
+  border: 1px solid #999;
+  border-radius: 5px;
+  background: transparent;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  outline: none;
+  resize: none;
+  /* box-shadow: 3px 3px 5px #999; */
+}
+
+.wrap .main form div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.wrap .main form input[type=submit], .wrap .main form .pic-btn, .wrap .main form .submit {
+  display: block;
+  width: 60px;
+  height: 30px;
+  margin: 10px 0 0 0;
+  border: 0;
+  border-radius: 3px;
+  font-size: 14px;
+  color: #fff;
+  background-color: #55C97B;
+  outline: none;
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  cursor: pointer;
+}
+
+.wrap .main form .pic-btn {
+  font-weight: normal;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.wrap .main form .pic-btn input[type=file] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+}
+
+.wrap .main form .pic-btn i {
+  position: absolute;
+  top: 0;
+  left: 102%;
+  display: inline-block;
+  /* width: 68px; */
+  line-height: 30px;
+  font-style: normal;
+  text-align: center;
+  font-size: 14px;
+  color: #3465a4;
+  white-space: nowrap;
+}
+
+.wrap .main .msg {
+  padding: 10px;
+  margin: 5px 0 15px;
+  border-radius: 2px;
+  background-color: rgba(255, 255, 255, 0.6);
+}
+
+.wrap .main .msg .msg-user {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.wrap .main .msg .msg-user span {
+  float: right;
+  font-size: 12px;
+}
+
+.wrap .main .msg .msg-user span i {
+  display: inline-block;
+  padding: 3px 5px;
+  text-decoration: underline;
+  font-style: normal;
+  font-weight: normal;
+  color: #0000ee;
+  cursor: pointer;
+}
+
+.wrap .main .msg .msg-time {
+  margin: 4px 0 5px;
+  font-size: 13px;
+  color: #666;
+}
+
+.wrap .main .msg .msg-txt {
+  margin-bottom: 15px;
+}
+
+.wrap .main .msg .msg-img {
+  width: 100%;
+  overflow: hidden;
+}
+
+.wrap .main .msg .msg-img ul li {
+  float: left;
+  width: 187px;
+  /* height: 177px; */
+  max-height: 300px;
+  padding: 0 10px 10px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.wrap .main .msg .msg-img ul li .msg-img-con {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  background-color: #333;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.wrap .main .msg .msg-img ul li img {
+  display: block;
+  width: 100%;
+}
+/*# sourceMappingURL=index.css.map */

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>营业执照</title>
+	<script src="js/flexible_css.js,flexible.js"></script>
+	<link rel="stylesheet" href="js/mobiscroll/css/mobiscroll.css">
+	<link rel="stylesheet" href="js/mobiscroll/css/mobiscroll_date.css">
+	<link rel="stylesheet" href="css/common.css">
+	<link rel="stylesheet" href="css/set.css">
+	<script src="js/vue.min.js"></script>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/mobiscroll/js/mobiscroll_date.js" charset="gb2312"></script>
+	<script src="js/mobiscroll/js/mobiscroll.js"></script>
+	<script src="js/component.js"></script>
+</head>
+<body>
+	<div id="wrap" v-cloak>
+		<div id="header">
+			<a href="javascript:history.back(-1)" class="icon-arrow-down"></a>
+			<div class="page-tit">营业资质</div>
+		</div>
+		<div class="choose-date clearfix">
+			<label>选择日期</label>
+			<input type="text" id="date" class="date" v-model="startTime">
+			<label>--</label>
+			<input type="text" class="date" v-model="endTime">
+		</div>
+		<div class="set-upload-main">
+			<div class="upload-btn" v-show="showBtn==false">
+				<span id="preview">	
+					<input type="file" @change="previewImage" />
+					<i class="icon-camera"></i>
+					上传图片
+				</span>
+				<strong>上传图片格式为png或jpg</strong>
+			</div>
+			<div class="upload-img"  v-show="showBtn==true">
+				<input type="file" @change="previewImage" />
+				<img :src="imgUrl" />
+			</div>
+		</div>
+		<div class="set-upload-btn" v-show="showBtn==true">
+			<button>保存提交</button>
+		</div>
+	</div>
+	<script>
+		new Vue({
+			el: "#wrap",
+			data: {
+				startTime: '',
+				endTime: '',
+				imgUrl: '',
+				showBtn: false
+			},
+			mounted: function() {
+				// 日期选择
+				var currYear = (new Date()).getFullYear();	
+				var opt={};
+				opt.date = {preset : 'date'};
+				opt.datetime = {preset : 'datetime'};
+				opt.time = {preset : 'time'};
+				opt.default = {
+					theme: 'android-ics light', //皮肤样式
+					display: 'modal', //显示方式 
+					mode: 'scroller', //日期选择模式
+					dateFormat: 'yyyy-mm-dd',
+					lang: 'zh',
+					showNow: true,
+					nowText: "今天",
+					startYear: currYear - 50, //开始年份
+					endYear: currYear + 10, //结束年份
+				};
+				$("#date").mobiscroll($.extend(opt['date'], opt['default']));
+        // $(".date").mobiscroll(opt).date();
+				if(this.imgUrl == '') {
+					this.showBtn = false
+				} else {
+					this.showBtn = true
+				}
+			},
+			methods: {
+				previewImage: function(e) {
+					var _this = this;
+					var file = e.currentTarget;
+					var reader = new FileReader();
+		          	reader.onload = function(evt){
+		          		_this.imgUrl = evt.target.result;
+		          	}
+		          	reader.readAsDataURL(file.files[0]);
+		          	_this.showBtn = true;
+				}
+			}
+		})
+	</script>
+</body>
+</html>

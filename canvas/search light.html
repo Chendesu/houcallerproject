@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>探照灯</title>
+	<style>
+		#canvas {
+			display: block;
+			margin: 10px auto;
+			border: 1px solid #999;
+		}
+	</style>
+</head>
+<body>
+	<canvas id="canvas">当前浏览器不支持canvas，请更换浏览器后再试</canvas>
+
+	<script>
+		var canvas = document.getElementById("canvas");
+		var context = canvas.getContext("2d");
+
+		var movePath = {x: 80, y: 80, r: 80, vx: 10, vy: 10};
+		window.onload = function() {
+			canvas.width = 800;
+			canvas.height = 500;
+
+			setInterval(function(){
+				drawTxt();
+				move();
+			},50);
+			
+		}
+		function drawTxt() {
+			context.save();
+			context.beginPath();
+			context.fillStyle = "#000";
+		    context.fillRect(0,0,canvas.width,canvas.height);
+
+		    
+		    context.beginPath();
+		    context.arc(movePath.x,movePath.y,movePath.r,0,Math.PI*2);
+		    context.fillStyle = "#fff";
+		    context.fill();
+		    context.closePath();
+		    context.clip();
+		    
+
+		    context.beginPath();
+			context.lineWidth = 1;
+			context.font = "bold 60px Arial";
+			context.fillStyle = "#058";
+			context.fillText("Canvas", 100, 100, canvas.width);
+			context.font = "bold 40px Arial";
+			context.strokeStyle = "#508";
+			context.strokeText("Canvas", 100, 200, canvas.width);
+			context.font = "bold 60px Arial";
+			context.fillStyle = "#058";
+			context.fillText("Canvas", 100, 300, canvas.width);
+			context.font = "bold 40px Arial";
+			context.strokeStyle = "#508";
+			context.strokeText("Canvas", 100, 400, canvas.width);
+			context.restore();
+		}
+		function move() {
+			movePath.x += movePath.vx;
+			movePath.y += movePath.vy;
+			if(movePath.y >= canvas.height - movePath.r) {
+				movePath.y = canvas.height - movePath.r;
+				movePath.vy = -movePath.vy;
+			} else if(movePath.y <= movePath.r) {
+				movePath.y = movePath.r;
+				movePath.vy = -movePath.vy;
+			}
+
+			if(movePath.x >= canvas.width - movePath.r) {
+				movePath.x = canvas.width - movePath.r;
+				movePath.vx = -movePath.vx;
+			} else if(movePath.x <= movePath.r) {
+				movePath.x = movePath.r;
+				movePath.vx = -movePath.vx;
+			}
+		}
+	</script>
+</body>
+</html>

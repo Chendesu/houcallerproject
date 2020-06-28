@@ -1,0 +1,251 @@
+@charset 'utf-8';
+.head {
+	width: 100%;
+	height: 3.47rem;
+	background: url(../../images/hbs/make_haobi_bg_01.jpg) repeat-x;
+	background-size: auto 100%;
+}
+.head img {
+	display: block;
+	width: auto;
+	height: 100%;
+	margin: 0 auto;
+}
+/*签到日历*/
+.calendar {
+	width: calc(100% - 0.85rem);
+	margin: 0 auto;
+	margin-top: -1.07rem;
+	border-radius: 0.11rem;
+	text-align: center;
+	background-color: #fff;
+	overflow: hidden;
+	position: relative;
+	z-index: 2;
+}
+.sign_main {
+    border-top: 1px solid #faca34;
+    font-family: "Microsoft YaHei",SimHei;
+}
+.sign_succ_calendar_title {
+    text-align: center;
+    background: -webkit-linear-gradient(#f37a8c,#ec2d4a); 
+    background: -o-linear-gradient(#f37a8c,#ec2d4a); 
+    background: -moz-linear-gradient(#f37a8c,#ec2d4a); 
+    background: linear-gradient(#f37a8c,#ec2d4a); 
+    position: relative;
+}
+.sign_succ_calendar_title i {
+	position: absolute;
+	display: block;
+	width: 0.24rem;
+	height: 0.33rem;
+	border-radius: 0.12rem;
+	background-color: #fff;
+	-moz-box-shadow:0px 0px 0.08rem #EC2D4A; 
+	-webkit-box-shadow:0px 0px 0.08rem #EC2D4A; 
+	box-shadow:0px 0px 0.08rem #EC2D4A;
+}
+.sign_succ_calendar_title i.cir-left {
+	bottom: -0.17rem;
+	left: 0.72rem;
+}
+.sign_succ_calendar_title i.cir-right {
+	bottom: -0.17rem;
+	right: 0.72rem;
+}
+.calendar_month_span {
+    display: inline;
+    line-height: 1.2rem;
+    font-size: 16px;
+    color: #fff;
+    letter-spacing: 2px;
+    font-weight: bold;
+}
+[data-dpr="2"] .calendar_month_span {
+	font-size: 32px;
+}
+[data-dpr="3"] .calendar_month_span {
+	font-size: 48px;
+}
+.sign {
+	padding: 0.19rem 0.51rem;
+}
+.sign table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    color: #a46626;
+    font-weight: bold;
+    font-size: 20px;
+}
+.sign th, .sign td {
+    text-align: center;
+    padding: 0.12rem 0;
+}
+.sign td,.sign th {
+    color: #404040;
+    vertical-align: middle;
+    border-radius: 6px;
+    background: #fff;
+    color: #a46626;
+}
+.sign td>span,.sign th>span {
+	display: block;
+	width: 0.93rem;
+	height: 0.93rem;
+	margin: 0 auto;
+	border-radius: 0.11rem;
+	font-size: 16px;
+	color: #ec2d4a;
+	line-height: 0.93rem;
+	background-color: #fcfcfc;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.sign th>span {
+	background-color: #ffe6ea;
+}
+[data-dpr="2"] .sign td>span,
+[data-dpr="2"] .sign th>span {
+	font-size: 32px;
+}
+[data-dpr="3"] .sign td>span,
+[data-dpr="3"] .sign th>span {
+	font-size: 48px;
+}
+.sign .on>span {
+    /*background-color: #dc7a14;*/
+	border: 1px solid #ec2d4a;
+}
+.sign .current>span {
+	background-color: #ffe6ea;
+}
+.calendar .sign-in {
+	display: inline-block;
+	width: 2.41rem;
+	height: 0.91rem;
+	margin: 0.27rem auto;
+	border-radius: 0.11rem;
+	line-height: 0.91rem;
+	text-align: center;
+	font-size: 16px;
+	color: #fff;
+	font-weight: 600;
+	background: -webkit-linear-gradient(#f37a8c,#ec2d4a); 
+    background: -o-linear-gradient(#f37a8c,#ec2d4a); 
+    background: -moz-linear-gradient(#f37a8c,#ec2d4a); 
+    background: linear-gradient(#f37a8c,#ec2d4a); 
+}
+[data-dpr="2"] .calendar .sign-in {
+	font-size: 32px;
+}
+[data-dpr="3"] .calendar .sign-in {
+	font-size: 48px;
+}
+.calendar .help {
+	position: absolute;
+	top: 0.32rem;
+	right: 0.8rem;
+	width: 0.53rem;
+	height: 0.53rem;
+	background: url(../../images/hbs/help.png) center center no-repeat;
+	background-size: 100% 100%;
+}
+/*商城推荐*/
+.recommend {
+	width: 100%;
+	padding-bottom: 0.33rem;
+	margin-top: 0.24rem;
+	background-color: #fff;
+}
+.recommend-h1 {
+	text-align: center;
+	font-size: 15px;
+	color: #333;
+	font-weight: 600;
+	padding-bottom: 0.13rem;
+	padding-top: 0.4rem
+}
+[data-dpr="2"] .recommend-h1 {
+	font-size: 30px;
+}
+[data-dpr="3"] .recommend-h1 {
+	font-size: 45px;
+}
+.recommend-h1 .icon-double-line {
+	color: #ffc72c;
+	margin: 0 0.1rem;
+}
+.pro .pro-inner .pro-main .cir {
+	background-color: #fff;
+}
+/*弹窗*/
+.pop .error-main p > b {
+	color: #fac030;
+}
+/*签到规则弹窗*/
+.rule {
+	position: fixed;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	background-color: rgba(0,0,0,0.4);
+	z-index: 1000;
+}
+.rule .rule-main {
+	overflow: hidden;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 9.33rem;
+	border-radius: 0.11rem;
+	background-color: #fff;
+	-webkit-transform: translate(-50%,-50%);
+	-ms-transform: translate(-50%,-50%);
+	-o-transform: translate(-50%,-50%);
+	transform: translate(-50%,-50%);
+}
+.rule .rule-main .rule-hd {
+	width: 100%;
+    height: 1.33rem;
+    text-align: center;
+    line-height: 1.33rem;
+    font-size: 20px;
+    color: #fff;
+    font-weight: 500;
+    background-color: #ffc72c;
+}
+[data-dpr="2"] .rule .rule-main .rule-hd {
+	font-size: 40px;
+}
+[data-dpr="3"] .rule .rule-main .rule-hd {
+	font-size: 60px;
+}
+.rule .rule-main .rule-hd span {
+	position: absolute;
+    top: 0;
+    right: 0;
+    width: 1.33rem;
+    height: 1.33rem;
+    background: url(../../images/hbs/close.png) center center no-repeat;
+    background-size: 30% 30%;
+}
+.rule .rule-main .rule-con {
+	padding: 0.59rem;
+}
+.rule .rule-main .rule-con p {
+	font-size: 14px;
+	color: #666;
+	line-height: 150%;
+}
+[data-dpr="2"] .rule .rule-main .rule-con p {
+	font-size: 28px;
+}
+[data-dpr="3"] .rule .rule-main .rule-con p {
+	font-size: 42px;
+}
+
+

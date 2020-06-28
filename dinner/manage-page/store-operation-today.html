@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>门店运营</title>
+	<script src="js/flexible_css.js,flexible.js"></script>
+	<link rel="stylesheet" href="css/common.css">
+	<link rel="stylesheet" href="css/store-operation.css">
+	<script src="js/vue.min.js"></script>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/echarts.min.js"></script>
+	<script src="js/component.js"></script>
+</head>
+<body>
+	<div id="wrap" v-cloak>
+		<navbar :idx="idx"></navbar>
+		<div id="header">
+			<a class="icon-arrow-down"  href="javascript:history.back(-1)"></a>
+			<div class="page-tit">今日实时数据详情</div>
+		</div>
+		<div class="todayData">
+			<div class="turnover">
+				<div class="turnover-price">
+					<b>￥</b>1498.00
+				</div>
+				<div class="turnover-span">营业额<i class="icon-help" @click="open"></i></div>
+			</div>
+			<div class="turnover-list clearfix">
+				<div>
+					<strong>0单</strong>
+					<span>
+						有效订单
+						<i class="icon-help" @click="open"></i>
+					</span>
+				</div>
+				<div>
+					<strong>1744单</strong>
+					<span>
+						无效订单
+						<i class="icon-help" @click="open"></i>
+					</span>
+				</div>
+				<div>
+					<strong>￥238.00</strong>
+					<span>
+						预订单收入
+						<i class="icon-help" @click="open"></i>
+					</span>
+				</div>
+				<div>
+					<strong>￥238.00</strong>
+					<span>
+						商家补贴
+						<i class="icon-help" @click="open"></i>
+					</span>
+				</div>
+			</div>
+			<div class="tab-num todayData-tab clearfix">
+				<span v-for="(item,index) in tab"
+					:key="index"
+					:class="{'sel': tabindex==index}"
+					v-html="item"
+					@click="tabClick(index)"
+				></span>
+			</div>
+			<div class="todayData-chart">
+				<div class="todayData-chart-hd">
+					<span v-for="(item,index) in chartTab"
+						:key="index"
+						:class="{'sel':chartTabIndex==index}"
+						@click="chartTabClick(index)"
+						v-html="item"
+					></span>
+				</div>
+				<div class="todayData-chart-main">
+					<div id="echart" style="width:100%;height:6.53rem;"></div>
+				</div>
+			</div>
+		</div>
+		<pop-help :popshow="popShow"
+			:tit="tit"
+			:helpcon="helpCon"
+			v-on:closepop="close"
+		></pop-help>
+	</div>
+
+	<script>
+		new Vue({
+			el: "#wrap",
+			data: {
+				idx:0, //默认选中导航栏第几项
+				tab: ["营业额趋势","有效订单趋势"],
+				tabindex: 0,
+				chartTab: ["累计","分时"],
+				chartTabIndex: 0,
+				popShow: false,
+				tit: "",
+				helpCon: "",
+			},
+			mounted: function() {
+				
+				var dataDpr = $('html').attr("data-dpr");
+				if(dataDpr==2) {
+					chart(24)
+				} else if(dataDpr==3) {
+					chart(36)
+				} else {
+					chart(12)
+				}
+				function chart(fontSize) {
+					var myChart = echarts.init(document.getElementById('echart'));
+					var option = {
+			            grid: {
+			            	show: true
+			            },
+			            legend: {
+			                data:['销量']
+			            },
+			            xAxis: {
+			                data: ["10","11","12","13","14","15"],
+			                axisLabel: {        
+			                    textStyle: {
+			                        color: 'rgb(16,58,74)',
+			                        fontSize: fontSize
+			                    }
+			                },
+			                splitLine: {
+	                            show: true,
+	                            lineStyle: {
+	                            	width: 2,
+	                            	color: "rgb(153,153,153)"
+	                            }
+	                        },
+	                        axisLine:{
+	                            lineStyle:{
+	                                width:2,
+	                            }
+	                        }
+			            },
+			            yAxis: {
+			            	axisLabel: {        
+			                    textStyle: {
+			                        color: 'rgb(16,58,74)',
+			                        fontSize: fontSize
+			                    }
+			                },
+			                lineStyle: {
+                            	width: 2,
+                            	color: "rgb(153,153,153)"
+                            },
+	                        axisLine:{
+	                            lineStyle:{
+	                                width:2,
+	                            }
+	                        }
+			            },
+			            series: [{
+			                // name: '销量',
+			                type: 'line',
+			                data: [5, 20, 36, 10, 10, 20],
+			                itemStyle : {  
+                                normal : {  
+                                	color:'#ffc72c',  
+                                    lineStyle:{  
+                                        color:'#ffc72c'  
+                                    }  
+                                }  
+                            }
+			            }]
+			        };
+			        myChart.setOption(option);
+				}
+			},
+			methods: {
+				tabClick: function(index) {
+					this.tabindex = index;
+				},
+				chartTabClick: function(index) {
+					this.chartTabIndex = index;
+				},
+				close: function() {
+					this.popShow = false;
+				},
+				open: function(e) {
+					var el = e.srcElement;
+					var txt = $(el).parent().text();
+					this.popShow = true;
+					this.tit = "关于"+txt;
+					this.helpCon ="营业额是指纳税人提供应税劳务、转让无形资产或者销售不动产向对方收取的全部价款和价外费用。价外费用包括向对方收取的手续费、基金、集资费、代收款项、代垫款项及其他各种性质的价外收费。运输物流企业从事联运业务的营业额为其实际取得的营业额"
+				},
+			}
+		})
+	</script>
+</body>
+</html>

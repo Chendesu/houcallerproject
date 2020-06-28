@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>顾客管理</title>
+	<script src="js/flexible_css.js,flexible.js"></script>
+	<link rel="stylesheet" href="css/common.css">
+	<link rel="stylesheet" href="css/client.css">
+	<script src="js/vue.min.js"></script>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/component.js"></script>
+</head>
+<body>
+	<div id="wrap" v-cloak>
+		<div id="header">
+			<a class="icon-arrow-down"  href="javascript:history.back(-1)"></a>
+			<div class="page-tit">顾客分析</div>
+		</div>
+		<div class="main">
+			<div class="client-assess">
+				<div class="client-assess-main">
+					<ul>
+						<li v-for="item in list">
+							<div class="user clearfix">
+								<div class="img">
+									<img :src="item.img" alt="">
+								</div>
+								<div class="user-info">
+									<div class="user-info-name clearfix">
+										<strong>{{item.name}}</strong>
+										<em>{{item.time}}</em>
+									</div>
+									<div class="user-info-star">
+										<div class="star">
+											<span v-for="n in item.star" class="icon-star"></span>
+										</div>
+										<em>{{item.starDetail}}</em>
+									</div>
+								</div>
+							</div>
+							<div class="user-assess">{{item.evaluate}}</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		new Vue({
+			el: "#wrap",
+			data: {
+				list: [
+					{
+						img: "images/cow.svg",
+						name: "monster9527",
+						time: "2018-12-10",
+						star: 5,
+						starDetail: "口味5星，包装5星，配送满意",
+						evaluate: "今天的牛排很嫩，不会太咸，味道刚好。水果沙拉也很新鲜。都很喜欢，吃得很饱！"
+					},
+					{
+						img: "images/cow.svg",
+						name: "monster9527",
+						time: "2018-12-10",
+						star: 5,
+						starDetail: "口味5星，包装5星，配送满意",
+						evaluate: "今天的牛排很嫩，不会太咸，味道刚好。水果沙拉也很新鲜。都很喜欢，吃得很饱！"
+					}
+				]
+			},
+		})
+	</script>
+</body>
+</html>

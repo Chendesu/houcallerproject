@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+        //微博
+        !function (e) {
+            var a, i = navigator.userAgent.toLowerCase(),
+                n = document.documentElement,
+                t = parseInt(n.clientWidth);
+            if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent) || i.indexOf("like mac os x") > 0) {
+                var s = /os [\d._]*/gi,
+                    o = i.match(s);
+                a = (o + "").replace(/[^0-9|_.]/gi, "").replace(/_/gi, ".")
+            }
+            var r = a + "";
+            "undefined" != r && r.length > 0 && (a = parseInt(r), a >= 8 && (375 == t || 667 == t || 320 == t || 568 == t || 480 == t) ? n.className = "iosx2" : (a >= 8 && 414 == t || 736 == t) && (n.className = "iosx3")),
+            /(Android)/i.test(navigator.userAgent) && (n.className = "android")
+        }(window);
+    </script>
+    <style>
+        * {padding: 0;margin: 0;}
+        ul,li {list-style: none;}
+        .box {
+            width: 100%;
+            margin-top: 150px;
+            text-align: center;
+        }
+        .box ul {
+            display: inline-block;
+            width: 52px;
+            height: 92px;
+            overflow: hidden;
+            position: relative;
+        }
+        .box ul li {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+        }
+        .box ul li.sel {
+            display: block;
+        }
+        .box ul li img {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        #num {
+            margin-top: 100px;
+            text-align: center;
+        }
+        #num img {
+            display: inline-block;
+            width: 52px;
+        }
+    </style>
+</head>
+<body>
+    <!-- <div class="box">
+        <ul>
+            <li class="sel" data-index=""><img src="images/num_9.png" alt=""></li>
+            <li data-index=""><img src="images/num_9_.png" alt=""></li> 
+            <li data-index=""><img src="images/num_8.png" alt=""></li>
+            <li data-index=""><img src="images/num_8_.png" alt=""></li>
+            <li data-index=""><img src="images/num_7.png" alt=""></li>
+            <li data-index=""><img src="images/num_7_.png" alt=""></li>
+            <li data-index=""><img src="images/num_6.png" alt=""></li>
+            <li data-index=""><img src="images/num_6_.png" alt=""></li>
+            <li data-index=""><img src="images/num_5.png" alt=""></li>
+            <li data-index=""><img src="images/num_5_.png" alt=""></li>
+            <li data-index=""><img src="images/num_4.png" alt=""></li>
+            <li data-index=""><img src="images/num_4_.png" alt=""></li>
+            <li data-index=""><img src="images/num_3.png" alt=""></li>
+            <li data-index=""><img src="images/num_3_.png" alt=""></li>
+            <li data-index=""><img src="images/num_2.png" alt=""></li>
+            <li data-index=""><img src="images/num_2_.png" alt=""></li>
+            <li data-index=""><img src="images/num_1.png" alt=""></li>
+            <li data-index=""><img src="images/num_1_.png" alt=""></li>
+            <li data-index=""><img src="images/num_0.png" alt=""></li>
+            <li data-index=""><img src="images/num_0_.png" alt=""></li>
+        </ul>
+    </div> -->
+    <div id="num">0</div>
+    <script src="jquery-1.12.3.min.js"></script>
+    <script src="jquery.animateNumber.min.js"></script>
+    <script>
+
+
+
+
+        // var timer = null;
+        // var index = 0;
+        // function play() {
+        //     index++;
+        //     if(index > 10) {
+        //         index = 0;
+        //     }
+        //     $(".box li").eq(index).fadeIn(100).siblings().fadeOut(100);
+        //     // $(".box li").eq(index).slideDown(200).siblings().slideUp(200);
+        // }
+        // setInterval(play,300);
+        var num = 12345;
+        var timer = null;
+        var t = 0;
+        function scroll() {
+           
+            var str = t.toString().split("");//数字转化为字符串再转化为数组
+            var html = '';
+            for(var i=0;i<str.length;i++) {
+                switch(str[i]) {
+                    case "0": html+='<img src="images/num_0.png" />';break;
+                    case "1": html+='<img src="images/num_1.png" />';break;
+                    case "2": html+='<img src="images/num_2.png" />';break;
+                    case "3": html+='<img src="images/num_3.png" />';break;
+                    case "4": html+='<img src="images/num_4.png" />';break;
+                    case "5": html+='<img src="images/num_5.png" />';break;
+                    case "6": html+='<img src="images/num_6.png" />';break;
+                    case "7": html+='<img src="images/num_7.png" />';break;
+                    case "8": html+='<img src="images/num_8.png" />';break;
+                    case "9": html+='<img src="images/num_9.png" />';break;
+                }
+            }
+            $("#num").html(html);
+            if(t > num) {
+                clearInterval(timer);
+                return;
+            } else {
+                t++;
+            }
+        }
+        timer = setInterval(scroll,1); 
+    </script>
+</body>
+</html>

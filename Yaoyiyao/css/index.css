@@ -1,0 +1,136 @@
+@charset 'utf-8';
+/* CSS reset */
+html{color:#535d6c;background:#FFF;font-family:'Microsoft YaHei';font-size: 14px;}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,form,input,button,textarea,p,th,td,strong{padding:0;margin:0;font-family:'Microsoft YaHei';}
+table{border-collapse:collapse;border-spacing:0;}
+img{border:0;}
+a{text-decoration:none; color:#fff; outline:none;}/*此处待添加默认链接颜色*/
+a:hover{color: #000;}
+var,em,strong{font-style:normal;}
+em,strong,th,var{font-style:inherit;font-weight:inherit;}
+li{list-style:none;}
+caption,th{text-align:left;}
+h1,h2,h3,h4{font-size:100%;font-weight:normal;}
+input,button,textarea,select,option{font-family:inherit; font-size:inherit;font-style:inherit;font-weight:inherit;}
+input,button,textarea,select{*font-size:100%;}
+.clearfix:after {content:"\200B"; display:block; height:0; clear:both; }
+.clearfix { *zoom:1; }
+html,body {
+	width: 100vw;
+	height: 100vh;
+}
+.btn {
+	position: fixed;
+	top: 4vh;
+	left: 50%;
+	width: 40vw;
+	height: 5vh;
+	margin-left: -20vw;
+	border-radius: 10vw;
+	text-align: center;
+	line-height: 5vh;
+	font-size: 16px;
+	color: #f73f43;
+	background-color: #fff;
+	z-index: 99;
+
+}
+.wrap {
+	position: relative;
+	width: 100vw;
+	height: 100vh;
+}
+.top, .bot {
+	width: 100vw;
+	height: 50vh;
+	background-color: #f73f43;
+	z-index: 2
+}
+.top {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+.bot {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}
+.top > div, .bot > div {
+	display: block;
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+.top img, .bot img {
+	display: block;
+	margin: 0 auto;
+}
+.top img {
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	transform: translateX(-50%);
+}
+.center {
+	position: absolute;
+	top: 50%;
+	left: 0;
+	transform: translateY(-50%);
+	z-index: 1;
+}
+.center img {
+	display: block;
+	width: 100%;
+}
+.pop {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 999;
+	display: none;
+}
+.pop .mask {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0,0,0,.6);
+	z-index: 1;
+}
+.pop .pop-con {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 80vw;
+	height: 20vh;
+	margin-left: -40vw;
+	margin-top: -10vh;
+	border-radius: 5vw;
+	background-color: #fff;
+	z-index: 2;
+}
+.num {
+	position: absolute;
+	left: 0;
+	top: 90vh;
+	width: 100%;
+	z-index: 99;
+}
+.num ul {
+	overflow: hidden;
+	height: 5vh;
+	text-align: center;
+}
+.num ul li {
+	display: inline-block;
+	
+}
+.num ul li img {
+	display: block;
+	width: auto;
+	height: 5vh;
+}

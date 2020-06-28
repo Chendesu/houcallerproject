@@ -1,0 +1,997 @@
+JSON（Javascript Object Notation）轻量级的数据交换格式。
+
+四个基本规则
+  1、并列的数据之间用逗号（“ , ”）分隔。
+  2、映射用冒号（“ : ”）表示。
+  3、并列数据的集合（数组）用方括号（“ [] ”）表示。
+  4、映射的集合（对象）用大括号（“ {} ”）表示。
+
+优点
+  1、数据格式简单，易于读写，格式都是压缩的，占用带宽小
+  2、支持多种语言（ActionScript, C, C#, ColdFusion, Java, JavaScript, Perl, PHP, Python, Ruby等服务器端语言），便于服务端的解析。
+
+缺点
+  1、要求字符集，必须是Unicode，受约束性强
+  2、语法过于严谨，必须遵循JSON语法四个原则
+
+JSON数据格式和Serialize数据格式的异同和使用
+  同：
+    1、都是把其他数据类型转换成一个可以传输的字符串
+    2、都是结构性数据
+  异：
+    1、Serialize序列化后的数据格式，保存数据原有类型
+    2、JSON数据格式要更简洁相比Serialize序列化之后的数据格式
+  使用场景：
+    1、JSON适合数据量大，不要求保留原有数据类型的情况下使用
+    2、Serialize适合存储带有加密方式的数据串，防止数据被中途截取反序列化破解
+
+PHP中操作JSON的重要函数
+  加密：json_encode()
+  解密：json_decode()
+
+数组转json: json_encode($array);
+json转数组/对象: json_decode($json);——对象
+                json_decode($json, true);——数组
+
+PHP面向对象
+  访问控制 
+    1)public：被定为为公有的类成员可以在任何地方被访问
+    2)protected：被定义为受保护的类成员则可以被其自身以及其子类和父类访问
+    3)private：被定义为私有的类成员则只能被其定义所在的类访问
+    类属性必须定义为共有、受保护、私有之一。如果没有设置这些关键字，则默认公有。
+  1、类的属性和方法
+    class Computer {
+      // 定义属性
+      public $cpu = 'amd 5000';  
+      protected $mainboard = '华硕9000x'; 
+      private $hd = 512; 
+
+      //定义方法
+      public function game($gameName='')
+      {
+        //echo $this->hd;
+        if($this->getHdSize()<1024){
+          echo "硬盘太小，玩不了游戏";
+          return false;
+        }
+        return true;
+      }
+      public function job($work='写代码')
+      {
+        echo $this->game(); //调用方法
+      }
+      private function getHdSize()
+      {
+        return $this->hd;
+      }
+    }
+    //实例
+    $computer = new Computer();
+    var_dump($computer->cpu); //调用属性（不能调用私有属性。若调用私有属性会报错）
+    $computer->job();  // 调用方法
+
+  2、构造方法和析构方法
+    构造方法（__construct）
+      1）在类中使用__construct()定义一个构造函数，具有构造函数的类，会在每次对象创建的时候调用该函数，因此常用来在对象创建的时候进行一些初始化工作。
+      2）实例化的时候 会自动调用构造函数__construct；
+      3）在子类中如果定义了__construct则不会调用父类的__construct，如果需要同时调用父类的构造函数，需要使用parent::__construct()显式的调用。
+      ----------------------------------------
+        class Computer{
+          public function __construct($high = 0)
+          {
+            if($high){
+              echo "高配的CPU就绪……";
+              echo "高配的主板就绪……";
+              echo "高配的内存就绪……";
+            } else {
+              echo "CPU就绪……";
+              echo "主板就绪……";
+              echo "内存就绪……";
+            }
+          }
+
+          public function game()
+          {
+            echo "-----完成-----";
+          }
+        }
+        $computer = new Computer(1);// 1是构造函数的参数
+        $computer->game();
+      ================================================
+        class Car {
+              function __construct() {
+                print "父类构造函数被调用\n";
+                  }
+              }
+        class Truck extends Car {
+              function __construct() {
+                print "子类构造函数被调用\n";
+                parent::__construct();
+              }
+        }
+        $car = new Truck();
+
+
+
+析构方法
+  析构函数指的是当某个对象的所有引用被删除，或者对象被显式的销毁时会执行的函数。
+  ----------------------------------------------------
+    class Car {
+      function __construct() {
+        print "构造函数被调用 \n";
+      }
+      function __destruct() {
+        print "析构函数被调用 \n";
+      }
+    }
+    $car = new Car(); //实例化时会调用构造函数
+    echo '使用后，准备销毁car对象 \n';
+    unset($car); //销毁时会调用析构函数
+    // 当PHP代码执行完毕以后，会自动回收与销毁对象，因此一般情况下不需要显式的去销毁对象。
+  -----------------------------------------------
+
+
+类常量
+  大写字母，下划线
+  class Computer {
+    const YES = true; 
+    const NO = false;
+    const ONE = 1;
+    const TWO = self::ONE + 1; // 调用类里的常量，php的版本要大于5.6，不然会报错
+    const THREE = self::TWO + 1;
+  }
+  var_dump(Computer::THREE);
+
+类的继承
+  class Dad{
+    public function Kungfu()
+    {
+      echo "hahah 2333";
+    }
+  }
+  class CoolGuy extends Dad{
+    public function run()
+    {
+      $this->Kungfu();
+    }
+  }
+  $coolguy = new CoolGuy();
+  $coolguy->run();
+  注：当子类的方法名和父类的方法名相同时会覆盖父类的方法
+      当子类有自己的构造方法时，会调用自己的构造方法；当子类没有构造方法时会调用父类的构造方法
+
+    final关键字  类或方法不能被继承
+      final class Computer{}
+      final public game() {}
+
+命名空间(namespace)
+  ----------------------------------
+    1.php
+    <?php
+      namespace venter;
+      class Imooc
+      {
+        
+      }
+    ?>
+  -----------------------------------
+    2.php
+    <?php
+      namespace venter\session;
+      class Imooc
+      {
+
+      }
+    ?>
+  -------------------------------------
+    main.php
+    <?php
+      include "1.php";
+      include "2.php";
+
+      var_dump(new venter\Imooc());
+      var_dump(new venter\session\Imooc);
+    ?>
+  =====================================
+  会受到命名空间的影响
+  类（包括抽象类、traits）、接口、函数和常量
+
+  全局空间（main.php为全局命名空间调用）
+  命名空间
+
+  如果调用全局空间的类，则需要添加“\”；
+  在当前命名空间下不存在函数或常量时，会到全局空间下去查找；而类直接在当前命名空间下查找，不存在的话会抛出错误。
+  ---------------------------
+    3.php
+    <?php
+      class Test1
+      { }
+      function Test2()
+      { }
+      const TEST3 = "test3";
+    ?>
+    main2.php
+    <?php 
+      namespace main2;
+      include "3.php";
+
+      var_dump(new \Test1());//类，这里加“\”表示在全局空间下查找，若没有“\”则在当前命名空间下查找，不存在的话会报错
+      Test2();//函数
+      echo TEST3;//常量
+    ?>
+  ===================================
+
+
+
+
+
+
+类的自动加载
+  __autoload  （不常用，可能被遗弃）
+    function __autoload($className){
+      require $className . ".php";
+    }
+    $imooc = new Imooc();
+    var_dump($imooc);
+    // 当实例化一个类的时候，发现当前的类并不存在，就会自动调用__autoload函数，自动将实例化的类的名字将作为参数被传进去
+
+  spl_autoload_register  
+    ===============================================
+      spl_autoload_register(function($className){
+        require $className . ".php";
+      });
+      $imooc = new Imooc();
+      var_dump($imooc);
+    ==================================================
+      function test($className){
+        require $className . ".php";
+      }
+      spl_autoload_register('test');
+      $imooc = new Imooc();
+      var_dump($imooc);
+    ====================================================
+      class Momo {
+        function autoload($className){
+          require $className . ".php";
+        }
+      }
+      spl_autoload_register([new Momo, 'autoload']);
+      $imooc = new Imooc();
+      var_dump($imooc);
+    ====================================================
+
+static关键字
+  常识性的类添加 static关键字来表明它的与众不同，用的时候不用实例化，没有具体的对象，直接从类中取值，要用“::”符号。
+  （加static的类是静态属性，不需要实例化，不加的是普通属性，需要实例化类后才能调用）
+  （静态方法一开始就已经创建在内存中了；普通方法属性是实例化的时候动态分配内存空间）
+  class Person
+  {
+    public static $hand = "手";//静态属性
+    public static $foot = "脚";
+
+    public static function work(){ // 静态方法
+      // echo self::$hand; // 调用静态属性用self
+      return "单纯的工作";
+    }
+  }
+
+  class Imooc extends Person
+  {
+    public function play(){ 
+      // 子类调用父类的属性/方法
+      // return parent::work();
+      return parent::$hand;
+    }
+  }
+
+
+  // echo Person::$hand; //属性
+  // echo Person::work();  //方法
+  // 调用继承类
+  $imooc = new Imooc();
+  echo $imooc->play();
+  =======================================
+  后期静态绑定
+  class A {
+    public static function who() {
+      echo "A类的who方法";
+    }
+    public static function test() {
+      static::who();// 后期绑定，告诉PHPstatic指向的是哪个类
+      // self::who();
+    }
+  }
+  class B extends A {
+    public static function who() {
+      echo "B类的who方法";
+    }
+  }
+  B::test();
+  // A类的test方法里是用static::who();这里的static告诉PHP指向的是哪个类；B::test()指向的是B类，因此这里输出的信息是“B类的who方法”。
+
+
+
+魔术方法
+  __set，__get  两者必须同时存在
+  __isset 检测给的变量是否存在
+  __unset 用户删除私有属性的时候，这个方法会进行回调
+  __call 为了避免当调用的方法不存在的时候产生错误，这个方法会被自动调用
+  __callStatic 当静态方法不存在，这个方法就会被自动的调用
+  __invoke  当对象以函数的方式被调用，这个方法会自动被调用
+  __toString 当要打印对象的时候，这个方法就会自动被调用
+  =========================================================
+  class Test
+  {
+    private $abc = '';
+
+    public function __set($var,$val){
+      $this->$var = $val;
+    }
+
+    public function __get($var) {
+      return $this->$var;
+    }
+
+  }
+
+  $test = new Test();
+  $test->abc = 'abc';
+  var_dump($test->abc);
+  ==========================================================
+  class Test
+  {
+    private $abc = 'abc';
+
+    public function __isset($var)
+    {
+      return isset($this->$var) ? true : false;
+    }
+  }
+
+  $test = new Test();
+  var_dump(isset($test->abc));
+  // isset()  检测变量是否设置
+  =============================================================
+  class Test
+  {
+    private $abc = 'abc';
+
+    public function __unset($var){
+      echo "__unset:".$var;
+      unset($this->$var);
+    }
+  }
+
+  $test = new Test();
+  unset($test->abc);
+  // unset()  释放给定的变量
+  =================================================================
+  class Test
+  {
+    public function __call($func, $arguments){
+      echo $func;
+      echo "<br>";
+      print_r($arguments);
+
+    }
+  }
+
+  $test = new Test();
+  $test->go(1,'ok');
+  ===============================================================
+  class Test
+  {
+    public static function __callStatic($name, $arguments)
+    {
+      echo $name;
+      echo "<br>";
+      print_r($arguments);
+    }
+  }
+
+  Test::go(1,'ok');
+  ===============================================================
+  class Test
+  {
+    public function __invoke($arg)
+    {
+      var_dump($arg);
+    }
+  }
+
+  $test = new Test();
+  $test('go……');
+  ================================================================
+  class Test
+  {
+    public function __toString()
+    {
+      return "hello……";
+    }
+  }
+  $test = new Test();
+  echo $test;
+  ================================================================
+
+
+对象复制
+  浅拷贝：变量之间是地址传递的，都同时指向一个地址，这个地址上有一个值，大家共享这个值。
+  深拷贝(clone, __clone)：变量之间是传递值的。
+  在PHP里面对象的赋值是浅拷贝的，是地址传递的，指向同一块内存，同一个值，改变其中任意一个值，另外的也会跟着改变这就是变量的浅拷贝。普通变量类型是深拷贝的，变量之间通过复制值来进行的。
+  class A
+  {
+    public $age = 0;
+    public $username = "";
+
+    public $obj = null;
+
+    public function __clone(){
+      $this->obj = clone $this->obj;
+    }
+  }
+
+  class B 
+  {
+    public $sex = 0;
+  }
+
+  $a = new A();
+
+  $a->obj = new B();
+
+  $b = clone $a;// 深拷贝
+  $b->obj->sex = 1;
+  var_dump($a->obj->sex);
+
+类型约束
+    class C
+    {
+      public $name = "";
+      public function go(){
+        echo "gogogo...";
+      }
+    }
+    function test(C $a){ // $a的类型必须是类C的对象
+      $a->go();
+    }
+    test(new C());
+
+
+Trait
+  PHP是单继承语言，只能继承一个类；Trait是为单继承语言准备的复用机制.
+  trait A
+  {
+    public $abc = "abc";
+    public function a(){
+      echo "hello ";
+    }
+  }
+  trait B
+  {
+    public function b(){
+      echo "world ";
+    }
+  }
+  trait C
+  {
+    use A,B;
+  }
+  class Test
+  {
+    use C;
+    public function c(){
+      echo $this->abc;
+    }
+  }
+  $test = new test();
+  $test->a();
+  $test->b();
+  $test->c();
+
+接口(interface)
+  接口是类的模板，类是对象的模板。方法在接口里面是不做具体的实现的。
+  interface Person
+  {
+    public function eat();
+
+    public function sleep();
+  }
+
+  class Man implements Person
+  {
+    public function eat(){
+      echo "吃海鲜大餐……";
+    }
+
+    public function sleep(){
+      echo "半夜睡觉……";
+    }
+  }
+
+  class Woman implements Person
+  {
+    public function eat()
+    {
+      echo "吃水果……";
+    }
+
+    public function sleep()
+    {
+      echo "十点睡觉……";
+    }
+  }
+
+  class L
+  {
+    public static function factory(Person $user){
+      return $user;
+    }
+  }
+  $user = L::factory(new Woman());
+  $user->eat();
+  $user->sleep();
+  ---------------------------
+  接口的继承
+    接口不能被直接实例化。
+    interface Ia
+    {
+      const ABC = "只是测试 ";
+      public function eat();
+    }
+
+    interface Ib
+    {
+      public function sleep();
+    }
+
+    class Test implements Ia, Ib
+    {
+      public function eat(){
+        echo "吃烧鸡 ";
+      }
+
+      public function sleep(){
+        echo "学代码 不睡觉 ";
+      }
+    }
+    $test = new Test();
+    $test->eat();
+    $test->sleep();
+    echo Ia::ABC; // 常量
+  --------------------------------
+  抽象类(abstract)
+    跟接口的区别，抽象类里可实现部分方法，而接口只能定义方法。
+    abstract class AB
+    {
+      public function holiday(){
+        echo "5月1号放假等等……";
+      }
+      public function eat(){}
+      public function sleep(){}
+    }
+
+    class Test extends AB
+    {
+      public function eat()
+      {
+        echo "吃烧鸡 ";
+      }
+
+      public function sleep()
+      {
+        $this->holiday();
+        echo "学代码 不睡觉 ";
+      }
+    }
+    $test = new Test();
+    $test->eat();
+    $test->sleep();
+    ------------------------------------
+    单例模式和工厂模式
+    单例模式：确保类只有一个实例。同一个类实例化多次（比如不同文件include），会很浪费内存。
+    单例模式里的构造函数要设置成私有，保证不在外部被实例化。
+    class Test 
+    {
+      private static $_instance = null;
+      private function __construct()
+      { }
+      private function __clone()
+      { }
+      public static function getInstance()
+      {
+        //判断对象是否是当前类的实例
+        if(!(self::$_instance instanceof self)){
+          // 若不是，则实例化当前对象
+          self::$_instance = new self();
+        }
+        // 若是，则返回实例化的对象
+        return self::$_instance;
+      }
+    }
+    $test1 = Test::getInstance();
+    $test2 = Test::getInstance();
+    $test3 = Test::getInstance();
+    $test4 = Test::getInstance();
+    var_dump($test1);
+    var_dump($test2);
+    var_dump($test3);
+    var_dump($test4);
+    --------------------------------------
+    工厂模式：用来创建类的实例.
+    class Memcache
+    {
+      public function set($k,$v)
+      { }
+      public function get($k)
+      {  }
+      public function delete($k)
+      { }
+    }
+    class Cache
+    {
+      public static function factory()
+      {
+        return new Memcache();
+      }
+    }
+    $cache = Cache::factory();
+    $cache->set(1,2);
+
+
+
+    MySQLi函数(https://www.runoob.com/php/php-ref-mysqli.html)
+      mysqli_connect($host,$username,$password,$dbname); 连接数据库
+      mysqli_query($conn,$sql); 查询数据库
+      mysqli_fetch_array($result); 从结果集中取得一行作为数字数组或关联数组
+      mysqli_fetch_assoc($result);  从结果集中取得一行作为关联数组
+      mysqli_fetch_row($result);  从结果集中取得一行，并作为枚举数组返回
+      mysqli_num_rows($result);  返回结果集中行的数量
+      mysqli_close($conn); 关闭先前打开的数据库连接
+      mysqli_connect_error();  返回上一次连接错误的错误描述
+      mysqli_free_result($result); 释放结果内存
+
+
+
+
+HTTP协议原理
+  特点：1、请求方式：客户端——>服务端——>客户端
+        2、通信特点：无状态协议
+  基本组成：报文首部   空行（CR+LF） 报文主题
+      报文：用于HTTP协议交互的信息
+      请求行：包括请求的方法，URL和HTTP协议版本
+      状态行：包括相应结果的状态码，状态描述和http版本
+      首部字段：包括请求和响应的各种条件和属性值（键值对）
+
+    报文首部
+      客户端：请求行、请求首部字段、通用首部字段、实体首部字段、其他
+      服务端：状态行、响应首部字段、通用首部字段、实体首部字段、其他
+
+    状态码
+      常见：200 请求成功
+            301 资源（网页）被永久转移到其它URL
+            404 请求的资源（网页等）不存在
+            500 内部服务器错误
+      分类：1** 信息；服务器收到请求，需要请求者继续执行操作
+            2** 成功，操作成功接收并处理
+            3** 重定向，需要进一步的操作以完成请求
+            4** 客户端错误，请求包含语法错误或无法完成请求
+            5** 服务端错误，服务器在处理请求的过程中发生了错误
+
+
+  telnet模拟http请求
+    1、cmd下：telnet 主机地址  80
+    2、按下快捷键：ctrl+]   再按下回车键打开回显功能
+    3、发送请求原文
+    ======================================================================
+    GET(请求方法) /http/test.php(请求URL) HTTP/1.1(http协议版本)--->请求行
+    HOST:localhost(请求首部)
+    (空行)
+    响应内容
+    HTTP/1.1 200(响应结果状态码) OK(状态描述)
+    Date: Thu, 22 Aug 2019 07:28:49 GMT
+    Server: Apache/2.4.9 (Win64) PHP/7.2.21
+    X-Powered-By: PHP/7.2.21
+    Content-Type: text/html; charset=UTF-8
+
+  file_get_contents和fopen构造表单提交
+    $postData = array(
+      "title"=>"我是file_get_contents构造的数据",
+      "content"=>"我是file_get_contents构造的数据类容",
+      "publish"=>"发布"
+    );
+    $postData = http_build_query($postData);
+    $opts = array(
+      "http"=>array(
+        "method"=>"POST",
+        "header"=>"Host:localhost\r\n".
+                  "Content-type:application/x-www-form-urlencoded\r\n".
+                  "Content-length:".strlen($postData)."\r\n",
+        "content"=>$postData,
+      )
+    );
+    $content = stream_context_create($opts);
+    file_get_contents("http://localhost/http/index.php",false,$content);
+  -------------------------------------------------------------------------
+    $postData = array(
+      "title"=> "我是fopen构造的数据",
+      "content"=> "我是fopen构造的数据类容",
+      "publish"=>"发布"
+    );
+    $postData = http_build_query($postData);
+    $opts = array(
+      "http"=>array(
+        "method"=>"POST",
+        "header"=>"Host:localhost\r\n".
+                  "Content-type:application/x-www-form-urlencoded\r\n".
+                  "Content-length:".strlen($postData)."\r\n",
+        "content"=>$postData,
+      )
+    );
+    $content = stream_context_create($opts);
+    $fp = fopen("http://localhost/http/index.php","r",false,$content);
+    fclose($fp);
+  curl方式提交表单
+    $url = "http://localhost/http/index.php";
+    $postData = array(
+      "title"=>"我是curl方式提交的",
+      "content" => "我是curl方式提交的数据内容",
+      "publish" => "发布"
+    );
+    // 初始化一个curl会话
+    $ch = curl_init();
+    // 设置相应的会话选项
+    // 设置提交的网址
+    curl_setopt($ch, CURLOPT_URL,$url);
+    // 设置数据提交方式
+    curl_setopt($ch, CURLOPT_POST,1);
+    // 设置数据提交方式
+    curl_setopt($ch, CURLOPT_POSTFIELDS,$postData);
+    // 提交成功后，把数据返回为字符串
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+    $output = curl_exec($ch);
+    curl_close($ch);
+    echo $output;
+  socket方式提交表单
+    $postData = array(
+      "title"=>"我是socket方式提交的标题",
+      "content" => "我是socket方式提交的内容",
+      "publish" => "发布",
+    );
+    $postData = http_build_query($postData);
+    $fp = fsockopen("localhost",80,$errno,$errorStr,5);
+    $request = "POST http://localhost/http/index.php HTTP/1.1\r\n";
+    $request .= "Host:localhost\r\n";
+    $request .= "Content-type:application/x-www-form-urlencoded\r\n";
+    $request .= "Content-length:".strlen($postData)."\r\n\r\n";
+    $request .= $postData;
+    fwrite($fp, $request);
+    // 读取数据
+    while(!feof($fp)){
+      echo fgets($fp,1024);
+    };
+    fclose($fp);
+
+PHP会话控制
+  Cookie
+    cookie保存在客户端中
+      -内存cookie：由浏览器来维护，保存在内存中，浏览器关闭之后就消失了，存在时间短暂
+      -硬盘cookie：保存在硬盘里，有一个过期时间，除非用户手动清除或者到了过期时间，硬盘cookie不会被删除，其存在时间是长期的
+    cookie使用场景
+      -永久登录
+      -购物车
+    操作cookie
+      -设置cookie
+      --setcookie()
+        bool setcookie(string $name[,string $value=""[,int $expire=0[,string $path=""[,string $domain=""[,bool $secure=false[,bool $httponly=false]]]]]])
+          $name  指定cookie的名字
+          $value    cookie的值
+          $expire   设置cookie的过期时间，默认值为0，单位是秒数
+          $path     设置cookie的有效路径，默认是当前目录及子目录有效，也可以指定成整个根目录/在整个根目录下有效
+          $domain   设置cookie的作用域，默认在本域下
+          $secure   设置是否cookie只能通过HTTPS传输，默认值是false
+          $httponly 是否只使用HTTP访问cookie，如果设置成true，那么客户端的JS就无法操作这个cookie了，用这个参数可以减少XSS攻击
+      --setrawcookie()
+        不会对值进行url编码
+      -读取cookie 
+        cookie数据保存在$_COOKIE
+      -更新cookie
+      -删除cookie  将过期时间设置比当前时间早
+      （更新和删除的时候需要保证$path和$domain和之前的保持一致才可以）
+    cookie的缺陷
+      1、cookie中不要存储敏感数据，cookie不是很安全，劫取cookie之后可以用来cookie欺骗
+      2、不要把cookie当做客户端存储器来使用，首先每个域名允许cookie是有限制的，根据不同的浏览器这个限制也是不同。cookie中保存数据的最大字节数是4K
+      3、cookie设置之后每次都会附着在HTTP的头中一起发送，浪费带宽
+  HTML5 localStorage
+    常用API
+      -设置 localStorage.setItem(key,value)
+      -读取 localStorage.getItem(key)
+      -删除指定 key localStorage.removeItem(key)
+      -全部删除 localStorage.clear()
+      -获取指定的键名 key(i)
+  session
+    工作原理
+      1、准备建立会话的时候，PHP会先查看请求中是否包含session_id，如果没有服务器会在自己的内存里建立一个新的变量，这个变量就是session_id，假如这个变量就是session_1234
+      2、服务器会把这个session_id发送到浏览器保存，一般浏览器会把这个id保存在cookie中
+      3、之后每次我的浏览器再去访问服务器的时候都会携带cookie中存储的这个session_1234，这样服务器就认识这个浏览器了
+      4、服务器端这个session_1234变量可以存放任意的会话数据，这些数据是经过序列化之后存放进去的
+      5、每次浏览器访问服务器都可以凭借自己的session_id到服务器的变量中认领自己的信息
+      6、如果想销毁会话可以删除掉会话中的数据，销毁会话文件
+    如何使用
+      开启会话 session_start()
+      可以通过$_SESSION来设置相关值，设置和读取都使用这个全局变量
+        (若用户手动禁止掉浏览器的cookie，这时候session还能用，这时候可以通过url进行传递参数)
+        ===========================================================================
+        session_start();
+        $_SESSION['a'] = 'aaa';
+        $_SESSION['b'] = 'bbb';
+        echo "<a href='dump.php?".session_name()."=".session_id()."'>查看信息</a>";
+        ----------------------------------------------------------------------------
+        ---dump.php---
+        session_id($_GET[session_name()]);
+        session_start();
+        print_r($_SESSION);
+        =======================================
+      销毁会话
+        将$_SESSION清空  $_SESSION = []
+        将cookie的数据清除  setcookie()
+        销毁会话 session_destroy()
+        ======================================
+        session_start();
+        //将$_SESSION数据清空
+        $_SESSION = [];
+        //删除会话cookie
+        if(ini_get('session.use_cookies')) {
+          $params = session_get_cookie_params();
+          setcookie(session_name(),'',time()-1,$params['path'],$params['domain'],$params['secure'],$params['httponly']);
+        }
+        // 销毁会话
+        session_destroy();
+    会话管理
+      session_set_save_handler  设置用户自定义会话存储函数
+        bool session_set_save_handler(callable $open, callable $close, callable $read, callable $write, callable $destroy, callable $gc [, callable $create_sid])
+        bool session_set_save_handler(SessionHandlerInterface $sessionhandler [, bool $register_shutdown = true])
+
+
+GD库图像处理
+  GD函数库简介
+    PHP并不仅限于创建HTML输出，它也可以创建和处理包括GIF,PNG,JPEG,WBMP以及XPM在内的多种格式的图像。更加方便的是，PHP可以直接将图像数据流输出到浏览器。要想在PHP中使用图像处理功能，这时候还就需要使用PHP提供的GD函数库。
+    GD库的安装及配置
+      -配置PHP配置文件，开启extension=php_gd2.dll
+      -设置extension_dir="ext目录所在的位置"
+      -重启服务器即可
+    ===================================
+      // 检测扩展是否开启
+      var_dump(extension_loaded('gd'));
+      // 检测函数是否可以使用
+      var_dump(function_exists('gd_info'));
+      // 得到gd库信息
+      var_dump(gd_info());
+      // 得到所有已定义的函数
+      print_r(get_defined_functions());
+    ====================================
+  GD库常用函数的使用
+    GD库操作步骤
+      -创建画布
+        $image = imagecreatetruecolor($width,$height);创建画布，返回资源，返回图像标志符
+      -创建颜色
+        imagecolorallocate($image, $red, $green, $blue); 
+      -开始绘画
+        imagettftext($image,$size,$angle,$x,$y,$color,$fontFile,$text);用TrueType字体向图像写入文本
+        imagechar($image,$font,$x,$y,$char,$color);水平的绘制一个字符
+        imagecharup($image,$font,$x,$y,$char,$color);垂直绘制一个字符
+        imagestring($image,$font,$x,$y,$str,$color);水平绘制字符串
+        imagefontwidth($font);获取字体宽度
+        imagefontheight($font);获取字体高度
+        imagesetpixel($image,$x,$y,$color);画一个单一像素
+        imageline($image,$x1,$y1,$x2,$y2,$color);画一条线段
+        imagearc($image,$cx,$cy,$width,$height,$start,$end,$color);画椭圆弧
+
+
+      -输出或保存图像
+        header('content-type:image/jpeg');
+        imagejpeg($image [,$filename(路径) [,$quality]]);
+      -销毁资源
+        imagedestroy($image);
+  图像常用操作
+    略缩图、文字水印、图片水印
+    getimagesize($filename,[,array &$imageinfo]) 取得图像大小
+      将测定任何GIF,JPG,PNG,SWF,SWC,PSD,TIFF,BMP,IFF,JP2,JPX,JB2,JPC,XBM,WBMP图像文件的大小并返回图像的尺寸以及文件类型和一个可以用那个于普通HTML文件中IMG标记中的height/width文本字符串。
+      如果不能访问 filename 指定的图像或者其不是有效的图像，getimagesize() 将返回 FALSE 并产生一条 E_WARNING 级的错误。
+    imagecreatetruecolor($width,$height);返回图像标志符
+    imagecreatefromjpeg($filename);由文件或URL创建一个新图像
+    imagecopyresampled ( resource $dst_image , resource $src_image , int $dst_x , int $dst_y , int $src_x , int $src_y , int $dst_w , int $dst_h , int $src_w , int $src_h )
+    imagecopymerge ( resource $dst_im , resource $src_im , int $dst_x , int $dst_y , int $src_x , int $src_y , int $src_w , int $src_h , int $pct ) 拷贝并合并图像的一部分
+
+
+文件编程
+  文件上传原理：将客户端的文件上传到服务器端，再将服务器前端的临时文件移动到指定目录即可。
+  文件上传配置：
+      表单页面
+      表单的发送方式为post
+      添加enctype="multipart/form-data"
+  服务器端配置：
+      file_uploads = On，支持HTTP上传
+      upload_tmp_dir=临时文件保存的目录
+      upload_max_filesize=2M，允许上传文件的最大值
+      max_file_uploads=20，允许一次上传的最大文件数
+      post_max_size=8M，POST方式发送数据的最大值
+      max_execution_time=-1，设置了脚本被解析器终止之前允许的最大执行时间，单位为秒，防止程序写得不好而占尽服务器资源
+      max_input_time=60，脚本解析输入数据允许的最大时间，单位是秒
+      max_input_nesting_level=64，设置输入变量的嵌套深度
+      max_input_vars=1000，接受多少输入的变量（限制分别应用于$_GET、$_POST和$_COOKIE超全局变量）指令的使用减轻了以哈希碰撞来进行拒绝服务供给的可能性。如超过指令指定数量的变量，将会导致E_WARNING的产生，更多的输入变量将会从请求中截断。
+      memory_limit-128M，最大单线程的独立内存使用量。也就是一个web请求，给予线程最大的内存使用量的定义。
+  错误信息说明
+      UPLOAD_ERR_OK：其值为0，没有错误发生，文件上传成功
+      UPLOAD_ERR_INI_SIZE：其值为1，上传的文件超过了php.ini中upload_max_filesize选项限制的值
+      UPLOAD_ERR_FORM_SIZE：其值为2，上传文件的大小超过HTML表单中
+      UPLOAD_ERR_PARTIAL：其值为3，文件只有部分被上传
+      UPLOAD_ERR_NO_FILE：其值为4，没有文件被上传
+      UPLOAD_ERR_NO_TMP_DIR：其值为6，找不到临时文件夹
+      UPLOAD_ERR_CANT_WRITE：其值为7，文件写入失败
+      UPLOAD_ERR_EXTENSION：其值为8，上传的文件被PHP扩展程序中断
+  上传文件限制
+      客户端限制：
+          通过表单隐藏域限制上传文件的最大值
+            <input type="hidden" name="MAX_FILE_SIZE" value="字节数">
+          通过accept属性限制上传文件类型
+            <input type="file" name="myFile" accept="文件的MIME类型">
+      服务器端限制
+          限制上传文件大小
+          限制上传文件类型
+          检测是否为真实图片类型
+          检测是否为HTTP POST方式上传
+
+
+  $_FILES中保存着上传文件的信息
+    name: 上传文件的名称
+    type: 上传文件的MIME类型
+    tmp_name: 上传到服务器上的临时文件名
+    size: 上传文件的大小
+    error: 上传文件的错误号
+    
+  move_uploaded_file($tmp_name,$destination) 将服务器上的临时文件移动到指定目录下叫什么名字，移动成功返回true，否则返回false
+    $tmp_name：上传文件的文件名，这里的文件是临时文件
+    $destination：移动文件到这个位置
+  copy($src,$dst); 将文件拷贝到指定目录，拷贝成功返回true，否则返回false
+    $src：源文件路径
+    $dst：目标路径
+  pathinfo($path [, PATHINFO_DIRNAME|PATHINFO_BASENAME|PATHINFO_EXTENSION|PATHINFO_FILENAME]) 返回文件路径的信息  
+    $path:要解析的路径
+    PATHINFO_DIRNAME：路径
+    PATHINFO_BASENAME：文件名包括扩展名
+    PATHINFO_EXTENSION：文件扩展名
+    PATHINFO_FILENAME：文件名
+  is_uploaded_file($tmp_name) 判断文件是否通过HTTP POST上传的，若是，则返回true，否则返回false
+  file_exists($filename) 检查文件或目录是否存在，若存在，返回true，否则，返回false
+  mkdir($pathname[,$mode=0777[,$recursive=false[,$context]]]) 新建目录，成功时返回true，否则返回false
+    $pathname：目录的路径
+    $mode：默认0777，意味着最大可能的访问权
+    $recursive：允许递归创建$pathname所指定的多级嵌套目录
+  chmod($filename,$mode) 改变文件模式；成功时返回 TRUE， 或者在失败时返回 FALSE
+    $filename：文件的路径
+    $mode：包含三个八进制数按顺序分别指定了所有者、所有者所在的组以及所有人的访问限制。每一部分都可以通过加入所需的权限来计算出所要的权限。数字 1 表示使文件可执行，数字 2 表示使文件可写，数字 4 表示使文件可读。加入这些数字来制定所需要的权限
+    
+
+
+
+
+
+
+
+    
+
+
+
+  
+
+        
+
+    
+
+
+
+
+
+
+
+

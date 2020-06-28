@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>Document</title>
+	<script src="js/flexible_css.js,flexible.js"></script>
+	<link rel="stylesheet" href="css/mui.min.css">
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+	<link rel="stylesheet" href="css/common.css">
+	<link rel="stylesheet" href="css/order-send.css">
+	<script src="js/mui.min.js"></script>
+	<script src="js/jquery-1.12.3.min.js"></script>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=axlZcGNwc56CXxwsVehmtUSsehGWOk95"></script>
+</head>
+<body>
+	<div class="wrap">
+		<div class="header whiteColor">
+			<a class="back"  href="javascript:history.back(-1)">
+				<i class="fa fa-angle-left" aria-hidden="true"></i>
+			</a>
+			<span class="page-tit">配送追踪</span>
+		</div>
+		<div id="map"></div>
+		<div class="order-main" id="orderMain">
+			<!-- <div class="order-main-inner"> -->
+				<div class="order-main-line"></div>
+				<div class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<div class="order-main-hd">
+							<h2>预计在09:56送达</h2>
+							<div class="server">
+								<em>配送服务</em>
+								<span>美团配送</span>
+							</div>
+							<div class="fun">
+								<span>申请售后</span>
+								<span>联系骑手</span>
+								<span>催单</span>
+							</div>
+						</div>
+						<div class="order-main-info">
+							<h2>配送信息</h2>
+							<ul>
+								<li class="clearfix">
+									<em>配送服务</em>
+									<span>美团专送</span>
+								</li>
+								<li class="clearfix">
+									<em>配送骑手</em>
+									<span>张三</span>
+								</li>
+								<li class="clearfix">
+									<em>期望时间</em>
+									<span>8月23日 11:40</span>
+								</li>
+								<li class="clearfix">
+									<em>配送地址</em>
+									<span>
+										<strong>李四(女士) 123456789101</strong>
+										<strong>新港广场小区703</strong>
+									</span>
+								</li>
+							</ul>
+						</div>
+						<div class="order-main-pro">
+							<div class="hd">商品</div>
+							<ul>
+								<li class="clearfix">
+									<span class="img">
+										<img src="images/steak.jpg" alt="">
+									</span>
+									<span class="detail">
+										<strong>经典牛排套餐</strong>
+										<em class="greyColor">+黑胡椒酱</em>
+										<em class="greyColor">x1</em>
+									</span>
+									<span class="price">￥60</span>
+								</li>
+								<li class="clearfix">
+									<span class="img">
+										<img src="images/steak.jpg" alt="">
+									</span>
+									<span class="detail">
+										<strong>经典牛排套餐</strong>
+										<em class="greyColor">+黑胡椒酱</em>
+										<em class="greyColor">x1</em>
+									</span>
+									<span class="price">￥60</span>
+								</li>
+								<li class="clearfix">
+									<span class="img">
+										<img src="images/steak.jpg" alt="">
+									</span>
+									<span class="detail">
+										<strong>经典牛排套餐</strong>
+										<em class="greyColor">+黑胡椒酱</em>
+										<em class="greyColor">x1</em>
+									</span>
+									<span class="price">￥60</span>
+								</li>
+							</ul>
+							<div class="coupon">
+								<a class="clearfix" href="personal-vip-card.html">
+									<strong>优惠券</strong>
+									<span>-￥10</span>
+								</a>
+							</div>
+							<div class="other-pay">
+								<span class="clearfix">
+									<strong>包装费</strong>
+									<em>￥4</em>
+								</span>
+								<span class="clearfix">
+									<strong>配送费</strong>
+									<em>￥4.1</em>
+								</span>
+							</div>
+							<div class="total">
+								<span>已优惠<em class="redColor">￥10</em></span>
+								<span>合计<strong class="redColor">￥178.1</strong></span>
+							</div>
+						</div>
+						<div class="order-main-info">
+							<h2>订单信息</h2>
+							<ul>
+								<li class="clearfix">
+									<em>订单号码</em>
+									<span>4308 4441 4361 5307 4</span>
+								</li>
+								<li class="clearfix">
+									<em>下单时间</em>
+									<span>2018-8-23 10:14</span>
+								</li>
+								<li class="clearfix">
+									<em>支付方式</em>
+									<span>在线支付</span>
+								</li>
+								<li class="clearfix">
+									<em>用餐人数</em>
+									<span>2人</span>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			<!-- </div> -->
+		</div>
+	</div>
+	<script>
+		var map = new BMap.Map("map",{enableMapClick: false});
+		var point = new BMap.Point(118.0870031245,24.482702590757);
+		map.centerAndZoom(point,15);
+		map.addControl(new BMap.NavigationControl());//缩放控件
+
+		//	顾客位置
+		var pt = new BMap.Point(118.0870031245,24.482702590757);
+		var myIcon = new BMap.Icon("images/map_cow.png",new BMap.Size(33,36));
+		var marker = new BMap.Marker(pt,{icon:myIcon});
+		map.addOverlay(marker);
+		//餐厅位置
+		var pt2 = new BMap.Point(118.09487,24.471456);
+		var myIcon2 = new BMap.Icon("images/map_store.png",new BMap.Size(33,36));
+		var marker2 = new BMap.Marker(pt2,{icon:myIcon2});
+		map.addOverlay(marker2);
+		//骑手位置
+		var pt3 = new BMap.Point(118.082531,24.475079);
+		var myIcon3 = new BMap.Icon("images/map_deliver.png",new BMap.Size(41,45.5));
+		var marker3 = new BMap.Marker(pt3,{icon:myIcon3});
+		map.addOverlay(marker3);
+
+
+
+		function Rad(d) {
+		    return d * Math.PI / 180.0; //经纬度转换成三角函数中度分表形式。
+		}
+		//计算距离，参数分别为第一点的纬度，经度；第二点的纬度，经度
+		function GetDistance(lat1, lng1, lat2, lng2) {
+		    var radLat1 = Rad(lat1);
+		    var radLat2 = Rad(lat2);
+		    var a = radLat1 - radLat2;
+		    var b = Rad(lng1) - Rad(lng2);
+		    var s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) + Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
+		    s = s * 6378.137; // 地球半径，千米;
+		    s = Math.round(s * 10000) / 10000; //输出为公里
+		    s = Math.round(s * 1000) / 1; //单位修改为米,取整
+		    //s=s.toFixed(4);
+		    return s;
+		}
+		 
+		//使用方法
+		var pointA = new BMap.Point(118.09487,24.471456);
+		var pointB = new BMap.Point(118.0870031245,24.482702590757);
+		 
+		var mile = GetDistance(pointA.lat, pointA.lng, pointB.lat, pointB.lng);
+		console.log(mile);
+
+		var opts = {
+		  position : pt3,    // 指定文本标注所在的地理位置
+		  offset   : new BMap.Size(30, -30)    //设置文本偏移量
+		}
+		var label = new BMap.Label("送餐员正在赶往餐厅<br /> <em style='color:#666;'>距离餐厅</em>"+"<b style='color:#00a2ff;'>"+mile+"m</b>", opts);  // 创建文本标注对象
+		label.setStyle({
+			 width: "130px",
+			 // height : "40px",
+			 padding: "10px",
+			 border: "0px",
+			 borderRadius: "6px",
+			 color : "#000",
+			 fontSize : "12px",
+			 transform: "translate(-80%,-130%)"
+		 });
+		map.addOverlay(label); 
+
+
+		mui.init({
+			gestureConfig:{
+		   		tap: true, //默认为true
+		   		doubletap: true, //默认为false
+		   		longtap: true, //默认为false
+		   		swipe: true, //默认为true
+		   		drag: true, //默认为true
+		   		hold:false,//默认为false，不监听
+		   		release:false//默认为false，不监听
+		  	}
+		});  
+		var elem = document.getElementById("orderMain");
+		elem.addEventListener("swipeup",function(){
+		    console.log("你正在向上滑动");
+		    $("#orderMain").css({
+		    	"top": "3.23rem",
+		    	"bottom": 0,
+		    	"height": "auto"
+		    });
+		});
+		$(".order-main-line").on("tap",function(){
+			$("#orderMain").css({
+		    	"top": "auto",
+		    	"bottom": 0,
+		    	"height": "2.69rem"
+		    });
+		})
+		
+ 
+
+
+
+	</script>
+</body>
+</html>

@@ -1,0 +1,192 @@
+canvas
+
+canvas.width
+canvas.height
+canvas.getContext("2d")
+
+先设置状态再进行绘制
+
+线
+context.moveTo()
+context.lineTo()
+context.beginPath();//开始绘制
+context.closePath();//关闭绘制
+
+context.lineWidth   //定义线条的宽度
+context.strokeStyle //定义线条的样式
+context.fillStyle   //定义填充的颜色
+context.stroke()    //绘制线条
+context.fill()      //绘制实心（填充）
+绘制多边形
+1、闭合用context.closePath()
+2、先填充颜色再描边
+线条的属性
+lineCap--只能用于开始处和结尾处，线段和线段衔接的地方不生效
+ 1)butt  - 默认
+ 2)round - 多出一块圆边
+ 3)square- 多出一块方形边
+lineJoin-- 线条与线条相交的时候所呈现的状态
+ 1)miter -尖角的形状
+ 2)bevel -截切
+ 3)round -圆滑
+miterLimit--当我们使用miter为线条与线条衔接的状态时，所产生的外角和内角的距离的最大值，一旦超过设置的最大值，就会自动变成bevel状态
+
+
+弧线
+context.arc(
+	centerX,centerY,radius,
+	startingAngle,startingAngle,
+	anticlockwise=false
+)
+
+矩形
+context.rect(x,y,width,height)
+context.fillRect(x,y,width,height)
+context.strokeRect(x,y,width,height)
+
+
+图形变换
+位移 translate(x,y)
+旋转 rotate(deg)
+缩放 scale(sx,sy)
+状态的保存和恢复
+save()
+restore()
+
+变换矩阵
+////////////////////////
+//  a  c  e
+//  b  d  f
+//  0  0  1
+//
+//  a,d 水平/垂直缩放
+//  b,c 水平/垂直倾斜
+//  e,f 水平/垂直位移
+////////////////////////
+transform(a,b,c,d,e,f) 
+setTransform(a,b,c,d,e,f) 忽略之前的transform，也就是将当前的矩阵设置为单位矩阵，在根据传来的参数设置全新的transform
+
+
+fillStyle(=color/gradient/image/canvas/video)
+1)gradient-线性渐变
+  var grd = context.createLinearGradient(xstart,ystart,xend,yend); //若xend为0，则渐变为垂直的；yend为0，则渐变为水平的
+  //若设置xend，yend为画布的局部(假设画布为800*800，这里设置结束点为400，400，那么400以后显示的颜色为结束时的颜色)
+  grd.addColorStop(stop,color);//可根据个人需求添加无数个
+
+2)gradient-径向渐变 (Radial Gradient)
+   var grd = context.createRadialGradient(x0,y0,r0,x1,y1,r1);//x0,y0,r0定义第一个圆的原点坐标以及半径；x1,y1,r1定义第二个圆的原点坐标以及半径
+   grd.addColorStop(stop,color);
+
+
+
+3)使用图片,画布,video
+    createPattern
+    createPattern(img,repeat-style)
+   		repeat-style:no-repeat
+   					 repeat-x
+   					 repeat-y
+   					 repeat
+
+   	createPattern(canvas,repeat-style)
+   	createPattern(video,repeat-style)
+
+曲线的绘制
+-圆弧和圆角矩形
+  context.arc(
+  	centerX,centerY,radius,
+  	startingAngle,startingAngle,
+  	anticlockwise=false
+  )
+  context.moveTo(x0,y0); //开始点
+  context.arcTo(
+  	x1,y1, // 控制点
+    x2,y2, // 结束点
+  	radius
+  );//结束点不一定在线上
+-二次贝塞尔曲线(http://tinyurl.com/html5quadratic)
+  context.moveTo(x0,y0); //开始点
+  context.quadraticCurveTo(
+    x1,y1, // 控制点
+    x2,y2  // 终止点  
+  ); //结束点一定在线上，线不一定是圆弧
+-三次贝塞尔曲线(http://tinyurl.com/html5bezier)
+  context.bezierCurveTo(
+    x1,y1, // 控制点
+    x2,y2, //
+    x3,y3  //
+  ); 
+
+
+文字的渲染
+ context.font = "bold 40px Arial" //默认值:"20px sans-serif";
+               // font-style: normal | italic(斜体字) | oblique(倾斜字体)
+               // font-variant: normal | small-caps(英文小写字母换成大写字母并变小)
+               // font-weight: normal | lighter | bold | bolder | 100~900
+               // font-size
+               // font-family
+
+ context.fillText(string,x,y,[maxlen])
+ ontext.strokeText(string,x,y,[maxlen]) //maxlen:文字显示宽度
+ 文本对齐
+ context.textAlign = left | center | right
+ context.textBaseline = top | middle | bottom | alphabetic(default) | ideographic | hanging
+ 文本度量
+ context.measureText(string).width  //string字符串所占的宽度
+
+阴影
+  context.shadowColor
+  context.shadowOffsetX
+  context.shadowOffsetY
+  context.shadowBlur 
+
+global
+  context.globalAlpha //使全局透明度，默认值为1
+  context.globalCompositeOperation :  source-over 后绘制的图形覆盖前面绘制的图形
+                                      destination-over 前面绘制的图形覆盖后绘制的图形
+    source-over     destination-over    lighter
+    source-atop     destination-atop    copy
+    source-in       destination-in      xor
+    source-out      destination-out                           
+  //绘制的图像在重叠的时候所产生的效果，默认值source-over
+
+剪辑区域
+  context.clip()
+  路径方向和剪纸效果
+  非零环绕原则 
+
+clearRect 对指定矩形区域进行清空
+  context.clearRect(x,y,width,height)
+
+isPointInPath canvas中内置的点击检测函数  
+  context.isPointInPath(x,y)
+
+扩展canvas的context
+  自定义一个函数(例如fillStar),当我们想用context.fillStar来调用，需要用到CanvasRenderingContext2D
+
+    CanvasRenderingContext2D.prototype.fillStar = function(r,R,x,y,rot) {
+      this.beginPath();
+      // 跟canvas绘制图形的语法一样，只要将context换成this，这里的this相当于context
+    }
+
+  完了直接调用context.fillStar(r,R,x,y,rot)
+
+
+兼容性
+  兼容IE6、7、8等浏览器
+  加载explorecanvas插件  https://code.google.com/p/explorercanvas
+
+canvas图形库
+ canvasplus   https://code.google.com/p/canvasplus
+ Artisan JS   http://artisanjs.com
+ Rgraph https://roopons.com.au/wp-content/plugins/viral-optins/js/rgraph
+
+
+椭圆
+ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle, anticlockwise)
+参数：(起点x.起点y,半径x,半径y,旋转的角度，起始角，结果角，顺时针还是逆时针)
+ 
+
+
+
+
+

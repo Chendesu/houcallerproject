@@ -1,0 +1,501 @@
+@charset 'utf-8';
+#wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+}
+.swiper-container .swiper-pagination {
+    bottom: 0.53rem!important;
+}
+.info {
+    position: absolute;
+    /*top: 3.73rem;*/
+    top: 4.07rem;
+    left: 0.47rem;
+    width: calc(100% - 0.94rem);
+    height: 1.6rem;
+    padding: 0.24rem;
+    border-radius: 0.16rem;
+    text-align: center;
+    background: -webkit-linear-gradient(rgba(81,120,130,0.9),rgba(0,58,72,0.9)); 
+    background: -o-linear-gradient(rgba(81,120,130,0.9),rgba(0,58,72,0.9)); 
+    background: -moz-linear-gradient(rgba(81,120,130,0.9),rgba(0,58,72,0.9));
+    background: linear-gradient(rgba(81,120,130,0.9),rgba(0,58,72,0.9));
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    z-index: 10;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.info .head-portrait {
+    float: left;
+    /*width: 1.04rem;
+    height: 1.12rem;*/
+    /* width: 1.12rem;
+    height: 1.27rem; */
+    width: 1.31rem;
+    height: 1.32rem;
+    border-radius: 0.16rem;
+    overflow: hidden;
+}
+.info .head-portrait img {
+    display: block;
+    height: 100%;
+}
+.info .qr-code {
+    float: right;
+    width: 1.03rem;
+    height: 1.12rem;
+    border-left: 1px solid #fff;
+    text-align: right;
+    line-height: 1.12rem;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.info .qr-code img {
+    display: inline-block;
+    width: 0.77rem;
+    height: 0.77rem;
+    margin-top: 0.16rem;
+}
+.info ul {
+    float: left;
+    width: calc(100% - 1.04rem);
+    height: 1.12rem;
+}
+.info ul li {
+    float: left;
+    width: 20%;
+    text-align: center;
+}
+.info ul li:nth-child(4) {
+	border-right: 1px solid #fff;
+	-webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.info ul li span {
+   	display: block;
+    color: #fff;
+    font-size: 14px;
+}
+[data-dpr="2"] .info ul li span {
+    font-size: 28px;
+}
+[data-dpr="3"] .info ul li span {
+    font-size: 42px;
+}
+.info ul li strong {
+    display: block;
+    color: #ffc72c;
+    margin-top: 0.16rem;
+    font-size: 12px;
+    font-weight: 600;
+}
+[data-dpr="2"] .info ul li strong {
+    font-size: 24px;
+}
+[data-dpr="3"] .info ul li strong {
+    font-size: 36px;
+}
+.info ul li img {
+	display: block;
+	width: 60%;
+	height: 0.56rem;
+	margin: 0 auto;
+	margin-top: 0.15rem;
+}
+.info ul li i {
+    display: block;
+    font-size: 46px;
+    color: #fff;
+    margin-top: -0.25rem;
+}
+[data-dpr="2"] .info ul li i {
+    font-size: 92px;
+}
+[data-dpr="3"] .info ul li i {
+    font-size: 138px;
+}
+.info .leval {
+	position: absolute;
+    left: -0.3rem;
+    top: 0.2rem;
+    width: 0.86rem;
+    padding: 0.05rem 0.2rem 0.05rem;
+    text-align: center;
+    background-color: #ffc72c;
+    -webkit-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    display: -webkit-flex;
+    display: flex;
+    justify-items: center;
+    justify-content: center;
+}
+.info .leval .start {
+	display: inline-block;
+	width: 0.2rem;
+	height: 0.2rem;
+	background: url(../../images/hbs/start.png) center center no-repeat;
+	background-size: 100% 100%;
+}
+.info span, .info a {
+    display: inline-block;
+}
+.info span.gift {
+    width: 0.67rem;
+    height: 0.67rem;
+    text-align: center;
+    background: url(../../images/hbs/gift.png) center center no-repeat;
+    background-size: 100% 100%;
+}
+.info span.txt {
+    color: #fff;
+    margin: 0 0.29rem;
+    font-size: 15px;
+    font-weight: bold;
+}
+[data-dpr="2"] .info span.txt {
+    font-size: 30px;
+}
+[data-dpr="3"] .info span.txt {
+    font-size: 45px;
+}
+.info span.txt em {
+    color: #ffc72c;
+}
+.info .login {
+    width: 1.6rem;
+    height: 0.67rem;
+    border-radius: 0.11rem;
+    line-height: 0.67rem;
+    text-align: center;
+    color: #000;
+    font-weight: bold;
+    background-color: #ffc72c;
+}
+.notice-board {
+    width: 7.84rem;
+    /*height: 0.8rem;
+    margin-top: 0.8rem;*/
+    height: 0.56rem;
+    padding-top: 1.17rem;
+    margin-left: 1.68rem;
+    color: #999;
+    font-size: 12px;
+    overflow: hidden;
+}
+[data-dpr="2"] .notice-board {
+    font-size: 24px;
+}
+[data-dpr="3"] .notice-board {
+    font-size: 42px;
+}
+.notice-board .notice-board-tit {
+    float: left;
+    width: 1.47rem;
+    padding-left: 0.5rem;
+    /*line-height: 0.8rem;*/
+    line-height: 0.56rem;
+    background: url(../../images/hbs/horn.png) left center no-repeat;
+    background-size: 0.4rem auto;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.notice-board .list {
+    float: left;
+    width: calc(100% - 1.47rem);
+    height: 0.56rem;
+    overflow: hidden;
+}
+.notice-board .list ul li {
+    height: 0.56rem;
+    line-height: 0.56rem;
+    /*font-size: 14px;*/
+}
+/*[data-dpr="2"] .notice-board .list ul li {
+    font-size: 28px;
+}
+[data-dpr="3"] .notice-board .list ul li {
+    font-size: 42px;
+}*/
+.nav {
+    width: 100%;
+    height: calc(100% - 8.53rem);
+}
+.nav ul {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+.nav ul li {
+    /*float: left;*/
+    position: absolute;
+    width: 33.33%;
+    height: 33.33%;
+    padding: 0 0.13rem 0.28rem;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.nav ul li:nth-child(1) {
+    top: 0;
+    left: 0;
+}
+.nav ul li:nth-child(2) {
+    top: 0;
+    left: 33.33%;
+}
+.nav ul li:nth-child(3) {
+    top: 0;
+    left: 66.66%;
+}
+.nav ul li:nth-child(4) {
+    top: 33.33%;
+    left: 0;
+}
+.nav ul li:nth-child(5) {
+    top: 33.33%;
+    left: 33.33%;
+}
+.nav ul li:nth-child(6) {
+    top: 33.33%;
+    left: 66.66%;
+}
+.nav ul li:nth-child(7) {
+    top: 66.66%;
+    left: 0;
+    width: 66.66%;
+}
+.nav ul li:nth-child(8) {
+    top: 66.66%;
+    left: 66.66%;
+}
+.nav a {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    border-radius: 0.13rem;
+    text-align: center;
+    color: #ffc72c;
+    background-color: #003b49;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.nav div span {
+    display: block;
+    padding: 0 0.2rem;
+    text-align: center;
+    line-height: 120%;
+    position: relative;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.nav div span b {
+    position: absolute;
+    top: 50%;
+    width: 0.2rem;
+    transform: translateY(-50%);
+}
+.nav div span b:nth-child(1) {
+    left: 0;
+}
+.nav div span b:nth-child(2) {
+    right: 0;
+}
+.nav div span.br b:nth-child(2) {
+    left: 0;
+}
+.nav div span.br b:nth-child(3) {
+    right: 0;
+}
+.nav div img {
+    display: inline-block;
+    text-align: center;
+    height: 1.28rem;
+}
+.nav li:nth-child(even) a {
+    color: #003b49;
+    background-color: #ffc72c;
+}
+.nav li:nth-child(7) a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0.29rem 0.32rem;
+    color: #003b49;
+    background: #ffc72c url(../../images/hbs/hui.png) center center no-repeat;
+    background-size: auto 0.64rem;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.nav li:nth-child(8) a {
+    color: #ffc72c;
+    background-color: #003b49;
+}
+.nav div i {
+    font-size: 62px;
+}
+[data-dpr="2"] .nav div i {
+    font-size: 124px;
+}
+[data-dpr="3"] .nav div i {
+    font-size: 186px;
+}
+.nav a .brand {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 33.33%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.nav a .brand:nth-child(2) {
+    top: 33.33%;
+    height: 33.33%;
+}
+.nav a .brand:nth-child(3) {
+    top: 66.66%;
+    height: 33.33%;
+}
+.nav a .brand span {
+    float: left;
+    width: 25%;
+    
+}
+.nav a .brand span img {
+   height: 0.67rem;
+}
+.sign-in {
+    position: absolute;
+    top: 5.96rem;
+    right: 0;
+    width: 2rem;
+    height: 0.67rem;
+    border-radius: 0.33rem 0 0 0.33rem;
+    font-size: 14px;
+    color: #003b49;
+    background-color: #ffc72c;
+    /* overflow: hidden; */
+}
+[data-dpr="2"] .sign-in {
+    font-size: 28px;
+}
+[data-dpr="3"] .sign-in {
+    font-size: 42px;
+}
+.sign-in span {
+    font-size: 120%;
+    /*line-height: 0.67rem;*/
+}
+.sign-in.already {
+    color: #003b49;
+    background-color: #fff;
+}
+.sign-in .active {
+    position: absolute;
+    top: -0.1rem;
+    left: -0.4rem;
+    width: 0.81rem;
+    height: 0.79rem;
+    background: url(../../images/hbs/sign_in.png) center center no-repeat;
+    background-size: 100% 100%;
+}
+.sign-in a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.pay-code {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999999;
+}
+.pay-code .mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.4);
+}
+.pay-code .pay {
+    overflow: hidden;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 8rem;
+    border-radius: 0.13rem;
+    background: #fff;
+    z-index: 2;
+    transform: translate(-50%,-50%);
+}
+.pay-code .pay .pay-hd {
+    width: 100%;
+    height: 1.33rem;
+    text-align: center;
+    line-height: 1.33rem;
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+    background: #ffc72c url(../../images/hbs/line.svg) center center no-repeat;
+    background-size: 40% auto;
+}
+[data-dpr="2"] .pay-code .pay .pay-hd {
+    font-size: 40px;
+}
+[data-dpr="3"] .pay-code .pay .pay-hd {
+    font-size: 60px;
+}
+.pay-code .pay .pay-main {
+    padding: 0.3rem 0 0.5rem;
+    text-align: center;
+}
+.pay-code .pay .pay-main .decorate {
+    width: 100%;    
+    height: 0.37rem;  
+    background: url(../../images/hbs/code.png) center center no-repeat;
+    background-size: auto 100%;
+}
+.pay-code .pay .pay-main img {
+    display: block;
+    width: 5.5rem;
+    height: 5.5rem;
+    margin: 0.2rem auto;
+}
+.pay-code .pay .pay-main strong {
+    display: block;
+    font-size: 14px;
+    color: #333;
+}
+[data-dpr="2"] .pay-code .pay .pay-main strong {
+    font-size: 28px;
+}
+[data-dpr="3"] .pay-code .pay .pay-main strong {
+    font-size: 42px;
+}

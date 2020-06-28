@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>豪客来管理后台</title>
+  <script src="js/flexible_css.js,flexible.js"></script>
+  <link rel="stylesheet" href="css/common.css">
+  <script src="js/vue.min.js"></script>
+  <script src="js/jquery.min.js"></script>
+</head>
+<body>
+  <div id="wrap" style="padding-top: 0;" v-cloak>
+    <div class="index-hd"></div>
+    <form class="index-form">
+      <div>
+        <i class="icon-id"></i>
+        <input type="text" placeholder="请输入门店ID">
+      </div>
+      <div>
+        <i class="icon-password"></i>
+        <input type="password" placeholder="请输入登录密码">
+      </div>
+      <a class="login" @click="loginFun">登录</a>
+    </form>
+  </div>
+  <script> 
+    new Vue({
+      el: "#wrap",
+      data: {
+
+      },
+      mounted: function() {
+
+      },
+      methods: {
+        loginFun: function() {
+          window.location.href="store-operation.html";
+        }
+      }
+    })
+  </script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta namae="keywords" content="豪客来牛排，牛排，会员商城，豪礼卡">
+	<title>豪礼卡</title>
+	<script src="js/hbs/flexible_css.js,flexible.js"></script>
+	<link rel="stylesheet" href="css/hbs/swiper.min.css">
+	<link rel="stylesheet" href="css/hbs/common.css">
+	<link rel="stylesheet" href="css/hbs/cards.css">
+	<script src="js/hbs/vue.min.js"></script>
+	<script src="js/hbs/jquery-1.12.3.min.js"></script>
+	<script src="js/hbs/swiper.min.js"></script>
+	<script src="js/hbs/component/component.js"></script>
+</head>
+<body>
+	<div id="wrap" v-cloak>
+		<navbar :preurl="result" :idx="currentIndex"></navbar>
+		<banner :imglist="banner"></banner>
+		<ul class="list" clearfix>
+			<li>
+				<a href="cards-buy.html">
+					<span class="icon-buy-card"></span>
+					<strong>我要买卡</strong>
+					<i class="icon-arrow"></i>
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<span class="icon-card-stroke"></span>
+					<strong>我的豪礼卡</strong>
+					<i class="icon-arrow"></i>
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<span class="icon-send-card"></span>
+					<strong>我要送卡</strong>
+					<i class="icon-arrow"></i>
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<span class="icon-bind-card"></span>
+					<strong>绑定实体卡</strong>
+					<i class="icon-arrow"></i>
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<span class="icon-rule"></span>
+					<strong>使用规则</strong>
+					<i class="icon-arrow"></i>
+				</a>
+			</li>
+		</ul>
+	</div>
+
+	<script>
+		var pathName = document.location.pathname;
+		var index = pathName.substr(1).indexOf("/");
+		var result = pathName.substr(0,index+1);
+		new Vue({
+			el: "#wrap",
+			data: {
+				result: result,
+				currentIndex: 0,
+				banner: [
+					{
+						id: 0,
+						title: "",
+						url: "#",
+						imgUrl: "images/hbs/title.jpg"
+					}
+				]
+			},
+			mounted: function() {
+
+			},
+			methods: {
+
+			}
+		})
+	</script>
+</body>
+</html>

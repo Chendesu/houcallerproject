@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta namae="keywords" content="豪客来牛排，牛排，会员商城，个人资料">
+	<title>个人资料</title>
+	<script src="js/hbs/flexible_css.js,flexible.js"></script>
+	<link rel="stylesheet" href="css/hbs/swiper.min.css">
+	<link rel="stylesheet" href="css/hbs/mobiscroll.css">
+	<link rel="stylesheet" href="css/hbs/mobiscroll_date.css">
+	<link rel="stylesheet" href="css/hbs/common.css">
+	<link rel="stylesheet" href="css/hbs/my-edit.css">
+	<script src="js/hbs/vue.min.js"></script>
+	<script src="js/hbs/jquery-1.12.3.min.js"></script>
+	<script src="js/hbs/swiper.min.js"></script>
+	<script src="js/hbs/mobiscroll_date.js" charset="utf-8"></script>
+	<script src="js/hbs/mobiscroll.js"></script>
+	<script src="js/hbs/component/component.js"></script>
+</head>
+<body>
+	<div id="wrap">
+		<ul class="list clearfix">
+			<li class="clearfix">
+				<i class="icon-my-user"></i>
+				<strong>用户名</strong>
+				<!-- <span class="icon-arrow"></span> -->
+				<input type="text" v-model="name">
+			</li>
+			<li class="clearfix" @click="editPhone">
+				<i class="icon-my-tel"></i>
+				<strong>手机号</strong>
+				<span class="icon-arrow"></span>
+				<!-- <input type="text" v-model="tel"> -->
+				<div>{{tel}}</div>
+			</li>
+			<li class="clearfix">
+				<i class="icon-my-cake" style="font-size: 140%;"></i>
+				<strong>生日信息</strong>
+				<span class="icon-arrow"></span>
+				<input type="text" id="txtBirthday" v-model="birthday">
+				<!-- <div id="txtBirthday">{{birthday}}</div> -->
+			</li>
+			<li class="clearfix">
+				<i class="icon-my-card"></i>
+				<strong>会员卡</strong>
+				<input type="text" v-model="cardNO" disabled>
+			</li>
+		</ul>
+		<button>确认修改</button>
+	</div>
+	<script>
+		new Vue({
+			el: "#wrap",
+			data: {
+				name: "megatron",
+				tel: "138****3030",
+				birthday: "2018-01-01",
+				cardNO:"1111111111111111111"
+			},
+			mounted: function() {
+				var currYear = (new Date()).getFullYear();	
+				var opt={};
+				opt.date = {preset : 'date'};
+				opt.datetime = {preset : 'datetime'};
+				opt.time = {preset : 'time'};
+				opt.default = {
+					theme: 'android-ics light', //皮肤样式
+					display: 'modal', //显示方式 
+					mode: 'scroller', //日期选择模式
+					dateFormat: 'yyyy-mm-dd',
+					lang: 'zh',
+					showNow: true,
+					nowText: "今天",
+					startYear: currYear - 50, //开始年份
+					endYear: currYear + 10, //结束年份
+				};
+				$("#txtBirthday").mobiscroll($.extend(opt['date'], opt['default']));
+
+			},
+			methods: {
+				editPhone: function() {
+					self.location = "my-edit-phone.html";
+				}
+			}
+		})
+	</script>
+</body>
+</html>

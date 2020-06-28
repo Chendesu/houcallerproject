@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+      .btn {
+        text-align: center;
+        margin: 10px;
+      }
+      .btn span {
+        display: inline-block;
+        padding: 5px 10px;
+        margin: 3px;
+        color: #fff;
+        border-radius: 5px;
+        background: #058;
+        cursor: pointer;
+      }
+  </style>
+</head>
+<body>
+  <div class="btn" id="btn">
+    <span>source-over</span>
+    <span>source-atop</span>
+    <span>source-in</span>
+    <span>source-out</span>
+    <span>destination-over</span>
+    <span>destination-atop</span>
+    <span>destination-in</span>
+    <span>destination-out</span>
+    <span>lighter</span>
+    <span>copy</span>
+    <span>xor</span>
+  </div>
+  <canvas id="canvas" style="display:block;margin:0 auto;border:1px solid #aaa;">
+    该浏览器暂不支持canvas，请更换浏览器后重试！
+  </canvas>
+
+  <script>
+      var canvas = document.getElementById("canvas");
+      var context = canvas.getContext("2d");
+
+      var btn = document.getElementById("btn");
+      var children = btn.children;
+      var style = "source-over";
+
+      window.onload = function() {
+        canvas.width = 800;
+        canvas.height = 500;
+        draw(style);
+        for (var i = 0; i < children.length; i++) {
+          children[i].onclick = function () {
+            style = this.innerText;
+            draw(style);
+          }
+        }
+
+      }
+
+      function draw(style) {
+        context.clearRect(0,0,canvas.width,canvas.height);
+        context.beginPath();
+        context.arc(400, 200, 100, 0, 2 * Math.PI);
+        context.fillStyle = "#058";
+        context.fill();
+        context.closePath();
+
+        context.globalCompositeOperation = style;
+
+        context.beginPath();
+        context.arc(300, 300, 100, 0, 2 * Math.PI);
+        context.fillStyle = "#f0f";
+        context.fill();
+        context.closePath();
+        
+      }
+
+      
+
+  </script>
+
+</body>
+</html>

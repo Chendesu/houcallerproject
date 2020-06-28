@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta namae="keywords" content="豪客来牛排，牛排，会员商城">
+	<title>会员商城</title>
+	<script src="js/hbs/flexible_css.js,flexible.js"></script>
+	<link rel="stylesheet" href="css/hbs/swiper.min.css">
+	<link rel="stylesheet" href="css/hbs/common.css">
+	<link rel="stylesheet" href="css/hbs/brand.css">
+	<script src="js/hbs/vue.min.js"></script>
+	<script src="js/hbs/jquery-1.12.3.min.js"></script>
+	<script src="js/hbs/swiper.min.js"></script>
+	<script src="js/hbs/component/component.js"></script>
+</head>
+<body>
+	<div id="wrap" v-cloak>
+		<navbar :preurl="result" :idx="currentIndex"></navbar>
+		<div class="logo clearfix" >
+			<div class="logo-div" v-for="item in brand">
+				<a href="#" >
+					<img :src="item.img" alt="">
+				</a>
+			</div>
+		</div>
+		<div class="main">
+			<a href="#" v-for="item in list">
+				<img :src="item.img" alt="">
+			</a>
+		</div>
+	</div>
+	<script>
+		var pathName = document.location.pathname;
+		var index = pathName.substr(1).indexOf("/");
+		var result = pathName.substr(0,index+1);
+		new Vue({
+			el: "#wrap",
+			data: {
+				result: result,
+				currentIndex: 0,
+				brand: [
+					{
+						id: 0,
+						img: "images/hbs/logo_1.png"
+					},
+					{
+						id: 1,
+						img: "images/hbs/logo_2.png"
+					},
+					{
+						id: 2,
+						img: "images/hbs/logo_3.png"
+					},
+					{
+						id: 3,
+						img: "images/hbs/logo_4.png"
+					},
+					{
+						id: 4,
+						img: "images/hbs/logo_5.png"
+					},
+					{
+						id: 5,
+						img: "images/hbs/logo_6.png"
+					},
+					{
+						id: 6,
+						img: "images/hbs/logo_7.png"
+					},
+					{
+						id: 7,
+						img: "images/hbs/logo_8.png"
+					},
+					{
+						id: 8,
+						img: "images/hbs/logo_1.png"
+					},
+					{
+						id: 9,
+						img: "images/hbs/logo_2.png"
+					}
+				],
+				list: [
+					{
+						id: 0,
+						img: "images/hbs/img_1.png"
+					},
+					{
+						id: 0,
+						img: "images/hbs/img_2.png"
+					},
+					{
+						id: 0,
+						img: "images/hbs/img_3.png"
+					},
+					{
+						id: 0,
+						img: "images/hbs/img_1.png"
+					}
+				]
+			},
+			mounted: function() {
+
+			},
+			methods: {
+
+			}
+		})
+	</script>
+</body>
+</html>

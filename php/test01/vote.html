@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>投票</title>
+</head>
+<body>
+  <div id="poll">
+    <h3>你喜欢PHP和ajax吗？</h3>
+    <form>
+      <div>
+        <label for="">是:</label>
+        <input type="radio" name="vote" value="0" id="" onclick="getVote(this.value)">
+      </div>
+      <div>
+        <label for="">否:</label>
+        <input type="radio" name="vote" value="1" id="" onclick="getVote(this.value)">
+      </div>
+    </form>
+  </div>
+  <script>
+    function getVote(int){
+      if(window.XMLHttpRequest){
+        xmlhttp = new XMLHttpRequest();
+      } else {
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+      }
+      xmlhttp.onreadystatechange = function(){
+        if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+          document.getElementById("poll").innerHTML = xmlhttp.responseText;
+        }
+      }
+      xmlhttp.open("get","poll_vote.php?vote="+int,true);
+      xmlhttp.send();
+    }
+  </script>
+</body>
+</html>

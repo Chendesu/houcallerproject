@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>注册登录页面</title>
+  <script src="js/hbs/flexible_css.js,flexible.js"></script>
+  <link rel="stylesheet" href="css/hbs/mobiscroll.css">
+  <link rel="stylesheet" href="css/hbs/mobiscroll_date.css">
+	<link rel="stylesheet" href="css/hbs/common.css">
+	<link rel="stylesheet" href="css/hbs/login.css">
+	<script src="js/hbs/vue.min.js"></script>
+  <script src="js/hbs/jquery-1.12.3.min.js"></script>
+  <script src="js/hbs/mobiscroll_date.js" charset="gb2312"></script>
+  <script src="js/hbs/mobiscroll.js"></script>
+</head>
+<body>
+	<div id="wrap" v-cloak>
+		<div class="pop" v-if="error">
+			<div class="error-pop">
+				<div class="error-hd">
+					错误提示
+					<span @click="close"></span>
+				</div>
+				<div class="error-main">
+					<img src="images/hbs/error_icon.png" alt="">
+					<p>您输入的手机号已被注册</p>
+				</div>
+			</div>
+		</div>
+		<div class="main">
+			<div class="logo">
+				<span class="icon-logo"></span>
+			</div>
+			<div class="form">
+				<div class="input-div">
+					<i class="icon-tel"></i>
+					<input type="text" placeholder="请输入手机号码">
+				</div>
+				<div class="input-div">
+					<i class="icon-code-phone"></i>
+					<input type="text" placeholder="输入短信验证码">
+					<span class="get" @click="getCode" v-if="isCount==false">获取短信</span>
+					<span class="count" v-if="isCount==true">{{count}}s</span>
+        </div>
+        <div class="input-div">
+          <i class="icon-tel"></i>
+          <select name="" id="">
+            <option value="">父亲</option>
+            <option value="">母亲</option>
+          </select>
+        </div>
+        <div class="input-div">
+          <i class="icon-tel"></i>
+          <input type="text" id="txtBirthday" v-model="birthday" placeholder="请输入生日" />
+        </div>
+        <div class="input-div" @click="showPop">
+          <i class="icon-label"></i>
+          <!-- <select name="" id="" multiple="multiple">
+            <option style="display: none;">请选择标签</option>
+            <option value="">标签1</option>
+            <option value="">标签2</option>
+            <option value="">标签3</option>
+          </select> -->
+          <input type="text" placeholder="请输入选择标签" v-model="labelValue"  disabled />
+        </div>
+				<div>
+					<button @click="login">登录 / 注册</button>
+				</div>
+				<div class="protocol">
+					<i v-show="!isagree" class="icon-unchecked" @click="agree"></i>
+					<i v-show="isagree" class="icon-checked" @click="agree"></i>
+					<span>我已阅读并同意<a href="#">《豪客来用户注册协议》</a></span>
+        </div>
+        <div class="multiple" v-show="isShow==true">
+          <div class="multiple-main">
+            <ul>
+              <li v-for="(item,index) in label" @click="chooseLabel(index,$event)">
+                <span></span>
+                <strong>{{item.name}}</strong>
+              </li>
+            </ul>
+            <div class="btn">
+              <span>取消</span>
+              <span @click="chooseResult">确定</span>
+            </div>
+          </div>
+        </div>
+			</div>
+		</div>
+
+	</div>
+
+	
+	<script>
+		new Vue({
+			el: "#wrap",
+			data: {
+				error: false,
+				isCount: false,
+				count: 30,
+        isagree: false,
+        birthday: "2018-01-01",
+        label: [
+          {
+            id: 0,
+            name: "标签1",
+            choose: false
+          },
+          {
+            id: 1,
+            name: "标签2",
+            choose: false
+          },
+          {
+            id: 2,
+            name: "标签3",
+            choose: false
+          },
+          {
+            id: 3,
+            name: "标签4",
+            choose: false
+          },
+          {
+            id: 4,
+            name: "标签5",
+            choose: false
+          }
+        ],
+        current: 0,
+        labelValue: [],
+        isShow: false
+			},
+			mounted: function() {
+        var currYear = (new Date()).getFullYear();
+        console.log(currYear);
+        var opt = {};
+        opt.date = { preset: 'date' };
+        opt.datetime = { preset: 'datetime' };
+        opt.time = { preset: 'time' };
+        opt.default = {
+          theme: 'android-ics light', //皮肤样式
+          display: 'modal', //显示方式 
+          mode: 'scroller', //日期选择模式
+          dateFormat: 'yyyy-mm-dd',
+          lang: 'zh',
+          showNow: true,
+          nowText: "今天",
+          startYear: currYear - 50, //开始年份
+          endYear: currYear + 10, //结束年份
+        };
+        $("#txtBirthday").mobiscroll($.extend(opt['date'], opt['default']));
+			},
+			methods: {
+				getCode: function() {
+					var _this = this;
+					this.isCount = true;
+					var s = this.count;
+
+					var timer = null;
+					var ms = 0;
+
+					function clock() {
+						ms++;
+						if(ms == 100) {
+							ms = 0;
+							s--;
+							_this.count = s;
+							if(s <= 0) {
+								s = 0;
+								clearInterval(timer);
+								_this.isCount=false;
+								_this.count = 30;
+								
+							}
+						}
+
+					}
+					timer = setInterval(clock,10);
+				},
+				login: function() {
+					this.error = true
+				},
+				close: function() {
+					this.error = false
+				},
+				agree: function() {
+					this.isagree = !this.isagree
+				},
+        chooseLabel: function (index,event) {
+          this.current = index;
+          var el = event.currentTarget;
+          // console.log($(el).find("strong").text());
+          if(this.label[index].choose == false) {
+            $(el).addClass("sel");
+            this.label[index].choose = true;
+            this.label = Object.assign([], this.label);
+          } else {
+            $(el).removeClass("sel");
+            this.label[index].choose = false;
+            this.label = Object.assign([], this.label);
+          }
+        },
+        chooseResult: function() {
+          this.labelValue = [];
+          // console.log($(".multiple ul .sel").length);
+          for(var i = 0; i < $(".multiple ul .sel").length; i++){
+            this.labelValue.push($(".multiple ul .sel").eq(i).find("strong").text());
+            // console.log($(".multiple ul .sel").eq(i).find("strong").text());
+          }
+          console.log(this.labelValue);
+          this.isShow = false;
+        },
+        showPop: function(){
+          console.log("open");
+          this.isShow = true;
+        }
+			}
+		})
+	</script>
+</body>
+</html>

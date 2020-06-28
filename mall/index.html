@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta namae="keywords" content="豪客来牛排，牛排，会员商城">
+	<title>会员商城</title>
+	<script src="js/hbs/flexible_css.js,flexible.js"></script>
+	<link rel="stylesheet" href="css/hbs/swiper.min.css">
+	<link rel="stylesheet" href="css/hbs/dialog.css">
+	<link rel="stylesheet" href="css/hbs/common.css">
+	<link rel="stylesheet" href="css/hbs/index.css">
+  <script src="js/hbs/vue.min.js"></script>
+  <script src="js/hbs/babel-core/browser.js"></script>
+	<script src="js/hbs/jquery-1.12.3.min.js"></script>
+	<script src="js/hbs/swiper.min.js"></script>
+	<script src="js/hbs/vue-clipboard.min.js"></script>
+	<script src="js/hbs/dialog.min.js"></script>
+	<script src="js/hbs/component/component.js"></script>
+	<script src="js/hbs/jsized.snow.js"></script>
+</head>
+<body>
+	<div id="wrap" v-cloak>
+		<!-- <div class="wel-page" v-if="welPage==true">
+			<div class="wel-page-main">
+				<div class="close-active" @click="closeActive"></div>
+				<img src="images/hbs/active_bee.png" @click="alinkActive" />
+			</div>
+    </div> -->
+    <imgload :imglist="imgList"></imgload>
+		<navbar :preurl="result" :idx="currentIndex"></navbar>
+		<banner :imglist="banner"></banner>
+		<div class="info clearfix" v-if="isLogin==true">
+			<div class="leval">
+				<span class="start"></span>
+				<span class="start"></span>
+				<span class="start"></span>
+			</div>
+      <a href="#" class="head-portrait">
+        <img src="images/hbs/cow.png" alt="">
+      </a>
+      <ul>
+        <li>
+          <a href="#">
+              <span>积分</span>
+              <strong>125800</strong>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+              <span>豪币</span>
+              <strong>125800</strong>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+              <span>优惠券</span>
+              <strong>125</strong>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+              <span>豪礼卡</span>
+              <strong>12</strong>
+          </a>
+        </li>
+        <li @click="open">
+          <span>付款码</span>
+          <i class="icon-code"></i>
+        </li>
+      </ul>
+	  </div>
+    <div class="info" v-if="isLogin==false">
+      <span class="gift"></span>
+      <span class="txt">
+        您有一份
+        <em>128元大礼包</em>
+        待领取
+      </span>
+      <a class="login" href="#" @click="getTip">点击领取</a>
+    </div>
+    <div class="notice-board clearfix">
+      <div class="notice-board-tit">公告:</div>
+      <div class="list" id="scrollUpBox">
+        <ul id="content">
+            <li v-for="item in list">用户{{item.user}}获得{{item.coupop}}</li>
+        </ul>
+      </div>
+    </div>
+		<div class="nav">
+			<ul class="clearfix">
+				<li>
+					<a href="limit-time.html">
+						<div>
+							<i class="icon-clock"></i>
+							<span>
+								限时秒杀
+								<b>-</b>
+								<b>-</b>
+							</span>
+						</div>
+					</a>
+				</li>
+				<li>
+					<a href="haobi-change.html">
+						<div>
+							<i class="icon-gift"></i>
+							<span>
+								豪币换礼
+								<b>-</b>
+								<b>-</b>
+							</span>
+						</div>
+					</a>
+				</li>
+				<li>
+					<a href="sign.html">
+						<div>
+							<i class="icon-money"></i>
+							<span>
+								赚豪币
+								<b>-</b>
+								<b>-</b>
+							</span>
+						</div>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<div>
+							<i class="icon-electric-vehicle"></i>
+							<span>
+								点外卖
+								<b>-</b>
+								<b>-</b>
+							</span>
+						</div>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<div>
+							<i class="icon-child"></i>
+							<span class="br">
+								儿童会员<br />俱乐部
+								<b>-</b>
+								<b>-</b>
+							</span>
+						</div>
+					</a>
+				</li>
+				<li>
+					<a href="cards.html">
+						<div>
+							<i class="icon-card-4"></i>
+							<span>
+								买豪礼卡
+								<b>-</b>
+								<b>-</b>
+							</span>
+						</div>
+					</a>
+				</li>
+				<li>
+					<a href="brand.html">
+						<div class="brand">
+							<span><img src="images/hbs/logo_1.png" alt=""></span>
+							<span><img src="images/hbs/logo_2.png" alt=""></span>
+							<span><img src="images/hbs/logo_3.png" alt=""></span>
+							<span><img src="images/hbs/logo_4.png" alt=""></span>
+						</div>
+						<div class="brand">
+							<span><img src="images/hbs/logo_5.png" alt=""></span>
+							<span style="opacity: 0"><img src="images/hbs/logo_1.png" alt=""></span>
+							<span style="opacity: 0"><img src="images/hbs/logo_1.png" alt=""></span>
+							<span><img src="images/hbs/logo_6.png" alt=""></span>
+						</div>
+						<div class="brand">
+							<span><img src="images/hbs/logo_7.png" alt=""></span>
+							<span><img src="images/hbs/logo_8.png" alt=""></span>
+							<span><img src="images/hbs/logo_1.png" alt=""></span>
+							<span><img src="images/hbs/logo_2.png" alt=""></span>
+						</div>
+					</a>
+				</li>
+				<li>
+					<a href="welfare-center.html">
+						<div>
+							<i class="icon-label"></i>
+							<span>
+								福利中心
+								<b>-</b>
+								<b>-</b>
+							</span>
+						</div>
+					</a>
+				</li>
+			</ul>
+	  </div>
+    <div v-show="isLogin == true">
+      <div class="sign-in" v-show="signFlag==false" @click="signIn">
+        <a>
+        <!-- <span class="icon-sign-in"></span> -->
+        <span class="active"></span>
+          <strong>签到</strong>
+        </a>
+      </div>
+      <div class="sign-in already" v-show="signFlag==true">
+        <a href="sign.html">
+        <span class="active"></span>
+          <strong>已签到</strong>
+        </a>
+      </div>
+    </div>
+    <div class="pay-code" v-show="show">
+      <div class="mask" @click="close"></div>
+      <div class="pay">
+        <div class="pay-hd">
+          付款码
+        </div>
+        <div class="pay-main">
+          <div class="decorate"></div>
+          <img src="images/hbs/1544087800.png" alt="">
+          <strong>二维码定时更新，请当面扫码结账</strong>
+        </div>
+      </div>
+    </div>
+    <div class="pop" v-show="showPop">
+      <div class="error-pop" >
+      <div class="error-hd">
+        错误提示
+        <span @click="closePop"></span>
+      </div>
+      <div class="error-main">
+        <img src="images/hbs/error_icon.png" alt="">
+        <p>请您在微信客户端打开</p>
+      </div>
+    </div>
+    </div>
+		<div class="pop" v-show="signShow">
+		    <div class="error-pop" >
+				<div class="error-hd">
+					{{popTip}}
+					<span @click="closePop"></span>
+				</div>
+				<div class="error-main">
+					<img src="images/hbs/sign_success.png" alt="">
+					<p>连续签到<b>{{continueSignDays}}</b>天</p>
+					<p>恭喜获得<b>{{receiveHbsNum}}</b>豪币</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		var pathName = document.location.pathname;
+		var index = pathName.substr(1).indexOf("/");
+		var result = pathName.substr(0,index+1);
+		
+		new Vue({
+			el:"#wrap",
+			data: {
+				isLogin: true,
+				result: result,
+				currentIndex: 0,
+				showPop: false,
+				signFlag: false,//是否签到
+				banner: [
+					{
+						id: 0,
+						title: "",
+						url: "#",
+						imgUrl: "images/hbs/lemon-tea.jpg",
+						alink: true
+					},
+					{
+						id: 0,
+						title: "",
+						url: "#",
+						imgUrl: "http://pic1.16xx8.com/allimg/180409/16xx8-77529-1.jpg",
+						alink: false
+					},
+					{
+						id: 0,
+						title: "",
+						url: "#",
+						imgUrl: "http://pic1.16xx8.com/allimg/180409/16xx8-77529-2.jpg",
+						alink: true
+					},
+					{
+						id: 0,
+						title: "",
+						url: "#",
+						imgUrl: "http://pic1.16xx8.com/allimg/180409/16xx8-77529-3.jpg",
+						alink: false
+					},
+					{
+						id: 0,
+						title: "",
+						url: "#",
+						imgUrl: "http://pic1.16xx8.com/allimg/180409/16xx8-77529-4.jpg",
+						alink: false
+					}
+				],
+				list: [
+          {
+              id: 0,
+              user: "张三",
+              coupop: "精品牛排优惠券"
+            },
+            {
+              id: 1,
+              user: "李四",
+              coupop: "精品牛排优惠券"
+            },
+            {
+              id: 2,
+              user: "王五",
+              coupop: "精品牛排优惠券"
+            },
+            {
+              id: 0,
+              user: "张三",
+              coupop: "精品牛排优惠券"
+            }
+        ],
+        show: false,
+        signShow: false,
+				popTip: "签到成功",
+				continueSignDays:1,//连续签到天数
+        receiveHbsNum:1,//签到获取的豪币
+        time: 3000,
+        welPage: true,
+        imgList: [
+          "images/hbs/home.png",
+          "images/hbs/home_sel.png",
+          "images/hbs/turntable.png",
+          "images/hbs/turntable_sel.png",
+          "images/hbs/my.png",
+          "images/hbs/my_sel.png"
+        ]
+			},
+			mounted: function() {
+				// 轮播图图片懒加载
+				
+
+
+				createSnow('images/hbs/', 120, 4000);//第一个值：图片路径；第二个值：图片最大数量；第三个值(选填)：至少3000毫秒后停止创建图片；空值为一直飘落
+
+				// 公告轮播
+				var scrollUpBox = document.getElementById('scrollUpBox');
+			    var content = document.getElementById('content');
+			    var timer = null;
+		      	function scrollUp() {
+		          	if (scrollUpBox.scrollTop >= (content.clientHeight - scrollUpBox.clientHeight)) {
+		              	scrollUpBox.scrollTop = 0;
+		          	} else {
+		              	scrollUpBox.scrollTop++;
+		          	}
+		      	} 
+		      	if(timer) {
+		      		clearInterval(timer);
+		      	}
+		      	var dataDpr = $("html").attr("data-dpr");
+		      	var ms;
+		      	if(dataDpr == "3") {
+		      		ms = 30;
+		      	} else if(dataDpr == "2") {
+		      		ms = 50;
+		      	} else {
+		      		ms = 100
+		      	}
+
+		      	timer = setInterval(scrollUp, ms);
+
+		      	var wrapH = $(window).height();
+		      	var navbarH = $(".navbar").height();
+		      	var bannerH = $(".swiper-container").height();
+		      	var infoH = $(".notice-board").outerHeight(true);
+		      	var h = wrapH-navbarH-bannerH-infoH;
+		      	$(".nav").css("height", h + "px");
+
+
+		      	var dt = sessionStorage.getItem("name");
+		      	if(dt == null) {
+		      		sessionStorage.setItem("name", "value");
+		      		this.welPage = true;
+		      	} else {
+		      		this.welPage = false;
+		      	}
+
+		      	// var _this = this;
+		      	// var timer = null;
+				// var ms = 0;
+				// var s = this.time;
+				// function clock() {
+				// 	ms++;
+				// 	if(ms == 100) {
+				// 		ms = 0;
+				// 		s--;
+				// 		_this.time = s;
+				// 		if(s <= 0) {
+				// 			s = 0;
+				// 			clearInterval(timer);
+				// 			_this.time = 0;
+				// 			_this.welPage = false;
+							
+				// 		}
+				// 	}
+				// }
+				// timer = setInterval(clock,10);
+
+			},
+			methods: {
+				close: function() {
+					this.show = false
+				},
+				open: function() {
+					this.show = true;
+				},
+				getTip: function() {
+					this.showPop = true
+				},
+				closePop: function() {
+					this.showPop = false;
+					this.signShow = false
+				},
+				signIn: function() {
+					this.signShow = true;
+					this.signFlag = true
+				},
+				closeActive: function() {
+					// console.log("关闭");
+					this.welPage = false;
+				},
+				alinkActive: function() {
+					console.log("跳转");
+				}
+			}
+		});
+		
+	</script>
+</body>
+</html>

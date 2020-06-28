@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta namae="keywords" content="豪客来牛排，牛排，会员商城，天降豪币">
+	<title>天降豪币</title>
+	<script src="js/hbs/flexible_css.js,flexible.js"></script>
+	<link rel="stylesheet" href="css/hbs/common.css">
+	<link rel="stylesheet" href="css/hbs/sign.css">
+	<script src="js/hbs/vue.min.js"></script>
+	<script src="js/hbs/jquery-1.12.3.min.js"></script>
+	<script src="js/hbs/calendar.js"></script>
+</head>
+<body>
+	<div id="wrap" v-cloak>
+		<div class="head">
+			<img src="images/hbs/make_haobi_bg.png" alt="">
+		</div>
+		<div class="calendar">
+			<div id="calendar"></div>
+			<span class="sign-in" @click="signIn">马上签到</span>
+			<span class="sign-in">幸运大转盘</span>
+			<div class="help" @click="openRule"></div>
+		</div>
+		<div class="recommend">
+			<div class="recommend-h1">
+				<span class="icon-double-line"></span>
+				商城推荐
+				<span class="icon-double-line"></span>
+			</div>
+			<div class="recommend-main" >
+				<div class="pro" v-for="item in pro">
+					<div class="pro-inner">
+						<a href="#" class="pro-img">
+							<span class="icon-hot"></span>
+							<img :src="item.img" alt="">
+						</a>
+						<div class="pro-main">
+							<span class="pro-style">三星VIP专享</span>
+							<strong class="pro-tit">{{item.title}}</strong>
+							<div class="pro-label">
+								<span v-for="it in item.label">
+									{{it}}
+								</span>
+								<a href="limit-time-detail.html" class="btn">我要兑</a>
+							</div>
+							<div class="sale">
+								<span>
+									{{item.haobi}}豪币+￥{{item.haobiMoney}}
+								</span>
+								<span>￥{{item.money}}</span>
+							</div>
+							<span class="cir cir-left"></span>
+							<span class="cir cir-right"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="pop" v-show="showPop">
+		    <div class="error-pop" >
+				<div class="error-hd">
+					{{popTip}}
+					<span @click="closePop"></span>
+				</div>
+				<div class="error-main" v-show="signBtnFlag==false">
+					<img src="images/hbs/sign_success.png" alt="">
+					<p>连续签到<b>{{continueSignDays}}</b>天</p>
+					<p>恭喜获得<b>{{receiveHbsNum}}</b>豪币</p>
+				</div>
+				<div class="error-main" v-show="signBtnFlag==true">
+					<img src="images/hbs/sign_already.png" alt="">
+					<p>今日已签到了哦</p>
+					<p style="margin-top: 0;">明天再来吧</p>
+				</div>
+			</div>
+	    </div>
+	    <div class="rule" v-show="isShowRule==true">
+	    	<div class="rule-main">
+	    		<div class="rule-hd">
+	    			签到规则
+	    			<span @click="closeRule"></span>
+	    		</div>
+	    		<div class="rule-con">
+	    			<p v-for="item in rule">{{item}}</p>
+	    		</div>
+	    	</div>
+	    </div>
+	</div>
+
+	<script>
+		new Vue({
+			el: "#wrap",
+			data: {
+				dateModel:{
+			  		nowYear:"",
+			  		nowMonth:"",
+			  		nowDay:"",
+			  		nowTime:"",
+		  		},
+		  		continueSignDays:1,//连续签到天数
+		  		receiveHbsNum:1,//签到获取的豪币
+		  		signDayList:[
+		  			{"signDay":"07"},
+		  			{"signDay":"08"},
+		  			{"signDay":"09"},
+		  			// {"signDay":"10"}
+		  		],//签到日期集合
+		  		signBtnFlag:false,//是否签到
+		  		pro: [
+		  			{
+						img: "images/hbs/steak.jpg",
+						title: "苹果木肋眼牛排套餐组合1-1",
+						label: ["肉质鲜美","果香诱人","约会必点","肉质鲜美","果香诱人","约会必点"],
+						haobi: 888,
+						haobiMoney: 20.00,
+						money: 120
+					},
+					{
+						img: "images/hbs/bac_bg.png",
+						title: "苹果木肋眼牛排套餐组合1-2",
+						label: ["肉质鲜美","果香诱人","约会必点"],
+						haobi: 888,
+						haobiMoney: 20.00,
+						money: 120
+					}
+		  		],
+		  		showPop: false,
+		  		popTip: "签到成功",
+		  		rule: [
+		  			"1、活动时间：2018.7.3-2018.7.31",
+		  			"2、签到当日获得的豪币实时累加，不清零",
+		  			"3、每日连续签到，获得豪币加速，如中断则从1豪币重新开始加速",
+		  			"4、签到获得豪币可以用来兑换商城里的礼品，礼品会定期更新，具体兑换规则以单个商品详细规则为准",
+		  			"5、签到时需要保持登录状态，领取的豪币会绑定到商城的个人中心",
+		  			"6、法律允许的范围内，本次活动最终解释权归厦门豪客来餐饮管理有限公司所有"
+		  		],
+		  		isShowRule: false
+			},
+			mounted: function() {
+				var nowDate =  new Date();
+		  		this.dateModel.nowYear = String(nowDate.getFullYear());
+		  		this.dateModel.nowMonth = String(nowDate.getMonth() + 1);
+		  		this.dateModel.nowDay = String(nowDate.getDate());
+		  		this.dateModel.nowTime = nowDate.getHours() + ":" + nowDate.getMinutes() + ":" + nowDate.getSeconds();
+		  		this.init();
+			},
+			methods: {
+				init: function() {
+			  		calUtil.init(this.signDayList);
+		  		},
+		  		signIn: function() {
+		  			if(this.signBtnFlag == false) {
+		  				this.showPop = true;
+		  				this.popTip = "签到成功";
+		  				this.signDayList.push({"signDay": this.dateModel.nowDay});
+		  				this.init();
+		  				// this.signBtnFlag = true;
+		  			} 
+		  			if(this.signBtnFlag == true) {
+		  				this.showPop = true;
+		  				this.popTip = "温馨提示";
+
+		  			}
+		  			console.log(this.signBtnFlag);
+		  		},
+		  		closePop: function() {
+					this.showPop = false;
+					this.signBtnFlag = true;
+				},
+				closeRule: function() {
+					this.isShowRule = false;
+				},
+				openRule: function() {
+					this.isShowRule = true;
+				}
+			}
+		})
+	</script>
+</body>
+</html>

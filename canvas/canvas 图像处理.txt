@@ -1,0 +1,51 @@
+canvas 图像处理
+
+context.drawImage(image, dx, dy)
+context.drawImage(image, dx, dy, dw, dh)
+context.drawImage(
+	image,
+	sx, sy, sw, sh, //选取图像
+	dx, dy, dw, dh  // 将给选取的图形设置起始点以及宽高
+)
+
+离屏canvas，将第二个canvas中的内容加载到第一个canvas上
+context.drawImage(canvas, dx, dy)
+context.drawImage(canvas, dx, dy, dw, dh)
+context.drawImage(
+	canvas,
+	sx, sy, sw, sh, //选取图像
+	dx, dy, dw, dh  // 将给选取的图形设置起始点以及宽高
+)
+
+
+鼠标交互
+
+
+
+像素
+getImageData和putImageData
+
+获取图像像素
+imageData = context.getImageData(x, y, w, h)
+
+imageData对象
+	width
+	height
+	data
+
+context.putImageData (
+	imageData,
+	dx, dy,
+	dirtyX, dirtyY,
+	dirtyW, dirtyH
+)
+
+滤镜
+imageData.data
+
+创建imageData
+imageData = context.getImageData(x, y, w, h)
+imageData = context.createImageData(w, h)
+
+
+

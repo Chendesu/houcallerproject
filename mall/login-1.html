@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>注册登录页面</title>
+  <script src="js/hbs/flexible_css.js,flexible.js"></script>
+	<link rel="stylesheet" href="css/hbs/common.css">
+	<link rel="stylesheet" href="css/hbs/login-1.css">
+  <script src="js/hbs/jquery-1.12.3.min.js"></script>
+  <script src="js/hbs/datePicker.js"></script>
+</head>
+<body>
+	<div id="wrap">
+		<div class="pop">
+			<div class="error-pop">
+				<div class="error-hd">
+					错误提示
+					<span class="close"></span>
+				</div>
+				<div class="error-main">
+					<img src="images/hbs/error_icon.png" alt="">
+					<p>您输入的手机号已被注册</p>
+				</div>
+			</div>
+		</div>
+		<div class="main">
+			<div class="logo">
+				<span class="icon-logo"></span>
+			</div>
+			<div class="form">
+				<div class="input-div">
+					<i class="icon-tel"></i>
+					<input type="text" placeholder="请输入手机号码">
+				</div>
+				<div class="input-div">
+					<i class="icon-code-phone"></i>
+					<input type="text" placeholder="输入短信验证码">
+					<span class="get">获取短信</span>
+					<!-- <span class="count"></span> -->
+        </div>
+        <div class="input-div">
+          <i class="icon-tel"></i>
+          <select name="" id="">
+            <option value="">父亲</option>
+            <option value="">母亲</option>
+          </select>
+        </div>
+        <div class="input-div">
+          <i class="icon-tel"></i>
+          <input type="text" id="txtBirthday" v-model="birthday" placeholder="请输入生日" />
+        </div>
+        <div class="input-div">
+          <i class="icon-label"></i>
+          <input type="text" class="label" placeholder="请输入选择标签"  disabled />
+        </div>
+				<div>
+					<button class="login">登录 / 注册</button>
+				</div>
+				<div class="protocol">
+					<i class="icon icon-unchecked"></i>
+					<!-- <i v-show="isagree" class="icon-checked" @click="agree"></i> -->
+					<span>我已阅读并同意<a href="#">《豪客来用户注册协议》</a></span>
+        </div>
+        <div class="multiple">
+          <div class="multiple-main">
+            <ul>
+              <li>
+                <span></span>
+                <strong>标签1</strong>
+              </li>
+              <li>
+                <span></span>
+                <strong>标签2</strong>
+              </li>
+              <li>
+                <span></span>
+                <strong>标签3</strong>
+              </li>
+              <li>
+                <span></span>
+                <strong>标签4</strong>
+              </li>
+              <li>
+                <span></span>
+                <strong>标签5</strong>
+              </li>
+            </ul>
+            <div class="btn">
+              <span class="multiple-close">取消</span>
+              <span class="multiple-ok">确定</span>
+            </div>
+          </div>
+        </div>
+			</div>
+		</div>
+
+	</div>
+
+<script>
+  // 判断iOS系统版本
+  var str = navigator.userAgent.toLowerCase();
+  var ver = str.match(/cpu iphone os (.*?) like mac os/);
+  var v = ver[1].replace(/_/g, ".");
+  console.log(ver);
+  console.log(v);
+  if(v<=9){
+    
+  }
+  
+
+  // 日期
+  var calendar = new datePicker();
+  calendar.init({
+    'trigger': '#txtBirthday', /*按钮选择器，用于触发弹出插件*/
+    'type': 'date',/*模式：date日期；datetime日期时间；time时间；ym年月；*/
+    'minDate': '1900-1-1',/*最小日期*/
+    'maxDate': '2100-12-31',/*最大日期*/
+    'onSubmit': function () {/*确认时触发事件*/
+      var theSelectData = calendar.value;
+    },
+    'onClose': function () {/*取消时触发事件*/
+    }
+  });
+
+  $(".get").on("click",function(){
+    // console.log(1);
+    var s =10;
+    var timer = null;
+    var ms = 0;
+    function clock() {
+      ms++;
+      if (ms == 100) {
+        ms = 0;
+        s--;
+        // _this.count = s;
+        $(".get").text(s);
+        if (s <= 0) {
+          s = 0;
+          clearInterval(timer);
+          $(".get").text("重新获取");
+        }
+      }
+    }
+    timer = setInterval(clock, 10);
+  });
+  $(".label").parent().on("click",function(){
+    $(".multiple").fadeIn(200);
+  });
+
+  $(".multiple-main li").each(function(i){
+    $(this).on("click",function(){
+      if($(this).hasClass("sel")) {
+        $(this).removeClass("sel");
+      } else {
+        $(this).addClass("sel");
+      }
+    })
+  });
+  $(".multiple-close").on("click", function(){
+    $(".multiple").fadeOut(200);
+  });
+  $(".multiple-ok").on("click", function () {
+    var arr = [];
+    $(".multiple-main li").each(function(i){
+      if ($(this).hasClass("sel")){
+        arr.push($(this).find("strong").text());
+      }
+    });
+    $(".label").val(arr);
+    $(".multiple").fadeOut(200);
+  });
+
+  $(".icon").on("click",function(){
+    if($(this).hasClass("icon-unchecked")) {
+      $(this).removeClass("icon-unchecked");
+      $(this).addClass("icon-checked");
+    } else {
+      $(this).removeClass("icon-checked");
+      $(this).addClass("icon-unchecked");
+    }
+  });
+
+  $(".login").on("click", function(){
+    $(".pop").fadeIn(200);
+  });
+  $(".pop .close").on("click",function(){
+    $(".pop").fadeOut(200);
+  });
+
+
+</script>
+</body>
+</html>

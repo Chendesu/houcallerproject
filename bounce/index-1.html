@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>网页弹幕</title>
+  <link rel="stylesheet" href="css/index-1.css">
+  <script src="js/vue.min.js"></script>
+  <script src="js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+  <div class="wrap" id="app">
+    <div class="cute-barrage">
+      <div class="barrage-div" v-for="item in list">
+        <span>{{item}}</span>
+      </div>
+      <!-- <div class="barrage-div">
+        <img src="http://kw1-1253445850.file.myqcloud.com/static/image/stimg_7656dc02eb1cd13adbacbdd2695dc3a8.jpg" />
+        <span>么么嗒今天提现<i>1Q币</i></span>
+      </div>
+      <div class="barrage-div">
+        <img src="http://kw1-1253445850.file.myqcloud.com/static/image/stimg_632fecdcb52417cb8ab89fa283e07281.jpg" />
+        <span>橘色的大耳朵猫今天提现<i>5Q币</i></span>
+      </div>
+      <div class="barrage-div">
+        <img src="" />
+        <span>丶鹿锅里面装着吴奶包今天提现<i>3Q币</i></span>
+      </div> -->
+    </div>
+  </div>
+  <script>
+    new Vue({
+      el: "#app",
+      data: {
+        list: ['弹幕', '666', '23333', 'javascript', 'html', 'css', '前端框架', 'vue', 'react', '测试测试', '哈哈哈哈', '呦吼吼吼', '我太南了', '又开始了吗', '哥宁一大早脑子不清醒', '劝你善良点']
+      },
+      mounted: function(){
+        // var winWidth = $(window).width();
+        var winWidth = $(".wrap").width();
+        $(".barrage-div").each(function(index,value){
+          var width = $(value).width();
+          var topRandom = Math.floor(Math.random()*3)+'rem';
+          $(value).css({
+            "right":-width,
+            "top":topRandom
+          });
+          var keyframes = `\
+            @keyframes ani${index}{
+              from {
+                right:${-width}px;
+              }
+              to {
+                right:${winWidth}px;
+              }
+            }\
+            @-webkit-keyframes ani${index}{
+              from{
+                right:${-width}px;
+              }
+              to{
+                right:${winWidth}px;
+              }
+            }`;
+          $("<style>").attr("type","text/css").html(keyframes).appendTo($("head"));
+          var aniList = [3, 5, 7, 9, 11];
+          var aniTime = Math.floor(Math.random()*5);
+          $(value).css({
+            "animation":`ani${index} ${aniList[aniTime]}s linear ${index*1.5}s`, 
+            "-webkit-animation":`ani${index} ${aniList[aniTime]}s linear ${index*1.5}s`
+          });
+        });
+
+
+
+      },
+      methods: {
+
+      }
+    });
+
+  </script>
+</body>
+</html>

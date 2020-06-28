@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="jquery-1.12.3.min.js"></script>
+  <!-- <script src="qrcode.min.js"></script> -->
+  <script src="reqrcode.js"></script>
+  <style>
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 5px;
+      background: #7ada2d;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn span {
+      color: #fff;
+    }
+    #newfile {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      opacity: 0;
+    }
+  </style>
+</head>
+<body>
+  <!-- <input id="file" type="file" accept="image/*" capture="camera">
+  <div id="preview"></div> -->
+  <div class="btn">
+    <span>按钮</span>
+    <input id="newfile" type="file" accept="image/*"  />
+  </div>
+  <!-- <input type="file" id="newfile"> -->
+  
+  <script>
+    var newfile = document.getElementById('newfile');
+      var getObjectURL = function (file) {
+        var url = null;
+        if (window.createObjectURL != undefined) { // basic
+          url = window.createObjectURL(file);
+        } else if (window.URL != undefined) { // mozilla(firefox)
+          url = window.URL.createObjectURL(file);
+        } else if (window.webkitURL != undefined) { // webkit or chrome
+          url = window.webkitURL.createObjectURL(file);
+        }
+        return url;
+      }
+
+      newfile.onchange = function () {
+        // console.log(getObjectURL(this.files[0]));// newfile[0]是通过input file上传的二维码图片文件
+        console.log(this.files[0]);
+        qrcode.decode(getObjectURL(this.files[0]));
+        qrcode.callback = function (imgMsg) {
+          console.log(imgMsg);
+          if(imgMsg == "error decoding QR Code"){
+            alert("识别不到二维码，请重新选择/扫描");
+          } else {
+            window.location.href = imgMsg;
+          }
+        }
+        newfile.value = "";
+      }
+  </script>
+</body>
+</html>

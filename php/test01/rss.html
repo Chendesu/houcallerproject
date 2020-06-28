@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>RSS</title>
+</head>
+<body>
+  <form>
+    <div>
+      <select onchange="showRSS(this.value)">
+        <option value="">选择一个RSS-feed:</option>
+        <option value="rss">读取RSS数据</option>
+      </select>
+    </div>
+    <div id="rssOutput">RSS-feed数据列表</div>
+
+  </form>
+  <script>
+    function showRSS(str){
+      if(str.length==0){
+        document.getElementById("rssOutput").innerHTML="";
+        return;
+      }
+      if(window.XMLHttpRequest){
+        xmlhttp = new XMLHttpRequest();
+      } else {
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+      }
+      xmlhttp.onreadystatechange = function(){
+        if(xmlhttp.readyState==4 && xmlhttp.status==200){
+          document.getElementById("rssOutput").innerHTML = xmlhttp.responseText;
+        }
+      }
+      xmlhttp.open("get", "getrss.php?q="+str,true);
+      xmlhttp.send();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+@charset 'utf-8';
+.block {
+	padding: 0.27rem 0.13rem 0;
+}
+.block-inner,
+.pro-main {
+	overflow: hidden;
+	padding: 0.4rem 0.73rem;
+	border-radius: 0.13rem;
+	background: #fff;
+	position: relative;
+}
+.pro-main .icon-hot {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 0.91rem;
+	height: 0.91rem;
+	background: url(../../images/hbs/hot.svg) left top no-repeat;
+	background-size: 100% 100%;
+	z-index: 2;
+}
+.pro-main .pro-style {
+	display: inline-block;
+	padding: 0.07rem 0.13rem;
+	border-radius: 0.05rem;
+	font-size: 10px;
+	color: #010101;
+	background-color: #ffc72c;
+}
+[data-dpr="2"] .pro-main .pro-style {
+	font-size: 20px;
+} 
+[data-dpr="3"] .pro-main .pro-style {
+	font-size: 30px;
+} 
+.pro-main .pro-tit {
+	font-size: 15px;
+	color: #333;
+}
+[data-dpr="2"] .pro-main .pro-tit {
+	font-size: 30px;
+}
+[data-dpr="3"] .pro-main .pro-tit {
+	font-size: 45px;
+}
+.pro-main .pro-label {
+	padding: 0.16rem 0;
+	font-size: 11px;
+	position: relative;
+}
+[data-dpr="2"] .pro-main .pro-label {
+	font-size: 22px;
+}
+[data-dpr="3"] .pro-main .pro-label {
+	font-size: 33px;
+}
+.pro-main .pro-label span {
+	display: inline-block;
+	margin-right: 0.13rem;
+	margin-bottom: 0.13rem;
+	padding: 0 0.13rem;
+	border-radius: 0.05rem;
+	color: #AF5E00;
+	background-color: #ffdfb6;
+}
+.pro-main .sale span:nth-child(1) {
+	font-size: 14px;
+	color: rgb(255,0,54);
+	font-weight: bold;
+}
+
+.pro-main .sale span:nth-child(2) {
+	font-size: 11px;
+	color: rgb(208,208,208);
+	text-decoration: line-through;
+}
+[data-dpr="2"] .pro-main .sale span:nth-child(1) {
+	font-size: 28px;
+}
+[data-dpr="3"] .pro-main .sale span:nth-child(1) {
+	font-size: 42px;
+}
+[data-dpr="2"] .pro-main .sale span:nth-child(2) {
+	font-size: 22px;
+}
+[data-dpr="3"] .pro-main .sale span:nth-child(2) {
+	font-size: 33px;
+}
+
+.block h2 {
+	text-align: center;
+	font-size: 15px;
+	color: #333;
+	padding-bottom: 0.32rem;
+}
+[data-dpr="2"]  .block h2 {
+	font-size: 30px;
+}
+[data-dpr="3"] .block h2 {
+	font-size: 45px;
+}
+.block h2 .icon-double-line {
+	color: #ffc72c;
+	margin: 0 0.1rem;
+}
+.block p {
+	color: #666;
+	padding-bottom: 0.27rem;
+	font-size: 12px;
+}
+[data-dpr="2"] .block p {
+	font-size: 24px;
+}
+[data-dpr="3"] .block p {
+	font-size: 36px;
+}
+.block p img {
+	display: block;
+	width: 100%;
+	
+}
+.btn {
+	display: block;
+	padding-left: 0.07rem;
+	padding-right: 0.07rem;
+}
+.btn button {
+	display: block;
+	width: 100%;
+	height: 1.07rem;
+	border: 0;
+	border-radius: 0.13rem;
+	line-height: 1.07rem;
+	text-align: center;
+	font-size: 16px;
+	color: #003b49;
+	font-weight: bold;
+	background: #ffc72c;
+}
+[data-dpr="2"] .btn button {
+	font-size: 32px;
+}
+[data-dpr="3"] .btn button {
+	font-size: 48px;
+}

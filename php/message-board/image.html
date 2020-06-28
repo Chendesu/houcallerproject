@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="js/jquery-3.3.1.min.js"></script>
+  <script src="js/vue.min.js"></script>
+  <style>
+    * {padding: 0;margin: 0;}
+    ul,li {list-style: none;}
+    .wrap ul {
+      width: 80%;
+      margin: 0 auto;
+      /* column-count: 3;
+      column-gap: 20px; */
+      display: flex;
+      flex-flow: column wrap;
+    }
+    .wrap ul li {
+      display: inline-block;
+      width: 167px;
+      padding: 0 10px 10px 0;
+      box-sizing: border-box;
+    }
+    .wrap ul li .img-con {
+      overflow: hidden;
+      border-radius: 5px;
+      border: 1px solid #aaa;
+    }
+    .wrap ul li .img-con img {
+      display: block;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap" id="app">
+    <ul id="imgList">
+      <li v-for="item in album">
+        <div class="img-con" id="img_con" data-img="con">
+          <img :src="item" alt="" data-img="img">
+        </div>
+      </li>
+      
+      
+    </ul>
+  </div>
+  <script>
+    new Vue({
+      el: "#app",
+      data: {
+        album: [
+          "images/thumb_watermelon.jpg",
+          "uploads/0670312851f46ef6eadd992c95edc5ee.jpg",
+          "uploads/1643bf9a89a3be47b8699b5d05c6cb93.jpg",
+          "uploads/1c70531cad0fc07fde90b8a5f0e90f98.jpg",
+          "uploads/3ddfe15e275dd32dadf0e16b92a7a39e.jpg",
+          "uploads/40fd529e57f5d640269fdb37a05be6a3.jpg",
+          "uploads/43e349b47f9d6a04f6e20cb450e19808.jpg",
+          "uploads/499b33f5945302a0bbfe0bb7853d19b7.jpg",
+          "uploads/54e1f594ee08e941b89c0627b3c13c7c.jpg",
+          "uploads/f741775b3b2c0cf18ecc6a100578e1c1.jpg",
+          "uploads/eca6996cfa6b0cb9a07ec5c542d5c65a.jpg",
+          "uploads/a0152b3d275ae0c94b6c6abb569e5df2.jpg",
+          "uploads/6e53fc8c7008a2271ffb13f5b37f24a4.jpg",
+          "uploads/7d0a94966c13bd22b893e759ca74be17.jpg",
+          "uploads/7f51758b28f17f87ca786f2d6842423a.gif"
+        ]
+      },
+      mounted: function(){
+        // var list = document.getElementsByClassName('img-con');
+        // var len = document.getElementsByClassName('img-con').length;
+        // var arr = [];
+        // for (i in list) {
+        //   if (i < len) {
+        //     arr.push(list[i]);
+        //   }
+        // }
+        // arr.forEach(v => {
+        //   var imgCon = v;
+        //   var img = imgCon.children;
+        //   imgRatio(imgCon, img)
+        // });
+        /*
+         * 图片按比例缩放
+         */
+        // function imgRatio(imgCon, img) {
+        //   imgCon.style.position = 'relative';
+        //   img[0].onload = function () {
+        //     var width = this.width;
+        //     var height = this.height;
+        //     this.style.position = 'absolute';
+        //     if (width <= height) {
+        //       this.style.top = '50%';
+        //       this.style.width = '100%';
+        //       this.style.transform = 'translateY(-50%)';
+        //     } else {
+        //       this.style.left = '50%';
+        //       this.style.height = '100%';
+        //       this.style.transform = 'translateX(-50%)';
+        //     }
+        //   }
+        // }
+      },
+      methods: {
+
+      }
+    });
+    
+  </script>
+</body>
+</html>

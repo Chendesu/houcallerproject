@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>顾客管理</title>
+	<script src="js/flexible_css.js,flexible.js"></script>
+	<link rel="stylesheet" href="css/common.css">
+	<link rel="stylesheet" href="css/client.css">
+	<script src="js/vue.min.js"></script>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/component.js"></script>
+	<script src="js/autosize.min.js"></script>
+</head>
+<body>
+	<div id="wrap" v-cloak>
+		<navbar-client :clientidx="clientidx"></navbar-client>
+		<div id="header">
+			<a class="icon-arrow-down"  href="javascript:history.back(-1)"></a>
+			<ul class="clearfix">
+				<li v-for="(item,index) in head"
+					:key="index"
+					:class="{'sel':index==headidx}"
+					@click="headidx=index"
+				>{{item}}</li>
+			</ul>
+		</div>
+		<div class="main">
+			<div v-show="headidx==0" class="client-assess">
+				<div class="client-assess-hd">
+					<div class="tab-num">
+						<span v-for="(item,index) in clientNav"
+							:key="index"
+							:class="{'sel':index==curidx}"
+							@click="curidx=index"
+						>
+							<strong>
+								{{item.text}}
+								<b v-if="item.count>0">{{item.count}}</b>
+							</strong>
+						</span>
+					</div>
+					<div class="client-assess-hd-navbar">
+						<span v-for="(item,index) in navBar"
+							:key="index"
+							:class="{'sel':index==navBarIdx}"
+							@click="assessChoose(index)"
+						>
+							{{item.text}}{{item.count}}
+						</span>
+					</div>
+				</div>
+				<div class="client-assess-main">
+					<ul>
+						<li v-for="(item,index) in assess">
+							<div class="user clearfix">
+								<div class="img">
+									<img :src="item.img" />
+								</div>
+								<div class="user-info">
+									<div class="user-info-name clearfix">
+										<strong>{{item.name}}</strong>
+										<em>{{item.time}}</em>
+									</div>
+									<div class="user-info-star clearfix">
+										<div class="star">
+											<span v-for="n in item.star" class="icon-star"></span>
+										</div>
+										<em>{{item.starDetail}}</em>
+									</div>
+								</div>
+							</div>
+              <div class="user-assess">{{item.evaluate}}</div>
+              <div class="reply-div">
+                <div class="more" @click="replyMore">查看回复>></div>
+                <div class="reply clearfix" v-show="hiddenReply=='true'">
+                  <div class="reply-tit clearfix">
+                    <strong>店长回复：</strong>
+                    <em>{{item.replyTime}}</em>
+                  </div>
+                  <textarea v-model="item.replay" disabled></textarea>
+                  <span class="edit" @click="edit">
+                    <i class="icon-edit"></i>
+                    <em>修改</em>
+                  </span>
+                  <!-- <span class="edit" v-show="isSave==true" @click="save">保存</span> -->
+                </div>
+              </div>
+              <div class="order-div">
+                <div class="more">查看详情>></div>
+                <div class="order">
+                  <div class="order-tit">订单详情：</div>
+                  <dl class="clearfix" v-for="(item1,index1) in item.list">
+                    <dt>
+                      <img :src="item1.url" />
+                    </dt>
+                    <dd>
+                      <span class="pro-tit clearfix">
+                        <strong>{{item1.text}}</strong>
+                        <em>×{{item1.count}}</em>
+                      </span>
+                      <span class="pro-price clearfix">
+                        <strong>订单金额</strong>
+                        <em>￥{{item1.price}}</em>
+                      </span>
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div v-show="headidx==1" class="statistics-assess">
+				<div class="statistics-assess-overall">
+					<div class="word clearfix">
+						<div class="word-left">
+							<strong v-if="mark.store.status=='up'" class="up">
+								{{mark.store.score}}
+								<i class="icon-rise"></i>
+							</strong>
+							<strong v-if="mark.store.status=='down'" class="down">
+								{{mark.store.score}}
+								<i class="icon-decline"></i>
+							</strong>
+							<em>门店评分</em>
+						</div>
+						<div class="word-right">
+							<div class="word-right-mouth">
+								评价口碑
+								<em>{{mark.level}}</em>
+								<i class="icon-help" @click="open"></i>
+							</div>
+							<div class="word-right-option">
+								经营建议 <strong>{{mark.option}}</strong>
+							</div>
+						</div>
+					</div>
+					<ul class="score clearfix">
+						<li>
+							<strong v-if="mark.taste.status=='up'" class="up">
+								{{mark.taste.score}}
+								<i class="icon-rise"></i>
+							</strong>
+							<strong v-if="mark.taste.status=='down'" class="down">
+								{{mark.taste.score}}
+								<i class="icon-decline"></i>
+							</strong>
+							<em>口味评分</em>
+						</li>
+						<li>
+							<strong v-if="mark.package.status=='up'" class="up">
+								{{mark.package.score}}
+								<i class="icon-rise"></i>
+							</strong>
+							<strong v-if="mark.package.status=='down'" class="down">
+								{{mark.package.score}}
+								<i class="icon-decline"></i>
+							</strong>
+							<em>包装评分</em>
+						</li>
+						<li>
+							<strong v-if="mark.send.status=='up'" class="up">
+								{{mark.send.score}}
+								<i class="icon-rise"></i>
+							</strong>
+							<strong v-if="mark.send.status=='down'" class="down">
+								{{mark.send.score}}
+								<i class="icon-decline"></i>
+							</strong>
+							<em>配送满意度</em>
+						</li>
+					</ul>
+					<div class="assess-navbar">
+						<span v-for="item in navBar">
+							{{item.text}}{{item.count}}
+						</span>
+					</div>
+				</div>
+				<div class="statistics-assess-sys">
+					<div class="statistics-assess-sys-hd clearfix">
+						<b></b>
+						<strong>中差评统计</strong>
+						<i class="icon-help"></i>
+					</div>
+					<div class="statistics-assess-sys-con">
+						<div>{{assessSys.txt}}</div>
+						<ul>
+							<li class="clearfix" v-for="(item,index) in assessSys.bad" :key="index">
+								<a :href="item.url">
+									<strong>{{item.text}}</strong>
+									<div class="process">
+										<div class="procesS-inner" :style="{width:item.count/assessSys.assessTotal*100+'%'}"></div>
+									</div>
+									<span>
+										{{item.count}}条
+										<i class="icon-arrow-right-thin"></i>
+									</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="statistics-assess-good">
+					<div class="statistics-assess-good-hd clearfix">
+						<b></b>
+						<strong>商品好评榜</strong>
+					</div>
+					<div class="statistics-assess-good-con">
+						<ul>
+							<li v-for="(item,index) in proList">
+								<div class="img">
+									<img :src="item.imgUrl" />
+								</div>
+								<div class="main">
+									<div class="main-hd">
+										<em v-show="item.ranking <= 3" class="front">NO.{{item.ranking}}</em>
+										<em v-show="item.ranking > 3" class="behind">{{item.ranking}}</em>
+										<h2>{{item.title}}</h2>
+									</div>
+									<div class="main-con">
+										<!-- <div class="main-con-total">
+											销售额 
+											<span>￥{{item.total}}</span>
+										</div> -->
+										<div class="main-con-info">
+											<span>好评率
+												<b>{{item.favorableRate}}</b>
+											</span>
+											<span>
+												<i class="icon-good"></i>
+												{{item.good}}赞
+											</span>
+											<!-- <span>
+												<i class="icon-bad"></i>
+												{{item.bad}}踩
+											</span> -->
+											<span>月销{{item.sale}}</span>
+										</div>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<pop-help :popshow="popShow"
+			:tit="tit"
+			:helpcon="helpCon"
+			v-on:closepop="close"
+		></pop-help>
+	</div>
+	<script>
+		new Vue({
+			el: "#wrap",
+			data: {
+				clientidx: 0,
+				head: ["用户评价","评价统计"],
+				headidx: 0,
+				clientNav: [
+					{
+						count: 999,
+						text: "未回复差评"
+					},
+					{
+						count: 999,
+						text: "未回复"
+					},
+					{
+						count: 0,
+						text: "全部"
+					}
+				],
+				curidx: 0,
+				navBar: [
+					{
+						count: 13444,
+						text: "全部"
+					},
+					{
+						count: 13444,
+						text: "好评"
+					},
+					{
+						count: 13444,
+						text: "差评"
+					},
+					{
+						count: 13444,
+						text: "好吃"
+					},
+					{
+						count: 13444,
+						text: "包装好"
+					},
+					{
+						count: 13444,
+						text: "优惠"
+					}
+				],
+				navBarIdx: 0,
+				assess: [
+					{
+						img: "images/cow.svg",
+						name: "monster9527",
+						time: "2018-12-10",
+						star: 5,
+						starDetail: "口味5星，包装5星，配送满意",
+						evaluate: "今天的牛排很嫩，不会太咸，味道刚好。水果沙拉也很新鲜。都很喜欢，吃得很饱！",
+						replay: "感谢您对我们豪客来的惠顾与好评！",
+						replyTime: "一天后",
+						list: [
+							{
+								text: "苹果木肋眼牛排套餐组合",
+								url: "images/pro.jpg",
+								count: 1,
+								price: 88
+							},
+							{
+								text: "苹果木肋眼牛排套餐组合",
+								url: "images/pro.jpg",
+								count: 1,
+								price: 88
+							}
+						]
+					},
+					{
+						img: "images/cow.svg",
+						name: "monster9527",
+						time: "2018-12-10",
+						star: 4,
+						starDetail: "口味5星，包装5星，配送满意",
+						evaluate: "今天的牛排很嫩，不会太咸，味道刚好。水果沙拉也很新鲜。都很喜欢，吃得很饱！",
+						replay: "感谢您对我们豪客来的惠顾与好评！",
+						replyTime: "一天后",
+						list: [
+							{
+								text: "苹果木肋眼牛排套餐组合",
+								url: "images/pro.jpg",
+								count: 1,
+								price: 88
+							},
+							{
+								text: "苹果木肋眼牛排套餐组合",
+								url: "images/pro.jpg",
+								count: 1,
+								price: 88
+							}
+						]
+					}
+				],
+				mark: {
+					store: {
+						status:"down",
+						score: 4.4
+					},
+					level: "一般",
+					option: "提升空间巨大！商家评分只超过30%门店，关注评价建议可改善口碑哦",
+					taste: {
+						status:"up",
+						score: 4.5
+					},
+					package: {
+						status:"up",
+						score: 4.5
+					},
+					send: {
+						status:"down",
+						score: "98%"
+					}
+				},
+				assessSys: {
+					txt: "您的门店在商家总体评分方面获得差评较多，请检视商品在品质，新鲜程度、出餐时间等方面是否存在欠缺，按需提升店铺口碑",
+					assessTotal: 200,
+					bad: [
+						{
+							text: "商家中差评",
+							count: 20,
+							url: "client-detail.html"
+						},
+						{
+							text: "口味中差评",
+							count: 10,
+							url: "#"
+						},
+						{
+							text: "包装中差评",
+							count: 30,
+							url: "#"
+						},
+						{
+							text: "配送中差评",
+							count: 40,
+							url: "#"
+						}
+					]
+				},
+				proList: [
+					{
+						ranking: 1,
+						title: "苹果木肋眼牛排套餐组合",
+						total: "123.00",
+						favorableRate: "95%",
+						good: 37,
+						bad: 37,
+						sale: 55,
+						imgUrl: "images/steak.jpg"
+					},
+					{
+						ranking: 2,
+						title: "苹果木肋眼牛排套餐组合",
+						total: "123.00",
+						favorableRate: "95%",
+						good: 37,
+						bad: 37,
+						sale: 55,
+						imgUrl: "images/steak.jpg"
+					},
+					{
+						ranking: 3,
+						title: "苹果木肋眼牛排套餐组合",
+						total: "123.00",
+						favorableRate: "95%",
+						good: 37,
+						bad: 37,
+						sale: 55,
+						imgUrl: "images/steak.jpg"
+					},
+					{
+						ranking: 4,
+						title: "苹果木肋眼牛排套餐组合",
+						total: "123.00",
+						favorableRate: "95%",
+						good: 37,
+						bad: 37,
+						sale: 55,
+						imgUrl: "images/steak.jpg"
+					}
+				],
+				popShow: false,
+				tit: "",
+				helpCon: "",
+        hiddenReply: false
+			},
+			computed: {
+				
+			},
+			mounted: function(){
+        		autosize(document.querySelectorAll('textarea'));
+        // for(var i = 0;i < )
+			},
+			methods: {
+				assessChoose: function(index) {
+					this.navBarIdx = index;
+				},
+				edit: function(e){
+					var el = e.currentTarget;
+					if(typeof($(el).parent().find("textarea").attr("disabled"))=="undefined"){
+						$(el).parent().find("textarea").attr("disabled","disabled");
+						$(el).parent().find("textarea").css("background","#efefef");
+						$(el).html('<i class="icon-edit"></i><em>修改</em>');
+					} else {
+						$(el).parent().find("textarea").removeAttr("disabled");
+						$(el).parent().find("textarea").css("background","#fff");
+						$(el).html("保存");
+					}
+				},
+				close: function() {
+					this.popShow = false;
+				},
+				open: function(e) {
+					var el = e.srcElement;
+					var txt = $(el).parent().text();
+					this.popShow = true;
+					this.tit = "关于"+txt;
+					this.helpCon ="营业额是指纳税人提供应税劳务、转让无形资产或者销售不动产向对方收取的全部价款和价外费用。价外费用包括向对方收取的手续费、基金、集资费、代收款项、代垫款项及其他各种性质的价外收费。运输物流企业从事联运业务的营业额为其实际取得的营业额"
+				},
+        replyMore: function () {
+          
+        }
+			}
+		})
+	</script>
+</body>
+</html>

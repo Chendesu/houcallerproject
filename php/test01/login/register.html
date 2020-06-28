@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>注册</title>
+  <style>
+    * {padding: 0; margin: 0;}
+    
+      html,body,.wrap {
+      width: 100%;
+      height: 100%;
+      background-color: #efefef;
+    }
+    .main {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 400px;
+      padding: 20px;
+      border-radius: 5px;
+      background: #fff;
+      box-shadow: 0 0 10px #aaa;
+      transform: translate(-50%,-50%);
+    }
+    .main h2 {
+      padding: 0 0 20px;
+      font-size: 20px;
+      color: #575757;
+      text-align: center;
+    }
+    .main form div  {
+      margin-bottom: 20px;
+      font-size: 14px;
+      color: #666;
+      display: flex;
+      align-items: center;
+    }
+    .main form div label {
+      display: inline-block;
+      width: 100px;
+
+    }
+    .main form div input {
+      display: inline-block;
+      width: 180px;
+      height: 25px;
+      padding: 0 10px;
+      border: 1px solid #aaa;
+      box-sizing: border-box;
+    }
+    .main form div button {
+      display: block;
+      width: 180px;
+      height: 30px;
+      margin-left: 100px;
+      border: 1px solid #aaa;
+      /* border-radius: 10px; */
+      background: #efefef;
+    }
+    .main form div .img {
+      display: inline-block;
+      width: 100px;
+      height: 100px;
+      border: 1px solid #aaa;
+      background: url(images/camare.png) center center no-repeat;
+      background-size: 30% auto;
+      position: relative;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+    .main form div .img input[type=file]{
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+    }
+    /* .main form div .img img {
+      display: block;
+      width: 100%;
+    } */
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="main">
+      <h2>注册界面</h2>
+      <form action="register.php" method="post">
+        <div>
+          <label for="">用户名：</label>
+          <input type="text" name="username" placeholder="请输入用户名">
+          <!-- <em style="display: none;">用户名不存在</em> -->
+        </div>
+        <div>
+          <label for="">密码：</label>
+          <input type="password" name="password" placeholder="请输入密码">
+          <!-- <em style="display: none;">密码错误</em> -->
+        </div>
+        <div>
+          <label for="">确认密码：</label>
+          <input type="password" name="repassword" placeholder="请再次输入密码">
+          <!-- <em style="display: none;">密码错误</em> -->
+        </div>
+        <div>
+          <label for="">上传头像：</label>
+          <span class="img" id="imgDiv">
+            <input type="file" id="upload" name="img">
+            <img src="" alt="" id="img">
+          </span>
+
+        </div>
+        <div>
+          <button type="submit" onclick="submit">注册</button>
+        </div>
+        <div>
+          <p>已有账号？<a style="color: red;" href="login.html">登录</a></p>
+        </div>
+      </form>
+    </div>
+  </div>
+  <script>
+    var upload = document.getElementById("upload");
+    var imgDiv = document.getElementById("imgDiv");
+    var img = document.getElementById("img");
+
+    upload.onchange = function(){
+      var file = upload.files[0];
+      var reader = new FileReader();
+      // 显示图像进行预览
+      reader.readAsDataURL(file);
+      // 显示二进制格式
+      // reader.readAsBinaryString(file);
+
+      reader.onload = function(){
+        
+        var url = this.result;
+        img.src = url;
+        console.log(url);
+        
+        img.onload = function(){
+          var width = img.width;
+          var height = img.height;
+          if(width>=height) {
+            img.style.display = "block";
+            img.style.width = "auto";
+            img.style.height = "100%";
+          } else {
+            img.style.display = "block";
+            img.style.width = "100%";
+            img.style.height = "auto";
+          }
+        }
+        
+      }
+      
+      
+    }
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>顾客分析</title>
+	<script src="js/flexible_css.js,flexible.js"></script>
+	<link rel="stylesheet" href="js/mobiscroll/css/mobiscroll.css">
+	<link rel="stylesheet" href="js/mobiscroll/css/mobiscroll_date.css">
+	<link rel="stylesheet" href="css/common.css">
+	<link rel="stylesheet" href="css/client-analysis.css">
+	<script src="js/vue.min.js"></script>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/mobiscroll/js/mobiscroll_date.js" charset="gb2312"></script>
+	<script src="js/mobiscroll/js/mobiscroll.js"></script>
+	<script src="js/component.js"></script>
+	<script src="js/autosize.min.js"></script>
+	<script src="js/echarts.min.js"></script>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=axlZcGNwc56CXxwsVehmtUSsehGWOk95"></script>
+</head>
+<body>
+	<div id="wrap" v-cloak>
+		<navbar-client :clientidx="clientidx"></navbar-client>
+		<div id="header">
+			<a class="icon-arrow-down"  href="javascript:history.back(-1)"></a>
+			<div class="page-tit">顾客分析</div>
+		</div>
+		<div class="main">
+			<div class="hd">
+				<b></b>
+				<strong>顾客分布</strong>
+			</div>
+			<div class="tab clearfix">
+				<span v-for="(item,index) in tab"
+					:key="index"
+					:class="{'sel':index==tabIdx}"
+					@click="tabIdx = index"
+					v-html="item"
+				></span>
+				<div class="choose-date clearfix" v-show="tabIdx == 3">
+					<label>选择日期</label>
+					<input type="text" class="date" >
+					<label>--</label>
+					<input type="text" class="date" >
+					<button>确定</button>
+				</div>
+			</div>
+			<div class="data">
+				<div class="data-hd">
+					<span v-for="(item,index) in distriTab"
+						:key="index"
+						:class="{'sel':index==distriTabIdx}"
+						@click="distriTabIdx=index"
+						v-html="item"
+					></span>
+				</div>
+				<div id="echart" style="width:100%;height:6.53rem;"></div>
+				<div class="data-info">
+					经营建议 <strong>{{dataInfo}}</strong>
+				</div>
+			</div>
+		</div>
+		<div class="main">
+			<div class="hd">
+				<b></b>
+				<strong>下单地标</strong>
+			</div>
+			<div class="tab clearfix">
+				<span v-for="(item,index) in landmarkTab"
+					:key="index"
+					:class="{'sel':index==landmarkTabIdx}"
+					@click="landmarkTabIdx = index"
+					v-html="item"
+				></span>
+			</div>
+			<div class="data">
+				<div class="data-hd">
+					<span v-for="(item,index) in landmarkDataTab"
+						:key="index"
+						:class="{'sel':index==landmarkDataTabIdx}"
+						@click="landmarkDataTabIdx=index"
+						v-html="item"
+					></span>
+				</div>
+				<div id="map"></div>
+			</div>
+		</div>
+	</div>
+	<script>
+		new Vue({
+			el: "#wrap",
+			data: {
+				clientidx: 1,
+				tab: ["昨日","近7天","近30天","自定义"],
+				tabIdx: 0,
+				landmarkTab: ["昨日","近7天","近30天","近90天"],
+				landmarkTabIdx: 0,
+				distriTab: ["成交频次分布","下单时间分布","实付金额分布"],
+				distriTabIdx: 0,
+				landmarkDataTab: ["本店热门地标","商圈潜力地标"],
+				landmarkDataTabIdx: 0,
+				dataInfo: "根据顾客实付金额特征进行营销，有调整单价结构，提升转化率",
+				point: [
+					{
+						lng: 118.087016,
+						lat: 24.483352
+					},
+					{
+						lng: 118.087416,
+						lat: 24.48328
+					},
+					{
+						lng: 118.087236,
+						lat: 24.482721
+					},
+					{
+						lng: 118.086502,
+						lat: 24.483363
+					},
+					{
+						lng: 118.086453,
+						lat: 24.483218
+					},
+					{
+						lng: 118.086814,
+						lat: 24.482754
+					},
+					{
+						lng: 118.086487,
+						lat: 24.483672
+					},
+					{
+						lng: 118.086184,
+						lat: 24.483954
+					},
+					{
+						lng: 118.086274,
+						lat: 24.483694
+					},
+					{
+						lng: 118.087243,
+						lat: 24.482781
+					}
+				]
+			},
+			mounted: function(){
+				var _this = this;
+				// 日期选择
+				var currYear = (new Date()).getFullYear();	
+				var opt={};
+				opt.date = {preset : 'date'};
+				opt.datetime = {preset : 'datetime'};
+				opt.time = {preset : 'time'};
+				opt.default = {
+					theme: 'android-ics light', //皮肤样式
+					display: 'modal', //显示方式 
+					mode: 'scroller', //日期选择模式
+					dateFormat: 'yyyy-mm-dd',
+					lang: 'zh',
+					showNow: true,
+					nowText: "今天",
+					startYear: currYear - 50, //开始年份
+					endYear: currYear + 10, //结束年份
+				};
+				$(".date").mobiscroll($.extend(opt['date'], opt['default']));
+
+				//柱状图
+				var dataDpr = $('html').attr("data-dpr");
+				if(dataDpr==2) {
+					chart(24);
+				} else if(dataDpr==3) {
+					chart(36);
+				} else {
+					chart(12);
+				}
+				function chart(fontSize) {
+					var myChart = echarts.init(document.getElementById('echart'));
+					var option = {
+			            grid: {
+			            	show: true,
+			            	borderWidth: '0'
+			            },
+			            legend: {
+			                data:['销量']
+			            },
+			            xAxis: {
+			                data: ["0-20","20-30","30-40","40-50","50以上"],
+			                axisLabel: {        
+			                    textStyle: {
+			                        color: '#999',
+			                        fontSize: fontSize
+			                    }
+			                },
+	                        axisLine:{
+	                            lineStyle:{
+	                                width:2,
+	                                color: "#ffc72c"
+	                            }
+	                        },
+	                        splitLine: {
+	                        	show: false
+	                        }
+			            },
+			            yAxis: {
+			            	axisLabel: {        
+			                    textStyle: {
+			                        color: '#999',
+			                        fontSize: fontSize
+			                    }
+			                },
+	                        axisLine:{
+	                            lineStyle:{
+	                                width:2,
+	                                color: "#ffc72c"
+	                            }
+	                        },
+	                        splitLine: {
+	                        	show: false
+	                        }
+			            },
+			            series: [{
+			                type: 'bar',
+			                data: [4, 10, 6, 28, 124],
+			                itemStyle : {  
+                                normal : {  
+                                	label: {
+                                		show: true,
+                                		position: 'top',
+                                		color: 'rgb(16,58,74)',
+                                		fontSize: fontSize
+                                	},
+                                	color:'#ffc72c',  
+                                    lineStyle:{  
+                                        color:'#ffc72c'  
+                                    }  
+                                }  
+                            }
+			            }]
+			        };
+			        myChart.setOption(option);
+				}
+
+				//地图
+					var map = new BMap.Map("map");
+					var point = new BMap.Point(118.086814, 24.482754);
+					map.centerAndZoom(point, 14);
+					function addMarker(point){
+						var marker = new BMap.Marker(point);
+					  	map.addOverlay(marker);
+					}
+					for(var i=0;i<_this.point.length;i++){
+						var pt = new BMap.Point(_this.point[i].lng,_this.point[i].lat);
+						addMarker(pt);
+					}
+
+			},
+			methods: {
+
+			}
+		})
+	</script>
+</body>
+</html>

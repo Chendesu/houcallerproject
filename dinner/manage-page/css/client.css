@@ -1,0 +1,426 @@
+@charset "utf-8";
+.main {
+	padding-top: 0.13rem;
+}
+/*用户评价*/
+.client-assess .client-assess-hd {
+	margin-bottom: 0.13rem;
+	background: #fff;
+}
+
+.client-assess .client-assess-hd .client-assess-hd-navbar,
+.statistics-assess .statistics-assess-overall .assess-navbar {
+	padding: 0.27rem 0.4rem;
+	font-size: 12px;
+	color: rgb(153,153,153);
+}
+[data-dpr="2"] .client-assess .client-assess-hd .client-assess-hd-navbar,
+[data-dpr="2"] .statistics-assess .statistics-assess-overall .assess-navbar {
+	font-size: 24px;
+}
+[data-dpr="3"] .client-assess .client-assess-hd .client-assess-hd-navbar,
+[data-dpr="3"] .statistics-assess .statistics-assess-overall .assess-navbar {
+	font-size: 36px;
+}
+.client-assess .client-assess-hd .client-assess-hd-navbar span,
+.statistics-assess .statistics-assess-overall .assess-navbar span {
+	display: inline-block;
+	padding: 0 0.13rem;
+	margin: 0 0.13rem 0.13rem 0;
+	border-radius: 0.07rem;
+	line-height: 0.53rem;
+	background: rgb(245,245,245);
+}
+.client-assess .client-assess-hd .client-assess-hd-navbar span.sel,
+.statistics-assess .statistics-assess-overall .assess-navbar span.sel {
+	color: rgb(16,58,74);
+	background: rgb(250,192,48);
+}
+.client-assess .client-assess-main ul li {
+	margin-bottom: 0.13rem;
+	padding: 0.35rem;
+	font-size: 12px;
+	background: #fff;
+}
+[data-dpr="2"] .client-assess .client-assess-main ul li {
+	font-size: 24px;
+}
+[data-dpr="3"] .client-assess .client-assess-main ul li {
+	font-size: 36px;
+}
+.client-assess .client-assess-main ul li .user {
+	width: 100%;	
+	height: 0.93rem;
+}
+.client-assess .client-assess-main ul li .user .img {
+	float: left;
+	width: 0.93rem;
+	height: 0.93rem;
+	border-radius: 50%;
+	overflow: hidden;
+}
+.client-assess .client-assess-main ul li .user .img img {
+	display: block;
+	width: 100%;
+}
+.client-assess .client-assess-main ul li .user .user-info {
+	float: left;
+	width: calc(100% - 0.93rem);
+}
+.client-assess .client-assess-main ul li .user .user-info .user-info-name strong {
+	float: left;
+	color: #000;
+}
+.client-assess .client-assess-main ul li .user .user-info .user-info-name em {
+	float: right;
+}
+.client-assess .client-assess-main ul li .user .user-info .user-info-star .star {
+	float: left;
+}
+.client-assess .client-assess-main ul li .user .user-info .user-info-star em {
+	float: right;
+}
+.client-assess .client-assess-main ul li .user-assess {
+	color: #000;
+}
+.client-assess .client-assess-main ul li .more {
+  padding: 0.1rem 0;
+  color: rgb(16,58,74);
+  text-decoration: underline;
+}
+.client-assess .client-assess-main ul li .reply-div {
+  margin-top: 0.21rem;
+}
+.client-assess .client-assess-main ul li .reply {
+	padding: 0.21rem;
+	/* margin-top: 0.21rem; */
+	font-size: 13px;
+	color: rgb(102,102,102);
+	background: #efefef;
+}
+[data-dpr="2"] .client-assess .client-assess-main ul li .reply {
+	font-size: 26px;
+}
+[data-dpr="3"] .client-assess .client-assess-main ul li .reply {
+	font-size: 39px;
+}
+.client-assess .client-assess-main ul li .reply .reply-tit {
+	float: left;
+	width: 100%;
+}
+.client-assess .client-assess-main ul li .reply .reply-tit strong {
+	float: left;
+	font-weight: 400;
+}
+.client-assess .client-assess-main ul li .reply .reply-tit em {
+	float: right;
+}
+.client-assess .client-assess-main ul li .reply textarea {
+	float: left;
+	display: block;
+	width: 100%;
+	border: 0;
+	color: #333;
+	background: #efefef;
+}
+.client-assess .client-assess-main ul li .reply .edit {
+	float: right;
+	color: rgb(250,192,48);
+}
+.client-assess .client-assess-main ul li .order-div {
+  margin-top: 0.27rem;
+}
+.client-assess .client-assess-main ul li .order {
+	padding: 0.21rem;
+	/* margin-top: 0.27rem; */
+	background: #efefef;
+} 
+.client-assess .client-assess-main ul li .order .order-tit {
+	font-size: 13px;
+}
+[data-dpr="2"] .client-assess .client-assess-main ul li .order .order-tit {
+	font-size: 26px;
+}
+[data-dpr="3"] .client-assess .client-assess-main ul li .order .order-tit {
+	font-size: 39px;
+}
+.client-assess .client-assess-main ul li .order dl {
+	margin-bottom: 0.21rem;
+}
+.client-assess .client-assess-main ul li .order dl dt {
+	float: left;
+    width: 1.07rem;
+    height: 1.07rem;
+    border-radius: 0.05rem;
+    overflow: hidden;
+}
+.client-assess .client-assess-main ul li .order dl dt img {
+	display: block;
+    height: 100%;
+}
+.client-assess .client-assess-main ul li .order dl dd {
+	float: right;
+    width: calc(100% - 1.26rem);
+}
+.client-assess .client-assess-main ul li .order dl dd span.pro-tit {
+	color: #333;
+}
+.client-assess .client-assess-main ul li .order dl dd span strong {
+	float: left;
+	font-weight: 400;
+}
+.client-assess .client-assess-main ul li .order dl dd span em {
+	float: right;
+}
+.client-assess .client-assess-main ul li .order dl dd span.pro-price em {
+	color: rgb(255,0,54);
+}
+/*评价统计*/
+.statistics-assess {
+	font-size: 12px;
+	color: rgb(102,102,102);
+}
+[data-dpr="2"] .statistics-assess {
+	font-size: 24px;
+}
+[data-dpr="3"] .statistics-assess {
+	font-size: 36px;
+}
+.statistics-assess .statistics-assess-overall {
+	background: #fff;
+}
+.statistics-assess .statistics-assess-overall .word {
+	padding: 0.47rem 0;
+	border-bottom: 1px solid #efefef;
+}
+.statistics-assess .statistics-assess-overall .word .word-left {
+	float: left;
+	width: 2.4rem;
+	padding-left: 0.4rem;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.statistics-assess .statistics-assess-overall .word .word-left strong {
+	display: block;
+	font-size: 35px;
+	font-weight: 400;
+}
+[data-dpr="2"] .statistics-assess .statistics-assess-overall .word .word-left strong {
+	font-size: 70px;
+}
+[data-dpr="3"] .statistics-assess .statistics-assess-overall .word .word-left strong {
+	font-size: 105px;
+}
+.statistics-assess .statistics-assess-overall .word .word-left strong i {
+	font-size: 35%;
+}
+.statistics-assess .statistics-assess-overall .word .word-left em {
+	display: block;
+}
+.statistics-assess .statistics-assess-overall .word .word-right {
+	float: left;
+	width: calc(100% - 2.4rem);
+	padding-right: 0.4rem;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.statistics-assess .statistics-assess-overall .word .word-right .word-right-mouth {
+	margin-bottom: 0.1rem;
+}
+.statistics-assess .statistics-assess-overall .word .word-right .word-right-mouth em {
+	color: rgb(250,192,48);
+	margin-left: 0.27rem;
+}
+.statistics-assess .statistics-assess-overall .word .word-right .word-right-option strong {
+	color: rgb(16,58,74);
+	font-weight: 400;
+}
+.statistics-assess .statistics-assess-overall .score {
+	height: 1.6rem;
+	border-bottom: 1px solid #efefef;
+	display: flex;
+    align-items: center;
+}
+.statistics-assess .statistics-assess-overall .score li {
+	float: left;
+	width: 33.33%;
+	border-left: 1px solid #efefef;
+	text-align: center;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.statistics-assess .statistics-assess-overall .score li strong {
+	display: block;
+	font-size: 20px;
+	font-weight: 400;
+}
+[data-dpr="2"] .statistics-assess .statistics-assess-overall .score li strong {
+	font-size: 40px;
+}
+[data-dpr="3"] .statistics-assess .statistics-assess-overall .score li strong {
+	font-size: 60px;
+}
+.statistics-assess .statistics-assess-overall .score li strong i {
+	font-size: 60%;
+}
+.statistics-assess .statistics-assess-sys,
+.statistics-assess .statistics-assess-good {
+	margin-top: 0.13rem;
+	background: #fff;
+} 
+.statistics-assess .statistics-assess-sys .statistics-assess-sys-hd,
+.statistics-assess .statistics-assess-good .statistics-assess-good-hd {
+	padding: 0 0.4rem;
+	height: 1.01rem;
+	border-bottom: 1px solid #efefef;
+	font-size: 16px;
+}
+[data-dpr="2"] .statistics-assess .statistics-assess-sys .statistics-assess-sys-hd,
+[data-dpr="2"] .statistics-assess .statistics-assess-good .statistics-assess-good-hd {
+	font-size: 32px;
+}
+[data-dpr="3"] .statistics-assess .statistics-assess-sys .statistics-assess-sys-hd,
+[data-dpr="3"] .statistics-assess .statistics-assess-good .statistics-assess-good-hd {
+	font-size: 48px;
+}
+.statistics-assess .statistics-assess-sys .statistics-assess-sys-hd b,
+.statistics-assess .statistics-assess-good .statistics-assess-good-hd b {
+	float: left;
+    width: 0.11rem;
+    height: 0.4rem;
+    margin-top: 0.29rem;
+    margin-right: 0.16rem;
+    border-radius: 0.05rem;
+    background-color: rgb(16,58,74);
+}
+.statistics-assess .statistics-assess-sys .statistics-assess-sys-hd strong,
+.statistics-assess .statistics-assess-good .statistics-assess-good-hd strong {
+	float: left;
+    line-height: 1.01rem;
+    color: #333;
+    font-weight: 400;
+}
+.statistics-assess .statistics-assess-sys .statistics-assess-sys-hd i {
+	float: left;
+	margin-left: 0.13rem;
+	line-height: 1.01rem;
+}
+.statistics-assess .statistics-assess-sys .statistics-assess-sys-con {
+	padding: 0.2rem 0.4rem;
+}
+.statistics-assess .statistics-assess-sys .statistics-assess-sys-con ul li {
+	margin-top: 0.4rem;
+}
+.statistics-assess .statistics-assess-sys .statistics-assess-sys-con ul li strong {
+	float: left;
+	margin-right: 0.13rem;
+	font-weight: 400;
+}
+.statistics-assess .statistics-assess-sys .statistics-assess-sys-con ul li .process {
+	float: left;
+	width: 6.4rem;
+	height: 0.27rem;
+	border-radius: 0.13rem;
+	background: rgb(240,240,240);
+	overflow: hidden;
+	position: relative;
+}
+.statistics-assess .statistics-assess-sys .statistics-assess-sys-con ul li .process .procesS-inner {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 20%;
+	height: 0.27rem;
+	border-radius: 0.13rem;
+	background: rgb(250,192,48);
+}
+.statistics-assess .statistics-assess-sys .statistics-assess-sys-con ul li span {
+	float: right;
+}
+/*商品好评榜*/
+.statistics-assess .statistics-assess-good-con ul li {
+	display: block;
+    width: 100%;
+    height: 2.4rem;
+    padding: 0.13rem 0.4rem;
+    margin-bottom: 0.13rem;
+    background-color: #fff;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+}
+.statistics-assess .statistics-assess-good-con ul li .img {
+	width: 2.13rem;
+    height: 2.13rem;
+    border-radius: 0.13rem;
+    overflow: hidden;
+}
+.statistics-assess .statistics-assess-good-con ul li .img img {
+	display: block;
+	height: 100%;
+}
+.statistics-assess .statistics-assess-good-con ul li .main {
+	padding: 0 0 0 0.27rem;
+    font-size: 14px;
+}
+[data-dpr="2"] .statistics-assess .statistics-assess-good-con ul li .main {
+	font-size: 28px;
+}
+[data-dpr="3"] .statistics-assess .statistics-assess-good-con ul li .main {
+	font-size: 42px;
+}
+.statistics-assess .statistics-assess-good-con ul li .main .main-hd {
+	/*height: 0.45rem;*/
+    line-height: 0.45rem;
+    color: #333;
+}
+.statistics-assess .statistics-assess-good-con ul li .main .main-hd em {
+	display: inline-block;
+    height: 0.45rem;
+    padding: 0 0.16rem;
+    border-radius: 0.05rem;
+    color: #000;
+    text-align: center;
+    font-style: italic;
+}
+.statistics-assess .statistics-assess-good-con ul li .main .main-hd em.front {
+	background-color: rgb(250,192,48);
+}
+.statistics-assess .statistics-assess-good-con ul li .main .main-hd em.behind {
+	background-color: rgb(200,200,200);
+}
+.statistics-assess .statistics-assess-good-con ul li .main .main-hd h2 {
+	display: block;
+	margin: 0.2rem 0;
+    font-size: inherit;
+    color: inherit;
+}
+.statistics-assess .statistics-assess-good-con ul li .main .main-con .main-con-info {
+	font-size: 11px;
+    color: rgb(153,153,153);
+}
+[data-dpr="2"] .statistics-assess .statistics-assess-good-con ul li .main .main-con .main-con-info {
+	font-size: 22px;
+}
+[data-dpr="3"] .statistics-assess .statistics-assess-good-con ul li .main .main-con .main-con-info {
+	font-size: 33px;
+}
+.statistics-assess .statistics-assess-good-con ul li .main .main-con .main-con-info span {
+	display: inline-block;
+    margin-right: 0.33rem;
+}
+.statistics-assess .statistics-assess-good-con ul li .main .main-con .main-con-info span > b {
+	color: #fac030;
+    font-weight: 400;
+}
+.statistics-assess .statistics-assess-good-con ul li .main .main-con .main-con-info span .icon-good {
+	color: rgb(250,192,48);
+}
+.statistics-assess .statistics-assess-good-con ul li .main .main-con .main-con-info span .icon-bad {
+	color: #64fa30;
+}

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>待处理订单</title>
+	<script src="js/flexible_css.js,flexible.js"></script>
+	<link rel="stylesheet" href="js/dialog/dialog.css">
+	<link rel="stylesheet" href="css/common.css">
+	<link rel="stylesheet" href="css/handle.css">
+	<script src="js/vue.min.js"></script>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/dialog/dialog.min.js"></script>
+	<script src="js/component.js"></script>
+</head>
+<body>
+	<div id="wrap" v-cloak>
+		<navbar :idx="idx"></navbar>
+		<div id="header">
+			<div class="page-tit">待处理订单</div>
+		</div>
+		<div class="tab-num">
+			<span v-for="(item,index) in nav"
+				:key="index"
+				:class="{'sel':index==navIndex}"
+				@click="navIndex=index"
+			>
+				<strong>
+					{{item.text}}
+					<b v-if="item.count>0">{{item.count}}</b>
+				</strong>
+			</span>
+		</div>
+		<div v-show="navIndex==0" class="handle-con">
+			<ul>
+				<li v-for="(item,index) in handleAbnormal">
+					<div class="handle-list-hd clearfix">
+						<strong class="handle-list-hd-status">{{item.status}}</strong>
+						<a href="handle-detail.html">
+							订单号
+							{{item.number}}
+							<i class="icon-arrow-down"></i>
+						</a>
+					</div>
+					<div class="handle-list-main">
+						<div class="deliver">
+							<label>送餐员</label>
+							<span>{{item.deliver}}</span>
+						</div>
+						<div class="tel">
+							<label>联系方式</label>
+							<span>{{item.tel}}</span>
+						</div>
+						<a href="tel:{item.tel}" class="btn">联系骑手</a>
+					</div>
+					<div class="handle-list-ft">
+						<span class="btn" @click="pay">赔付</span>
+						<span class="btn" @click="closeOrder">关闭订单</span>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div v-show="navIndex==1" class="handle-con">
+			<ul>
+				<li v-for="(item,index) in urge">
+					<div class="handle-list-hd clearfix">
+						<strong class="handle-list-hd-status">{{item.status}}</strong>
+						<a href="#">
+							订单号
+							{{item.number}}
+							<i class="icon-arrow-down"></i>
+						</a>
+					</div>
+					<div class="handle-list-main">
+						<div class="deliver">
+							<label>预计送达</label>
+							<span>{{item.wantTime}}</span>
+						</div>
+						<div class="deliver">
+							<label>超时数</label>
+							<span>{{item.moreTime}}</span>
+						</div>
+					</div>
+					<div class="handle-list-main">
+						<div class="deliver">
+							<label>送餐员</label>
+							<span>{{item.deliver}}</span>
+						</div>
+						<div class="tel">
+							<label>联系方式</label>
+							<span>{{item.tel}}</span>
+						</div>
+						<a href="tel:{item.tel}" class="btn">联系骑手</a>
+					</div>
+					<div class="handle-list-ft">
+						<span class="btn">赔付</span>
+						<span class="btn">关闭订单</span>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div v-show="navIndex==2" class="handle-con">
+			<ul>
+				<li v-for="(item,index) in refund">
+					<div class="handle-list-hd clearfix">
+						<strong :class="{'grey':item.status=='已退款'}">{{item.status}}</strong>
+						<a href="#">
+							订单号
+							{{item.number}}
+							<i class="icon-arrow-down"></i>
+						</a>
+					</div>
+					<div class="handle-list-main">
+						<div class="deliver">
+							<label>申请时间</label>
+							<span>{{item.time}}</span>
+						</div>
+						<div class="deliver">
+							<label>退款原因</label>
+							<span>{{item.reason}}</span>
+						</div>
+						<div class="appeal">
+							<label>退款申诉</label>
+							<span>{{item.appeal}}</span>
+						</div>
+						<div class="price">
+							<label>退款金额</label>
+							<span>{{item.price}}</span>
+						</div>
+						<div v-if="item.status=='已退款'" class="deliver">
+							<label>处理时间</label>
+							<span>{{item.dealTime}}</span>
+						</div>
+					</div>
+					<div v-if="item.status=='退款申诉中'" class="handle-list-ft">
+						<span class="btn">同意退款</span>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<script>
+		new Vue({
+			el: "#wrap",
+			data: {
+				idx:1,
+				navIndex: 0,
+				nav: [
+					{
+						count: 9,
+						text: "异常配送"
+					},
+					{
+						count: 9,
+						text: "催单"
+					},
+					{
+						count: 9,
+						text: "退款"
+					}
+				],
+				handleAbnormal: [
+					{
+						status: "配送超时",
+						number: "2018121710329388",
+						deliver: "Jason Momoa",
+						tel: "13869403333"
+					},
+					{
+						status: "配送超时",
+						number: "2018121710329389",
+						deliver: "Jason Momoa",
+						tel: "13869403333"
+					}
+				],
+				urge: [
+					{
+						status: "催单",
+						number: "2018121710329386",
+						deliver: "Jason Momoa",
+						tel: "13869403333",
+						wantTime: "09:49",
+						moreTime: "00:20"
+					},
+				],
+				refund: [
+					{
+						status: "退款申诉中",
+						number: "2018121710329388",
+						time: "2018-12-17",
+						reason: "配送超时",
+						appeal: "四点下的单，到现在八点了还没送来！！",
+						price: "212.00"
+					},
+					{
+						status: "已退款",
+						number: "2018121710329387",
+						time: "2018-12-17 12:10:24",
+						reason: "配送超时",
+						appeal: "四点下的单，到现在八点了还没送来！！",
+						price: "212.00",
+						dealTime: "2018-12-17 16:10:24"
+					}
+				]
+			},
+			mounted: function() {
+
+			},
+			methods: {
+				pay: function() {
+					$(document).dialog({
+				        type : 'confirm',
+				        closeBtnShow: true,
+				        content: '确定进行赔付？',
+				        onClickConfirmBtn: function(){
+				            alert('你点了“确定”按钮');
+				        },
+				        onClickCancelBtn : function(){
+				            alert('你点了“取消”按钮');
+				        },
+				        onClickCloseBtn  : function(){
+				            alert('你点了“关闭”按钮');
+				        }
+				    });
+				},
+				closeOrder: function() {
+					$(document).dialog({
+				        type : 'confirm',
+				        closeBtnShow: true,
+				        content: '确定关闭订单？',
+				        onClickConfirmBtn: function(){
+				            alert('你点了“确定”按钮');
+				        },
+				        onClickCancelBtn : function(){
+				            alert('你点了“取消”按钮');
+				        },
+				        onClickCloseBtn  : function(){
+				            alert('你点了“关闭”按钮');
+				        }
+				    });
+				}
+			}
+		})
+	</script>
+</body>
+</html>

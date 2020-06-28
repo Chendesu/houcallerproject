@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>门店设置</title>
+	<script src="js/flexible_css.js,flexible.js"></script>
+	<link rel="stylesheet" href="css/common.css">
+	<link rel="stylesheet" href="css/set.css">
+	<script src="js/vue.min.js"></script>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/component.js"></script>
+</head>
+<body>
+	<div id="wrap" v-cloak>
+		<navbar :idx="idx"></navbar>
+		<div id="header">
+			<div class="page-tit">门店设置</div>
+		</div>
+		<div class="set-main">
+			<div class="set-list clearfix">
+				<strong>预订单</strong>
+				<span v-if="switch0==false" class="switch" @click="switch1"></span>
+				<span v-if="switch0==true" class="switch on" @click="switch1"></span>
+			</div>
+		</div>
+		<div class="set-main">
+			<div class="set-list clearfix">
+				<strong>门店名称</strong>
+				<em>{{store}}</em>
+			</div>
+			<div class="set-list clearfix">
+				<strong>经营品类</strong>
+				<em>{{classify}}</em>
+			</div>
+			<div class="set-list set-list-large clearfix">
+				<strong>店铺头像</strong>
+				<span class="img">
+					<img :src="storeImg" />
+				</span>
+			</div>
+		</div>
+		<div class="set-main">
+			<a href="set-edit.html" class="set-list clearfix">
+				<strong>门店公告</strong>
+				<i class="icon-arrow-down"></i>
+				<em>{{announcement}}</em>
+			</a>
+			<div class="set-list clearfix" @click="clickTime">
+				<strong>营业时间</strong>
+				<i class="icon-arrow-down"></i>
+				<em>{{time.start}}~{{time.end}}</em>
+			</div>
+			<a href="set-edit.html" class="set-list clearfix">
+				<strong>店铺电话</strong>
+				<i class="icon-arrow-down"></i>
+				<em>{{tel}}</em>
+			</a>
+			<div class="set-list clearfix">
+				<strong>店铺地址</strong>
+				<em class="addr">{{address}}</em>
+			</div>
+			<a href="set-deliver.html" class="set-list clearfix">
+				<strong>配送信息</strong>
+				<i class="icon-arrow-down"></i>
+			</a>
+		</div>
+		<div class="set-main">
+			<a href="set-business.html" class="set-list clearfix">
+				<strong>营业资质</strong>
+				<i class="icon-arrow-down"></i>
+			</a>
+		</div>
+		<div class="picker-time" v-show="timePop">
+			<div class="picker-time-main">
+				<div class="picker-time-hd">
+					<span @click="clickClose">取消</span>
+					<span @click="clcikOk">确定</span>
+				</div>
+				<div class="picker-time-con clearfix">
+					<div class="picker-time-left">
+						<span v-for="(item,index) in chooseTimeText" 
+							:key="index"
+							:class="{'sel':index==idx0}"
+							@click="idx0=index"
+						>{{item}}</span>
+					</div>
+					<div class="picker-time-right">
+						<div class="picker-time-right-main">
+							<span v-for="(item,index) in chooseTime" 
+							:key="index"
+							:class="{'sel':index==idx1}"
+							:data-index="index"
+							@click="clickChoose"
+							>{{item}}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		new Vue({
+			el: "#wrap",
+			data: {
+				idx:4,
+				switch0: false,
+				store: "豪客来牛排",
+				classify: "美食-西餐-西餐快式",
+				storeImg: "images/houcaller.jpg",
+				announcement: "豪客来欢迎您的惠顾~",
+				time: {
+					start: "10:00",
+					end: "22:00"
+				},
+				tel: "027-9843099",
+				address: "福建省厦门市思明区新港广场南楼",
+				timePop: false,
+				chooseTimeText: ["开始时间","结束时间"],
+				idx0: 0,
+				chooseTime: ["10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00"],
+				idx1:0,
+				startTime: '',
+				endTime: ''
+			},
+			mounted: function(){
+
+			},
+			methods: {
+				switch1:function() {
+					this.switch0 = !this.switch0;
+				},
+				clickTime: function() {
+					this.timePop = true;
+				},
+				clickClose: function() {
+					this.timePop = false;
+				},
+				clickChoose: function(e) {
+					var el = e.target;
+					var index = $(el).attr("data-index");
+					this.idx1 = index;
+					if(this.idx0==0) {
+						this.startTime=$(el).text();
+					} 
+					if(this.idx0==1) {
+						this.endTime=$(el).text();
+					}
+				},
+				clcikOk: function() {
+					if(this.startTime!='') {
+						this.time.start = this.startTime;
+					}
+					if(this.endTime!='') {
+						this.time.end = this.endTime;
+					}
+					this.timePop = false;
+				}
+			}
+		})
+	</script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta namae="keywords" content="豪客来牛排，牛排，会员商城，个人资料">
+	<title>个人资料</title>
+	<script src="js/hbs/flexible_css.js,flexible.js"></script>
+	<link rel="stylesheet" href="css/hbs/swiper.min.css">
+	<link rel="stylesheet" href="css/hbs/common.css">
+	<link rel="stylesheet" href="css/hbs/my-edit.css">
+	<script src="js/hbs/vue.min.js"></script>
+	<script src="js/hbs/jquery-1.12.3.min.js"></script>
+	<script src="js/hbs/swiper.min.js"></script>
+	<script src="js/hbs/component/component.js"></script>
+</head>
+<body>
+	<div id="wrap">
+		<ul class="list clearfix">
+			<li class="clearfix">
+				<strong>旧手机号</strong>
+				<!-- <input type="text" v-model="tel"> -->
+				<div>{{tel}}</div>
+			</li>
+			<li class="clearfix">
+				<strong>新手机号</strong>
+				<div class="get" @click="getCode" v-if="isCount==false">获取短信</div>
+				<div class="count" v-if="isCount==true">{{count}}s</div>
+				
+				<input type="text">
+			</li>
+			<li class="clearfix">
+				<strong>验证码</strong>
+				<input type="text">
+			</li>
+		</ul>
+		<button>确认修改</button>
+	</div>
+	<script>
+		new Vue({
+			el: "#wrap",
+			data: {
+				name: "megatron",
+				tel: "138****3030",
+				cardNO:"1111111111111111111",
+				isCount: false,
+				count: 60,
+			},
+			mounted: function() {
+
+			},
+			methods: {
+				getCode: function() {
+					var _this = this;
+					this.isCount = true;
+					var s = this.count;
+
+					var timer = null;
+					var ms = 0;
+
+					function clock() {
+						ms++;
+						if(ms == 100) {
+							ms = 0;
+							s--;
+							_this.count = s;
+							if(s <= 0) {
+								s = 0;
+								clearInterval(timer);
+								_this.isCount=false;
+								_this.count = 60;
+								
+							}
+						}
+
+					}
+					timer = setInterval(clock,10);
+				},
+			}
+		})
+	</script>
+</body>
+</html>
